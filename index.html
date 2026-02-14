@@ -370,8 +370,8 @@
         }
 
         #calculator {
-            padding: 4rem 2rem;
-            max-width: 1200px;
+            padding: 5rem 2rem;
+            max-width: 1260px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
@@ -396,7 +396,7 @@
 
         .calculator-header {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
         }
 
         .header-actions {
@@ -524,12 +524,13 @@
         }
 
         .calc-card {
-            background: var(--card-bg);
+            background: rgba(21, 33, 56, 0.72);
             backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border: 1px solid rgba(148, 163, 184, 0.09);
+            border-radius: 28px;
+            padding: 2.2rem;
+            margin-bottom: 2.6rem;
+            box-shadow: 0 18px 45px rgba(3, 8, 20, 0.36);
         }
 
         .reveal-on-scroll {
@@ -544,21 +545,39 @@
         }
 
         .calc-card-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
+            font-size: 1.85rem;
+            font-weight: 700;
+            margin-bottom: 1.9rem;
             color: var(--gold);
+            letter-spacing: 0.02em;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .section-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: rgba(212, 175, 55, 0.16);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            color: #f4d47b;
         }
 
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
+            gap: 1.85rem;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
+            gap: 0.2rem;
         }
         
         .amount-currency {
@@ -572,7 +591,7 @@
         }
 
         .money-input .form-input {
-            padding-right: 5.3rem;
+            padding-right: 5.8rem;
         }
 
         .currency-mini {
@@ -619,10 +638,10 @@
         }
 
         .optional-accordion {
-            margin-top: 1.25rem;
-            border: 1px solid var(--border-color);
-            border-radius: 14px;
-            background: rgba(15, 23, 42, 0.35);
+            margin-top: 1.45rem;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            border-radius: 18px;
+            background: rgba(15, 23, 42, 0.26);
             overflow: hidden;
         }
 
@@ -756,18 +775,19 @@
         }
 
         .form-label {
-            font-size: 0.9rem;
+            font-size: 0.96rem;
             font-weight: 500;
             color: var(--text-secondary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.7rem;
         }
 
         .form-input {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 0.9rem 1rem;
-            font-size: 1rem;
+            background: rgba(12, 20, 36, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            border-radius: 18px;
+            min-height: 58px;
+            padding: 0 1.1rem;
+            font-size: 1.04rem;
             color: var(--text-primary);
             transition: all 0.3s ease;
         }
@@ -785,11 +805,12 @@
         }
 
         .select-input {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 0.9rem 1rem;
-            font-size: 1rem;
+            background: rgba(12, 20, 36, 0.78);
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            border-radius: 18px;
+            min-height: 58px;
+            padding: 0 1.1rem;
+            font-size: 1.04rem;
             color: var(--text-primary);
             cursor: pointer;
         }
@@ -806,22 +827,23 @@
         }
 
         .results-card {
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(212, 175, 55, 0.1) 100%);
-            border: 2px solid var(--gold);
-            border-radius: 20px;
-            padding: 3rem;
-            margin-top: 2rem;
+            background: linear-gradient(135deg, rgba(20, 41, 71, 0.72) 0%, rgba(44, 38, 18, 0.46) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.26);
+            border-radius: 28px;
+            padding: 2.4rem;
+            margin-top: 2.2rem;
+            box-shadow: 0 18px 45px rgba(3, 8, 20, 0.36);
         }
 
         .result-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.5rem;
-            background: var(--glass-bg);
+            padding: 1.35rem 1.4rem;
+            background: rgba(30, 41, 59, 0.28);
             backdrop-filter: blur(10px);
-            border-radius: 12px;
-            margin-bottom: 1rem;
+            border-radius: 16px;
+            margin-bottom: 1.15rem;
         }
 
         .breakdown-card {
@@ -1328,7 +1350,7 @@
         </div>
 
         <div class="calc-card">
-            <h3 class="calc-card-title">Settings</h3>
+            <h3 class="calc-card-title"><span class="section-icon">⚙️</span>Settings</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Display Currency</label>
@@ -1414,7 +1436,7 @@
         </div>
 
         <div class="calc-card" id="assetsCard">
-            <h3 class="calc-card-title">Your Assets</h3>
+            <h3 class="calc-card-title"><span class="section-icon">💼</span>Your Assets</h3>
             <p class="form-label">Core Assets</p>
             <div class="form-grid">
                 <div class="form-group">
@@ -1520,7 +1542,7 @@
         </div>
 
         <div class="calc-card" id="debtsCard">
-            <h3 class="calc-card-title">Liabilities</h3>
+            <h3 class="calc-card-title"><span class="section-icon">🧾</span>Liabilities</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Short-term Debts (due within year)</label>
@@ -1537,7 +1559,7 @@
         </div>
 
         <div class="results-card" id="resultsCard">
-            <h3 class="calc-card-title">Results</h3>
+            <h3 class="calc-card-title"><span class="section-icon">📊</span>Results</h3>
 
             <div class="result-row">
                 <span class="result-label">Total Assets</span>
