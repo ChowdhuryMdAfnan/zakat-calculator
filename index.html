@@ -84,6 +84,7 @@
             filter: blur(1px);
             animation: moonDrift 60s ease-in-out infinite;
             z-index: -1;
+            will-change: transform;
         }
 
         .moon::before {
@@ -113,10 +114,18 @@
         .crater-3 { top: 60%; left: 20%; width: 25px; height: 25px; }
 
         @keyframes moonDrift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(-20px, -30px) rotate(5deg); }
-            50% { transform: translate(-10px, -50px) rotate(10deg); }
-            75% { transform: translate(20px, -30px) rotate(5deg); }
+            0%, 100% {
+                transform: translate(var(--moon-px, 0px), var(--moon-py, 0px)) rotate(0deg);
+            }
+            25% {
+                transform: translate(calc(var(--moon-px, 0px) - 20px), calc(var(--moon-py, 0px) - 30px)) rotate(5deg);
+            }
+            50% {
+                transform: translate(calc(var(--moon-px, 0px) - 10px), calc(var(--moon-py, 0px) - 50px)) rotate(10deg);
+            }
+            75% {
+                transform: translate(calc(var(--moon-px, 0px) + 20px), calc(var(--moon-py, 0px) - 30px)) rotate(5deg);
+            }
         }
 
         .hero-content {
@@ -766,7 +775,9 @@
         .form-input:focus {
             outline: none;
             border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.14), 0 8px 20px rgba(212, 175, 55, 0.16);
+            transform: translateY(-2px);
+            animation: inputFocusPulse 1.25s ease-in-out infinite;
         }
 
         .form-input::placeholder {
@@ -781,6 +792,17 @@
             font-size: 1rem;
             color: var(--text-primary);
             cursor: pointer;
+        }
+
+        .currency-mini:focus-visible,
+        .mini-btn:focus-visible,
+        .split-link:focus-visible,
+        .select-input:focus-visible {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.14), 0 8px 20px rgba(212, 175, 55, 0.16);
+            transform: translateY(-2px);
+            animation: inputFocusPulse 1.25s ease-in-out infinite;
         }
 
         .results-card {
@@ -925,6 +947,35 @@
             border-radius: 16px;
             text-align: center;
             margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            transform: scale(1);
+            opacity: 1;
+            animation: finalLoadIn 560ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            isolation: isolate;
+        }
+
+        .final-result::before {
+            content: "";
+            position: absolute;
+            inset: -20%;
+            z-index: -1;
+            background:
+                radial-gradient(circle at 50% 35%, rgba(255, 245, 210, 0.55) 0%, rgba(255, 225, 140, 0.28) 28%, rgba(212, 175, 55, 0.05) 62%, rgba(212, 175, 55, 0) 78%);
+            animation: finalGlowPulse 4.2s ease-in-out infinite;
+        }
+
+        .final-result::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            left: 50%;
+            top: 45%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 240, 195, 0.35) 0%, rgba(212, 175, 55, 0) 68%);
+            z-index: -1;
         }
 
         .final-label {
@@ -938,6 +989,11 @@
             font-size: 3.5rem;
             font-weight: 800;
             color: var(--darker-bg);
+            text-shadow: 0 0 16px rgba(255, 239, 188, 0.55);
+        }
+
+        .final-result.pulse-in {
+            animation: finalValuePulse 420ms cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .final-subamount {
@@ -1060,6 +1116,49 @@
 
             .ramadan-crescent {
                 animation: none !important;
+            }
+
+            .final-result,
+            .final-result::before {
+                animation: none !important;
+            }
+
+            .final-result {
+                transform: none !important;
+                opacity: 1 !important;
+            }
+
+            .form-input:focus,
+            .currency-mini:focus-visible,
+            .mini-btn:focus-visible,
+            .split-link:focus-visible,
+            .select-input:focus-visible {
+                animation: none !important;
+            }
+        }
+
+        @keyframes finalLoadIn {
+            from { transform: scale(0.98); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes finalGlowPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes finalValuePulse {
+            0% { transform: scale(0.985); opacity: 1; }
+            70% { transform: scale(1.012); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes inputFocusPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.14), 0 8px 20px rgba(212, 175, 55, 0.16);
+            }
+            50% {
+                box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.2), 0 10px 24px rgba(212, 175, 55, 0.22);
             }
         }
 
@@ -1635,7 +1734,10 @@
 
         function setupScrollReveal() {
             const cards = document.querySelectorAll('#calculator .calc-card, #calculator .results-card, #calculator > .info-box');
-            cards.forEach((el) => el.classList.add('reveal-on-scroll'));
+            cards.forEach((el, index) => {
+                el.classList.add('reveal-on-scroll');
+                el.style.transitionDelay = `${index * 100}ms`;
+            });
             if (prefersReducedMotion || !('IntersectionObserver' in window)) {
                 cards.forEach((el) => el.classList.add('revealed'));
                 return;
@@ -1651,6 +1753,50 @@
             }, { threshold: 0.12 });
 
             cards.forEach((el) => observer.observe(el));
+        }
+
+        function setupMoonParallax() {
+            const landing = document.getElementById('landing');
+            const moon = document.querySelector('.moon');
+            if (!landing || !moon || prefersReducedMotion) return;
+
+            let rafId = null;
+            let targetX = 0;
+            let targetY = 0;
+            let currentX = 0;
+            let currentY = 0;
+
+            const tick = () => {
+                currentX += (targetX - currentX) * 0.12;
+                currentY += (targetY - currentY) * 0.12;
+                moon.style.setProperty('--moon-px', `${currentX.toFixed(2)}px`);
+                moon.style.setProperty('--moon-py', `${currentY.toFixed(2)}px`);
+
+                if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
+                    rafId = requestAnimationFrame(tick);
+                } else {
+                    rafId = null;
+                }
+            };
+
+            const startTick = () => {
+                if (!rafId) rafId = requestAnimationFrame(tick);
+            };
+
+            landing.addEventListener('mousemove', (event) => {
+                const rect = landing.getBoundingClientRect();
+                const nx = ((event.clientX - rect.left) / rect.width) - 0.5;
+                const ny = ((event.clientY - rect.top) / rect.height) - 0.5;
+                targetX = nx * 6; // very subtle: ~3px range each side
+                targetY = ny * 6;
+                startTick();
+            });
+
+            landing.addEventListener('mouseleave', () => {
+                targetX = 0;
+                targetY = 0;
+                startTick();
+            });
         }
 
         function addExtraAssetRow(entry = {}) {
@@ -2012,6 +2158,13 @@
             });
             updateHawlReminderUI();
 
+            const finalCard = document.querySelector('.final-result');
+            if (finalCard && !prefersReducedMotion) {
+                finalCard.classList.remove('pulse-in');
+                void finalCard.offsetWidth;
+                finalCard.classList.add('pulse-in');
+            }
+
             const statusEl = document.getElementById('nisabStatus');
             if (zakatableWealthBdt < nisabThresholdBdt) {
                 statusEl.innerHTML = '⚠️ Your wealth is below the Nisab threshold. Zakat is not obligatory at this time.';
@@ -2264,6 +2417,7 @@
             scheduleDateRefreshAtMidnight();
             fillHijriDayOptions();
             setupScrollReveal();
+            setupMoonParallax();
             loadData();
             const historyYearEl = document.getElementById('historyYear');
             if (historyYearEl && !historyYearEl.value) historyYearEl.value = String(new Date().getFullYear());
