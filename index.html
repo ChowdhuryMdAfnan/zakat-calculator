@@ -162,6 +162,18 @@
             white-space: nowrap;
         }
 
+        .top-nav-menu-btn {
+            display: none;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(15, 23, 42, 0.65);
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 0.42rem 0.72rem;
+            font-size: 0.82rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         .top-nav-links {
             display: flex;
             position: relative;
@@ -2699,15 +2711,7 @@
             text-align: left;
         }
 
-        @media (max-width: 768px) {
-            body {
-                overflow-x: hidden;
-            }
-
-            .top-nav {
-                padding: 0.45rem 0.6rem;
-            }
-
+        @media (max-width: 900px) {
             .calc-shell {
                 grid-template-columns: 1fr;
             }
@@ -2722,24 +2726,46 @@
                 box-shadow: none;
                 background: transparent;
             }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                overflow-x: hidden;
+            }
+
+            .top-nav {
+                padding: 0.45rem 0.6rem;
+            }
 
             .top-nav-inner {
-                flex-direction: column;
-                align-items: stretch;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
                 gap: 0.45rem;
+                flex-wrap: wrap;
             }
 
             .top-nav-logo {
-                text-align: center;
+                text-align: left;
                 font-size: 0.9rem;
+            }
+
+            .top-nav-menu-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
             }
 
             .top-nav-controls {
                 width: 100%;
                 justify-content: flex-start;
-                flex-wrap: nowrap;
                 flex-direction: column;
                 gap: 0.45rem;
+                display: none;
+            }
+
+            .top-nav.mobile-open .top-nav-controls {
+                display: flex;
             }
 
             .top-nav-links {
@@ -2767,7 +2793,11 @@
             }
 
             .nav-spacer {
-                height: 128px;
+                height: 74px;
+            }
+
+            .top-nav.mobile-open + .nav-spacer {
+                height: 152px;
             }
 
             #landing,
@@ -2843,6 +2873,16 @@
             .settings-accordion > summary,
             .history-accordion > summary {
                 padding: 1rem 1rem;
+            }
+
+            .settings-accordion > summary::after,
+            .history-accordion > summary::after {
+                right: 1rem;
+            }
+
+            .settings-summary-right,
+            .history-summary-right {
+                display: none;
             }
 
             .settings-content,
@@ -2926,6 +2966,13 @@
                 padding: 0.55rem 0.75rem;
             }
 
+            #assetsCard .currency-mini {
+                min-width: 58px;
+                height: 32px;
+                font-size: 0.8rem;
+                right: 7px;
+            }
+
             .final-amount {
                 font-size: 2.5rem;
             }
@@ -2941,7 +2988,11 @@
 
         @media (max-width: 480px) {
             .nav-spacer {
-                height: 136px;
+                height: 82px;
+            }
+
+            .top-nav.mobile-open + .nav-spacer {
+                height: 168px;
             }
 
             .top-nav-logo {
@@ -3130,7 +3181,8 @@
     <header class="top-nav" aria-label="Main navigation">
         <div class="top-nav-inner">
             <div class="top-nav-logo">Zakat App</div>
-            <div class="top-nav-controls">
+            <button type="button" id="mobileMenuToggle" class="top-nav-menu-btn" aria-expanded="false" aria-controls="topNavControls">Menu</button>
+            <div class="top-nav-controls" id="topNavControls">
                 <nav class="top-nav-links">
                     <span class="top-link-indicator" aria-hidden="true"></span>
                     <button type="button" class="top-link active" data-nav-target="landing">Home</button>
@@ -4908,6 +4960,23 @@
             topNavSections = topNavLinks
                 .map((link) => byId(link.getAttribute('data-nav-target') || ''))
                 .filter(Boolean);
+            const topNavEl = document.querySelector('.top-nav');
+            const mobileMenuBtn = byId('mobileMenuToggle');
+            const isMobileNav = () => window.matchMedia('(max-width: 768px)').matches;
+
+            const closeMobileMenu = () => {
+                if (!topNavEl || !mobileMenuBtn) return;
+                topNavEl.classList.remove('mobile-open');
+                mobileMenuBtn.setAttribute('aria-expanded', 'false');
+            };
+
+            if (mobileMenuBtn && topNavEl) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    const willOpen = !topNavEl.classList.contains('mobile-open');
+                    topNavEl.classList.toggle('mobile-open', willOpen);
+                    mobileMenuBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+                });
+            }
 
             topNavLinks.forEach((link) => {
                 link.addEventListener('click', () => {
@@ -4916,6 +4985,7 @@
                     topNavLinks.forEach((item) => item.classList.toggle('active', item === link));
                     updateTopNavIndicator();
                     target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+                    if (isMobileNav()) closeMobileMenu();
                 });
             });
 
@@ -4926,7 +4996,10 @@
                     scheduleSaveData(0);
                 });
             }
-            window.addEventListener('resize', updateTopNavIndicator, { passive: true });
+            window.addEventListener('resize', () => {
+                updateTopNavIndicator();
+                if (!isMobileNav()) closeMobileMenu();
+            }, { passive: true });
             updateTopThemeLabel();
             updateTopNavIndicator();
             updateNavProgress();
