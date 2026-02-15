@@ -938,7 +938,7 @@
 
         .section-rail {
             position: sticky;
-            top: 92px;
+            top: 84px;
             align-self: start;
             display: grid;
             gap: 0.55rem;
@@ -1349,6 +1349,8 @@
             margin: 0;
             user-select: none;
             position: relative;
+            width: 100%;
+            justify-content: space-between;
         }
 
         .settings-accordion > summary::-webkit-details-marker {
@@ -1368,6 +1370,13 @@
 
         .settings-accordion[open] > summary::after {
             content: "−";
+        }
+
+        .settings-summary-right {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-right: 1.9rem;
         }
 
         .settings-content {
@@ -1730,7 +1739,7 @@
             border: 0;
             border-radius: 28px;
             padding: 2.8rem 2.4rem;
-            margin-top: 2.2rem;
+            margin-top: 0.8rem;
             border: 1px solid rgba(148, 163, 184, 0.08);
             box-shadow: 0 8px 30px rgba(0,0,0,.25);
             transform: translateY(-4px);
@@ -1759,6 +1768,47 @@
         .results-card > * {
             position: relative;
             z-index: 1;
+        }
+
+        .results-tabs {
+            margin: 1rem auto 0.9rem;
+            display: inline-flex;
+            gap: 0.45rem;
+            padding: 0.3rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(10, 19, 34, 0.55);
+        }
+
+        .results-tab {
+            border: 0;
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 999px;
+            padding: 0.42rem 0.78rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s ease;
+        }
+
+        .results-tab:hover {
+            color: var(--text-primary);
+        }
+
+        .results-tab.active {
+            color: var(--text-primary);
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.34);
+        }
+
+        .results-tab-panel {
+            animation: fadeUpTab 0.24s ease;
+        }
+
+        @keyframes fadeUpTab {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         #settingsCard::before,
@@ -1816,6 +1866,7 @@
 
         #debtsCard {
             border-color: rgba(239, 115, 51, 0.34);
+            margin-bottom: 1.1rem;
         }
 
         #debtsCard .calc-card-title {
@@ -2013,6 +2064,66 @@
             padding: 1.4rem;
         }
 
+        .history-accordion {
+            overflow: hidden;
+            padding: 0;
+        }
+
+        .history-accordion > summary {
+            list-style: none;
+            cursor: pointer;
+            padding: 2rem 2.2rem;
+            margin: 0;
+            user-select: none;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            width: 100%;
+        }
+
+        .history-accordion > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .history-accordion > summary::after {
+            content: "+";
+            color: var(--gold);
+            font-size: 1.35rem;
+            line-height: 1;
+            position: absolute;
+            right: 2.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .history-accordion[open] > summary::after {
+            content: "−";
+        }
+
+        .history-summary-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: #f0f6ff;
+        }
+
+        .history-summary-right {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-left: auto;
+            text-align: right;
+            margin-right: 1.9rem;
+            font-weight: 600;
+        }
+
+        .history-content {
+            padding: 0 2.2rem 2.2rem;
+        }
+
         .history-actions {
             display: grid;
             grid-template-columns: 1fr auto;
@@ -2022,20 +2133,82 @@
 
         .history-chart {
             width: 100%;
-            height: 96px;
+            height: 122px;
             border: 0;
             box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.1);
-            border-radius: 10px;
-            background: rgba(15, 23, 42, 0.45);
-            margin-bottom: 0.65rem;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(10, 21, 39, 0.7), rgba(10, 20, 35, 0.52));
+            margin-bottom: 0.8rem;
         }
 
         .history-list {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
             display: grid;
-            gap: 0.25rem;
-            margin-bottom: 0.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 0.55rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .history-year-card {
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-radius: 12px;
+            padding: 0.62rem 0.72rem;
+            background: rgba(12, 24, 42, 0.6);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        }
+
+        .history-year-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .history-year-label {
+            font-size: 0.82rem;
+            color: rgba(187, 203, 225, 0.86);
+        }
+
+        .history-year-amount {
+            font-size: 0.98rem;
+            font-weight: 700;
+            color: #e8f1ff;
+        }
+
+        .history-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.14rem 0.45rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            background: rgba(148, 163, 184, 0.12);
+            color: #d2dfef;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+
+        .history-badge.up {
+            background: rgba(16, 185, 129, 0.14);
+            border-color: rgba(16, 185, 129, 0.42);
+            color: #86efac;
+        }
+
+        .history-badge.down {
+            background: rgba(239, 68, 68, 0.14);
+            border-color: rgba(239, 68, 68, 0.42);
+            color: #fca5a5;
+        }
+
+        .history-badge.flat {
+            background: rgba(245, 158, 11, 0.14);
+            border-color: rgba(245, 158, 11, 0.42);
+            color: #fcd34d;
+        }
+
+        .history-empty {
+            color: var(--text-secondary);
+            font-size: 0.88rem;
         }
 
         .hawl-card {
@@ -2123,6 +2296,35 @@
                 0 6px 14px rgba(2, 6, 18, 0.24);
         }
 
+        .result-confetti-layer {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 2;
+        }
+
+        .result-confetti {
+            position: absolute;
+            width: 6px;
+            height: 10px;
+            border-radius: 2px;
+            opacity: 0;
+            animation: confettiBurst 980ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes confettiBurst {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 0, 0) rotate(0deg) scale(0.7);
+            }
+            10% { opacity: 0.9; }
+            100% {
+                opacity: 0;
+                transform: translate3d(var(--tx, 0), var(--ty, -70px), 0) rotate(var(--rot, 120deg)) scale(1);
+            }
+        }
+
         .final-result::before {
             content: "";
             position: absolute;
@@ -2188,6 +2390,31 @@
             line-height: 1.05;
         }
 
+        .final-amount-wrap {
+            position: relative;
+            display: inline-grid;
+            place-items: center;
+            padding: 0.45rem 1rem;
+            margin: 0 auto;
+        }
+
+        .final-amount-ring {
+            position: absolute;
+            width: min(100%, 320px);
+            min-width: 230px;
+            height: 92px;
+            border-radius: 999px;
+            background: conic-gradient(from 0deg, rgba(212, 175, 55, 0), rgba(255, 239, 178, 0.88), rgba(20, 184, 166, 0.45), rgba(212, 175, 55, 0));
+            opacity: 0.58;
+            mask-image: radial-gradient(closest-side, transparent calc(100% - 5px), #000 calc(100% - 4px));
+            animation: amountRingSpin 9s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes amountRingSpin {
+            to { transform: rotate(360deg); }
+        }
+
         .final-amount::before {
             content: "";
             position: absolute;
@@ -2212,6 +2439,111 @@
             font-size: 0.92rem;
             color: rgba(255, 240, 196, 0.88);
             font-weight: 600;
+        }
+
+        .nisab-panel {
+            max-width: 760px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 120px minmax(0, 1fr);
+            gap: 0.85rem;
+            align-items: center;
+        }
+
+        .nisab-donut {
+            width: 102px;
+            height: 102px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(10, 20, 35, 0.66);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .nisab-donut-ring {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: conic-gradient(rgba(212, 175, 55, 0.95) 0deg 9deg, rgba(42, 58, 84, 0.6) 9deg 360deg);
+            display: grid;
+            place-items: center;
+        }
+
+        .nisab-donut-ring::after {
+            content: "";
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(8, 15, 28, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .nisab-donut-label {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #f4d47b;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.32);
+        }
+
+        .nisab-panel-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.65rem;
+        }
+
+        .nisab-panel {
+            max-width: 760px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 120px minmax(0, 1fr);
+            gap: 0.85rem;
+            align-items: center;
+        }
+
+        .nisab-donut {
+            width: 102px;
+            height: 102px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: rgba(10, 20, 35, 0.66);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            margin: 0 auto;
+        }
+
+        .nisab-donut-ring {
+            width: 76px;
+            height: 76px;
+            border-radius: 50%;
+            background: conic-gradient(rgba(212, 175, 55, 0.95) 0deg 9deg, rgba(42, 58, 84, 0.6) 9deg 360deg);
+            display: grid;
+            place-items: center;
+        }
+
+        .nisab-donut-ring::after {
+            content: "";
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(8, 15, 28, 0.95);
+            border: 1px solid rgba(148, 163, 184, 0.16);
+        }
+
+        .nisab-donut-label {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #f4d47b;
+            text-shadow: 0 0 8px rgba(212, 175, 55, 0.32);
+        }
+
+        .nisab-panel-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.65rem;
         }
 
         .nisab-status {
@@ -2273,6 +2605,12 @@
 
         .info-box strong {
             color: var(--accent);
+        }
+
+        .results-prelude-info {
+            margin: 0 auto 0.95rem;
+            max-width: 760px;
+            text-align: left;
         }
 
         @media (max-width: 768px) {
@@ -2375,6 +2713,21 @@
             .results-compact-grid {
                 grid-template-columns: 1fr;
             }
+
+            .results-tabs {
+                width: 100%;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .nisab-panel {
+                grid-template-columns: 1fr;
+                gap: 0.7rem;
+            }
+
+            .nisab-panel-grid {
+                grid-template-columns: 1fr;
+            }
             
             .amount-currency {
                 grid-template-columns: 1fr;
@@ -2433,7 +2786,9 @@
             }
 
             .result-shimmer,
-            .final-amount::before {
+            .final-amount::before,
+            .final-amount-ring,
+            .result-confetti {
                 animation: none !important;
             }
 
@@ -2727,7 +3082,10 @@
             <div class="content-canvas">
 
         <details class="calc-card settings-accordion" id="settingsCard">
-            <summary class="calc-card-title"><span class="section-icon">⚙️</span>Settings</summary>
+            <summary class="calc-card-title">
+                <span class="history-summary-left"><span class="section-icon">⚙️</span>Settings</span>
+                <span class="settings-summary-right">Tap to expand</span>
+            </summary>
             <div class="settings-content">
             <div class="form-grid">
                 <div class="form-group">
@@ -2977,70 +3335,111 @@
             </div>
         </div>
 
-        <div class="info-box">
-            <p>
-                <strong>Important:</strong> This calculator provides an estimate. Zakat is due if you've held wealth above nisab for one complete lunar year (Hawl).
-                For specific cases or questions, please consult with a qualified Islamic scholar.
-            </p>
-        </div>
         <div class="results-card" id="resultsCard">
-            <h3 class="calc-card-title"><span class="section-icon">📊</span>Results</h3>
+            <h3 class="calc-card-title"><span class="section-icon">🎉</span>Results</h3>
+            <div class="info-box results-prelude-info">
+                <p>
+                    <strong>Important:</strong> This calculator provides an estimate. Zakat is due if you've held wealth above nisab for one complete lunar year (Hawl).
+                    For specific cases or questions, please consult with a qualified Islamic scholar.
+                </p>
+            </div>
             <div class="results-hero">
                 <p class="results-hero-status" id="resultsHeroStatus">Your current status will appear here.</p>
                 <div class="final-result">
+                    <div class="result-confetti-layer" id="resultConfettiLayer" aria-hidden="true"></div>
                     <span class="result-shimmer" aria-hidden="true"></span>
                     <div class="final-label" id="zakatAmountLabel">Your Zakat Due (2.5%)</div>
                     <div class="amount-divider" aria-hidden="true"></div>
-                    <div class="final-amount" id="zakatAmount">BDT 0.00</div>
+                    <div class="final-amount-wrap">
+                        <span class="final-amount-ring" aria-hidden="true"></span>
+                        <div class="final-amount" id="zakatAmount">BDT 0.00</div>
+                    </div>
                     <div class="amount-divider" aria-hidden="true"></div>
                     <div class="final-subamount" id="zakatAmountSecondary">USD 0.00</div>
                     <div class="nisab-status" id="nisabStatus"></div>
                 </div>
             </div>
+            <div class="results-tabs" role="tablist" aria-label="Result views">
+                <button type="button" class="results-tab active" role="tab" aria-selected="true" data-result-tab="summaryTabPanel">Summary</button>
+                <button type="button" class="results-tab" role="tab" aria-selected="false" data-result-tab="breakdownTabPanel">Breakdown</button>
+                <button type="button" class="results-tab" role="tab" aria-selected="false" data-result-tab="nisabTabPanel">Nisab</button>
+            </div>
 
-            <div class="results-compact-grid">
-                <div class="compact-stat">
-                    <span class="compact-stat-label">Total Assets</span>
-                    <span class="compact-stat-value" id="totalAssets">$0.00</span>
-                </div>
-                <div class="compact-stat">
-                    <span class="compact-stat-label">Total Liabilities</span>
-                    <span class="compact-stat-value" id="totalLiabilities">$0.00</span>
-                </div>
-                <div class="compact-stat">
-                    <span class="compact-stat-label">Zakatable Wealth</span>
-                    <span class="compact-stat-value" id="zakatableWealth">$0.00</span>
-                </div>
-                <div class="compact-stat">
-                    <span class="compact-stat-label">Nisab Threshold</span>
-                    <span class="compact-stat-value" id="nisabThreshold">$0.00</span>
+            <div class="results-tab-panel active" id="summaryTabPanel" role="tabpanel">
+                <div class="results-compact-grid">
+                    <div class="compact-stat">
+                        <span class="compact-stat-label">Total Assets</span>
+                        <span class="compact-stat-value" id="totalAssets">$0.00</span>
+                    </div>
+                    <div class="compact-stat">
+                        <span class="compact-stat-label">Total Liabilities</span>
+                        <span class="compact-stat-value" id="totalLiabilities">$0.00</span>
+                    </div>
+                    <div class="compact-stat">
+                        <span class="compact-stat-label">Zakatable Wealth</span>
+                        <span class="compact-stat-value" id="zakatableWealth">$0.00</span>
+                    </div>
+                    <div class="compact-stat">
+                        <span class="compact-stat-label">Nisab Threshold</span>
+                        <span class="compact-stat-value" id="nisabThreshold">$0.00</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="breakdown-card">
-                <div class="breakdown-title">Breakdown</div>
-                <div class="breakdown-row"><span>Cash + Bank</span><strong id="bdCashBank">-</strong></div>
-                <div class="breakdown-row"><span>Metals</span><strong id="bdMetals">-</strong></div>
-                <div class="breakdown-row"><span>Digital Assets</span><strong id="bdCrypto">-</strong></div>
-                <div class="breakdown-row"><span>Stocks</span><strong id="bdStocks">-</strong></div>
-                <div class="breakdown-row"><span>Business</span><strong id="bdBusiness">-</strong></div>
-                <div class="breakdown-row"><span>Receivables</span><strong id="bdReceivables">-</strong></div>
-                <div class="breakdown-row"><span>Extra assets</span><strong id="bdExtraAssets">-</strong></div>
-                <div class="breakdown-row"><span>Debts deducted</span><strong id="bdDebts">-</strong></div>
+            <div class="results-tab-panel" id="breakdownTabPanel" role="tabpanel" hidden>
+                <div class="breakdown-card">
+                    <div class="breakdown-title">Breakdown</div>
+                    <div class="breakdown-row"><span>Cash + Bank</span><strong id="bdCashBank">-</strong></div>
+                    <div class="breakdown-row"><span>Metals</span><strong id="bdMetals">-</strong></div>
+                    <div class="breakdown-row"><span>Digital Assets</span><strong id="bdCrypto">-</strong></div>
+                    <div class="breakdown-row"><span>Stocks</span><strong id="bdStocks">-</strong></div>
+                    <div class="breakdown-row"><span>Business</span><strong id="bdBusiness">-</strong></div>
+                    <div class="breakdown-row"><span>Receivables</span><strong id="bdReceivables">-</strong></div>
+                    <div class="breakdown-row"><span>Extra assets</span><strong id="bdExtraAssets">-</strong></div>
+                    <div class="breakdown-row"><span>Debts deducted</span><strong id="bdDebts">-</strong></div>
+                </div>
+            </div>
+
+            <div class="results-tab-panel" id="nisabTabPanel" role="tabpanel" hidden>
+                <div class="nisab-panel">
+                    <div class="nisab-donut" aria-hidden="true">
+                        <div class="nisab-donut-ring"></div>
+                        <div class="nisab-donut-label">2.5%</div>
+                    </div>
+                    <div class="nisab-panel-grid">
+                        <div class="compact-stat">
+                            <span class="compact-stat-label">Nisab Threshold</span>
+                            <span class="compact-stat-value" id="nisabTabThreshold">-</span>
+                        </div>
+                        <div class="compact-stat">
+                            <span class="compact-stat-label">Your Wealth</span>
+                            <span class="compact-stat-value" id="nisabTabWealth">-</span>
+                        </div>
+                        <div class="compact-stat">
+                            <span class="compact-stat-label">Above/Below Nisab</span>
+                            <span class="compact-stat-value" id="nisabTabGap">-</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
         </div>
 
-        <div class="calc-card history-card" id="historyCard">
-            <h3 class="calc-card-title"><span class="section-icon">📈</span>Zakat History Tracker</h3>
-            <div class="history-actions">
-                <input type="number" id="historyYear" class="form-input" min="1900" max="2200" placeholder="Year (e.g., 2026)">
-                <button type="button" id="saveHistoryBtn" class="mini-btn">Save Year</button>
+        <details class="calc-card history-card history-accordion" id="historyCard">
+            <summary>
+                <span class="history-summary-left"><span class="section-icon">📈</span>Zakat History Tracker</span>
+                <span class="history-summary-right">Tap to expand</span>
+            </summary>
+            <div class="history-content">
+                <div class="history-actions">
+                    <input type="number" id="historyYear" class="form-input" min="1900" max="2200" placeholder="Year (e.g., 2026)">
+                    <button type="button" id="saveHistoryBtn" class="mini-btn">Save Year</button>
+                </div>
+                <svg id="historyChart" class="history-chart" viewBox="0 0 100 40" preserveAspectRatio="none" aria-label="Zakat history line chart"></svg>
+                <div class="history-list" id="historyList">No history saved yet.</div>
+                <div class="breakdown-row"><span>Total zakat given (lifetime)</span><strong id="historyLifetime">BDT 0.00</strong></div>
             </div>
-            <svg id="historyChart" class="history-chart" viewBox="0 0 100 40" preserveAspectRatio="none" aria-label="Zakat history line chart"></svg>
-            <div class="history-list" id="historyList">No history saved yet.</div>
-            <div class="breakdown-row"><span>Total zakat given (lifetime)</span><strong id="historyLifetime">BDT 0.00</strong></div>
-        </div>
+        </details>
             </div>
         </div>
     </section>
@@ -3083,6 +3482,7 @@
         let topLinkIndicator = null;
         let railLinks = [];
         let railSections = [];
+        let wasZakatEligible = false;
         const calcInputIds = new Set([
             'usdToBdt', 'goldPrice', 'silverPrice', 'zakatHijriMonth', 'zakatHijriDay', 'zakatHijriNote',
             'lastZakatPaid', 'cashBankTotalAmt', 'cashAmt', 'bankAmt', 'investmentsAmt',
@@ -3203,8 +3603,25 @@
 
             const formatter = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             listEl.innerHTML = rows.length
-                ? rows.map((r) => `<div>${r.year} — BDT ${formatter.format(r.amountBdt)}</div>`).join('')
-                : 'No history saved yet.';
+                ? rows.map((r, idx) => {
+                    const prev = idx > 0 ? rows[idx - 1].amountBdt : null;
+                    let badge = '<span class="history-badge flat">Base</span>';
+                    if (prev !== null) {
+                        if (r.amountBdt > prev) badge = '<span class="history-badge up">Up</span>';
+                        else if (r.amountBdt < prev) badge = '<span class="history-badge down">Down</span>';
+                        else badge = '<span class="history-badge flat">Flat</span>';
+                    }
+                    return `
+                        <article class="history-year-card">
+                            <div class="history-year-head">
+                                <span class="history-year-label">${r.year}</span>
+                                ${badge}
+                            </div>
+                            <div class="history-year-amount">BDT ${formatter.format(r.amountBdt)}</div>
+                        </article>
+                    `;
+                }).join('')
+                : '<div class="history-empty">No history saved yet.</div>';
 
             const lifetime = rows.reduce((sum, r) => sum + (r.amountBdt || 0), 0);
             lifeEl.textContent = `BDT ${formatter.format(lifetime)}`;
@@ -3216,24 +3633,41 @@
 
             const w = 100;
             const h = 40;
-            const px = 5;
-            const py = 4;
+            const px = 4;
+            const py = 3;
             const min = Math.min(...rows.map((r) => r.amountBdt));
             const max = Math.max(...rows.map((r) => r.amountBdt));
             const spread = Math.max(1, max - min);
+            const innerW = w - (2 * px);
+            const innerH = h - (2 * py);
+            const barGap = 1.2;
+            const barW = Math.max(3.4, (innerW - (barGap * (rows.length - 1))) / rows.length);
 
-            const points = rows.map((r, i) => {
-                const x = rows.length === 1 ? (w / 2) : (px + (i * (w - 2 * px)) / (rows.length - 1));
-                const y = h - py - (((r.amountBdt - min) / spread) * (h - 2 * py));
-                return { x, y };
-            });
+            const bars = rows.map((r, i) => {
+                const norm = spread === 0 ? 0.65 : ((r.amountBdt - min) / spread);
+                const bh = Math.max(6, norm * (innerH - 2) + 6);
+                const x = px + i * (barW + barGap);
+                const y = h - py - bh;
+                const isPeak = r.amountBdt === max;
+                const fill = isPeak ? 'url(#historyBarPeak)' : 'url(#historyBarGrad)';
+                return `
+                    <rect x="${x.toFixed(2)}" y="${y.toFixed(2)}" width="${barW.toFixed(2)}" height="${bh.toFixed(2)}" rx="1.2" fill="${fill}" opacity="${isPeak ? '1' : '0.9'}"></rect>
+                `;
+            }).join('');
 
-            const polylinePoints = points.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(' ');
-            const dots = points.map((p) => `<circle cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="1.1" fill="#d4af37"></circle>`).join('');
             chartEl.innerHTML = `
-                <line x1="${px}" y1="${h - py}" x2="${w - px}" y2="${h - py}" stroke="rgba(148,163,184,0.5)" stroke-width="0.4"></line>
-                <polyline fill="none" stroke="#d4af37" stroke-width="0.8" points="${polylinePoints}"></polyline>
-                ${dots}
+                <defs>
+                    <linearGradient id="historyBarGrad" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stop-color="rgba(66, 92, 144, 0.85)"></stop>
+                        <stop offset="100%" stop-color="rgba(132, 178, 255, 0.92)"></stop>
+                    </linearGradient>
+                    <linearGradient id="historyBarPeak" x1="0" y1="1" x2="0" y2="0">
+                        <stop offset="0%" stop-color="rgba(212, 175, 55, 0.9)"></stop>
+                        <stop offset="100%" stop-color="rgba(255, 225, 132, 0.98)"></stop>
+                    </linearGradient>
+                </defs>
+                <line x1="${px}" y1="${h - py}" x2="${w - px}" y2="${h - py}" stroke="rgba(148,163,184,0.42)" stroke-width="0.42"></line>
+                ${bars}
             `;
         }
 
@@ -3756,6 +4190,27 @@
                     ? ("USD " + formatter.format(usdToBdt > 0 ? (totalAssetsBdt / usdToBdt) : 0))
                     : ("BDT " + formatter.format(totalAssetsBdt));
             }
+            const nisabTabThreshold = byId('nisabTabThreshold');
+            if (nisabTabThreshold) {
+                nisabTabThreshold.textContent = currency === 'BDT'
+                    ? ("BDT " + formatter.format(nisabThresholdBdt))
+                    : (symbol + formatter.format(nisabThreshold));
+            }
+            const nisabTabWealth = byId('nisabTabWealth');
+            if (nisabTabWealth) {
+                nisabTabWealth.textContent = currency === 'BDT'
+                    ? ("BDT " + formatter.format(zakatableWealthBdt))
+                    : (symbol + formatter.format(zakatableWealth));
+            }
+            const nisabTabGap = byId('nisabTabGap');
+            if (nisabTabGap) {
+                const gapBdt = zakatableWealthBdt - nisabThresholdBdt;
+                const gapDisplay = bdtToDisplay(Math.abs(gapBdt));
+                const gapPrefix = gapBdt >= 0 ? 'Above ' : 'Below ';
+                nisabTabGap.textContent = gapPrefix + (currency === 'BDT'
+                    ? ("BDT " + formatter.format(Math.abs(gapBdt)))
+                    : (symbol + formatter.format(gapDisplay)));
+            }
             updateHawlReminderUI();
 
             const finalCard = document.querySelector('.final-result');
@@ -3767,6 +4222,7 @@
 
             const statusEl = byId('nisabStatus');
             const heroStatusEl = byId('resultsHeroStatus');
+            const isEligible = zakatableWealthBdt >= nisabThresholdBdt && zakatAmountBdt > 0;
             if (zakatableWealthBdt < nisabThresholdBdt) {
                 if (heroStatusEl) heroStatusEl.textContent = 'Below Nisab. Zakat is not due at this time.';
                 statusEl.innerHTML = 'Below Nisab threshold';
@@ -3778,6 +4234,10 @@
                 statusEl.style.background = 'rgba(116, 87, 27, 0.38)';
                 statusEl.style.border = '1px solid rgba(244, 212, 123, 0.5)';
             }
+            if (isEligible && !wasZakatEligible) {
+                launchResultConfetti();
+            }
+            wasZakatEligible = isEligible;
 
             updateQuickStartProgress();
         }
@@ -4088,6 +4548,58 @@
             });
         }
 
+        function setupResultsTabs() {
+            const tabs = Array.from(document.querySelectorAll('.results-tab[data-result-tab]'));
+            const panels = Array.from(document.querySelectorAll('.results-tab-panel'));
+            if (!tabs.length || !panels.length) return;
+
+            const activate = (panelId) => {
+                tabs.forEach((tab) => {
+                    const isActive = tab.getAttribute('data-result-tab') === panelId;
+                    tab.classList.toggle('active', isActive);
+                    tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+                panels.forEach((panel) => {
+                    const isActive = panel.id === panelId;
+                    panel.classList.toggle('active', isActive);
+                    panel.hidden = !isActive;
+                });
+            };
+
+            tabs.forEach((tab) => {
+                tab.addEventListener('click', () => {
+                    const panelId = tab.getAttribute('data-result-tab');
+                    if (!panelId) return;
+                    activate(panelId);
+                });
+            });
+        }
+
+        function launchResultConfetti() {
+            const layer = byId('resultConfettiLayer');
+            if (!layer || prefersReducedMotion) return;
+            layer.innerHTML = '';
+            const colors = ['#f4d47b', '#d4af37', '#7de2d6', '#ffd7a8', '#9ec4ff'];
+            const count = 18;
+            for (let i = 0; i < count; i += 1) {
+                const piece = document.createElement('span');
+                piece.className = 'result-confetti';
+                const angle = (Math.PI * 2 * i) / count;
+                const dist = 36 + Math.random() * 64;
+                const tx = Math.cos(angle) * dist;
+                const ty = -Math.abs(Math.sin(angle) * dist) - (20 + Math.random() * 60);
+                piece.style.left = '50%';
+                piece.style.top = '56%';
+                piece.style.setProperty('--tx', `${tx.toFixed(1)}px`);
+                piece.style.setProperty('--ty', `${ty.toFixed(1)}px`);
+                piece.style.setProperty('--rot', `${(-140 + Math.random() * 280).toFixed(0)}deg`);
+                piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+                piece.style.animationDelay = `${(Math.random() * 120).toFixed(0)}ms`;
+                layer.appendChild(piece);
+            }
+            setTimeout(() => { layer.innerHTML = ''; }, 1200);
+        }
+
         function updateSectionRailActive() {
             if (!railLinks.length) return;
             const anchor = window.innerHeight * 0.3;
@@ -4226,6 +4738,7 @@
             setupAssetCategoryChips();
             setupTopNav();
             setupSectionRail();
+            setupResultsTabs();
             applyTheme(byId('themeMode')?.value || localStorage.getItem(themeStorageKey) || 'midnight-gold');
             loadData();
             const historyYearEl = byId('historyYear');
