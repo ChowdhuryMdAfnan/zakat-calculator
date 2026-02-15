@@ -41,6 +41,76 @@
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+            isolation: isolate;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: -8%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.028;
+            background:
+                radial-gradient(circle at 20% 12%, rgba(244, 212, 123, 0.2), transparent 42%),
+                repeating-conic-gradient(
+                    from 0deg at 50% 50%,
+                    rgba(244, 212, 123, 0.6) 0deg 8deg,
+                    rgba(244, 212, 123, 0) 8deg 16deg
+                );
+            background-size: 140% 140%, 280px 280px;
+            background-position: center center;
+            mask-image: radial-gradient(circle at center, black 12%, rgba(0, 0, 0, 0.48) 56%, transparent 86%);
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: min(25vh, 230px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.085;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: bottom center;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 260' preserveAspectRatio='none'%3E%3Cpath fill='%23060d1a' d='M0 260V212c40-4 64-26 96-26 37 0 61 22 93 22 30 0 54-20 90-20s54 18 90 18c28 0 52-16 76-16 38 0 56 24 94 24 32 0 54-18 86-18 28 0 50 12 80 12 42 0 64-36 106-36 44 0 62 32 104 32 26 0 44-14 70-14 39 0 56 22 92 22 34 0 54-22 88-22 38 0 58 30 96 30 34 0 52-22 86-22 30 0 56 20 86 20 34 0 60-22 88-22 38 0 56 24 95 24 31 0 49-14 79-14 25 0 43 8 69 16V260Z'/%3E%3Cpath fill='%23091121' d='M172 211c10-52 35-82 70-82s60 30 70 82zm366 5c8-40 28-64 56-64s49 24 56 64zm178-2c12-68 46-108 92-108s80 40 92 108zm306 0c9-48 34-76 68-76 34 0 58 28 67 76zm250 0c7-32 21-52 38-52 17 0 31 20 38 52z'/%3E%3Ccircle cx='762' cy='105' r='10' fill='%23091121'/%3E%3Cpath fill='%23091121' d='M772 103c10-11 23-16 36-16 13 0 24 4 31 12-8-3-14-4-21-4-18 0-30 8-46 22z'/%3E%3C/svg%3E");
+            filter: blur(1.4px);
+        }
+
+        .aurora-layer {
+            position: fixed;
+            inset: -10% -6% auto -6%;
+            height: 72vh;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.18;
+            background:
+                radial-gradient(42% 40% at 28% 18%, rgba(39, 167, 197, 0.34), transparent 70%),
+                radial-gradient(38% 36% at 58% 12%, rgba(78, 118, 221, 0.26), transparent 72%),
+                radial-gradient(44% 40% at 84% 20%, rgba(101, 172, 144, 0.22), transparent 72%);
+            filter: blur(38px) saturate(110%);
+            animation: auroraDrift 28s ease-in-out infinite alternate;
+            transform-origin: 50% 20%;
+        }
+
+        @keyframes auroraDrift {
+            0% {
+                transform: translate3d(-1.5%, -1%, 0) scale(1);
+                opacity: 0.14;
+            }
+            50% {
+                transform: translate3d(1.8%, 0.5%, 0) scale(1.04);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate3d(3.5%, -1.5%, 0) scale(1.08);
+                opacity: 0.16;
+            }
         }
 
         .top-nav {
@@ -53,6 +123,24 @@
             background: linear-gradient(180deg, rgba(3, 10, 22, 0.88) 0%, rgba(3, 10, 22, 0.62) 100%);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .nav-progress {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 2px;
+            background: rgba(148, 163, 184, 0.2);
+            overflow: hidden;
+        }
+
+        .nav-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0.7), rgba(244, 212, 123, 0.95), rgba(212, 175, 55, 0.72));
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.45);
+            transition: width 0.2s linear;
         }
 
         .top-nav-inner {
@@ -74,19 +162,40 @@
 
         .top-nav-links {
             display: flex;
+            position: relative;
             gap: 0.55rem;
             flex-wrap: nowrap;
             overflow-x: auto;
             scrollbar-width: none;
+            padding: 0.18rem;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            background: rgba(15, 23, 42, 0.35);
         }
 
         .top-nav-links::-webkit-scrollbar {
             display: none;
         }
 
+        .top-link-indicator {
+            position: absolute;
+            top: 0.16rem;
+            left: 0.16rem;
+            width: 0;
+            height: calc(100% - 0.32rem);
+            border-radius: 999px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.24), rgba(244, 212, 123, 0.16));
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.12), 0 6px 16px rgba(0, 0, 0, 0.24);
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), width 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0;
+        }
+
         .top-link {
             border: 1px solid rgba(148, 163, 184, 0.22);
-            background: rgba(15, 23, 42, 0.55);
+            background: rgba(15, 23, 42, 0.14);
             color: var(--text-secondary);
             border-radius: 999px;
             padding: 0.5rem 0.95rem;
@@ -94,7 +203,28 @@
             font-weight: 600;
             white-space: nowrap;
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .top-link::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -140%;
+            width: 34%;
+            transform: skewX(-18deg);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 247, 214, 0.34), rgba(255, 255, 255, 0));
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .top-link:hover::after {
+            opacity: 1;
+            animation: navGlint 1s ease;
         }
 
         .top-link:hover {
@@ -104,9 +234,9 @@
 
         .top-link.active {
             color: var(--text-primary);
-            border-color: rgba(212, 175, 55, 0.75);
-            background: rgba(212, 175, 55, 0.14);
-            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18);
+            border-color: transparent;
+            background: transparent;
+            box-shadow: none;
         }
 
         .top-nav-controls {
@@ -116,22 +246,50 @@
             flex-shrink: 0;
         }
 
+        .top-theme-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.42rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 12px;
+            padding: 0 0.4rem 0 0.6rem;
+            background: rgba(15, 23, 42, 0.62);
+        }
+
+        .top-theme-icon {
+            font-size: 0.9rem;
+            line-height: 1;
+            opacity: 0.95;
+        }
+
+        .top-theme-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
         .top-nav-theme {
-            min-width: 156px;
+            min-width: 130px;
             height: 40px;
             border-radius: 12px;
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            background: rgba(15, 23, 42, 0.62);
+            border: 0;
+            background: transparent;
             color: var(--text-primary);
             font-size: 0.82rem;
             font-weight: 600;
-            padding: 0 0.75rem;
+            padding: 0 0.55rem;
         }
 
         .top-nav-theme:focus-visible {
             outline: none;
             border-color: rgba(212, 175, 55, 0.75);
             box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.16);
+        }
+
+        @keyframes navGlint {
+            0% { left: -140%; }
+            100% { left: 155%; }
         }
 
         .nav-spacer {
@@ -234,7 +392,7 @@
             background-size: 200% 200%;
             animation: twinkle 8s ease-in-out infinite;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         @keyframes twinkle {
@@ -252,6 +410,67 @@
             padding: 2rem;
             overflow: hidden;
             z-index: 1;
+        }
+
+        .hero-particles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-particle {
+            position: absolute;
+            left: var(--x, 50%);
+            top: var(--y, 50%);
+            opacity: 0.34;
+            animation: particleFloat var(--dur, 14s) ease-in-out infinite;
+            animation-delay: var(--delay, 0s);
+            transform-origin: center;
+            filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.25));
+        }
+
+        .floating-particle.crescent {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(244, 212, 123, 0.8);
+        }
+
+        .floating-particle.crescent::after {
+            content: "";
+            position: absolute;
+            inset: 1px;
+            left: 5px;
+            border-radius: 50%;
+            background: var(--dark-bg);
+        }
+
+        .floating-particle.lantern {
+            width: 10px;
+            height: 14px;
+            border-radius: 3px;
+            border: 1px solid rgba(244, 212, 123, 0.7);
+            background: linear-gradient(180deg, rgba(244, 212, 123, 0.45), rgba(244, 212, 123, 0.1));
+            box-shadow: 0 0 12px rgba(212, 175, 55, 0.22);
+        }
+
+        .floating-particle.lantern::before {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 2px;
+            left: 50%;
+            top: -4px;
+            transform: translateX(-50%);
+            border-radius: 999px;
+            background: rgba(244, 212, 123, 0.65);
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0.22; }
+            40% { transform: translate3d(8px, -14px, 0) rotate(4deg); opacity: 0.36; }
+            70% { transform: translate3d(-6px, -20px, 0) rotate(-3deg); opacity: 0.3; }
         }
 
         .moon {
@@ -351,15 +570,53 @@
         }
 
         .verse-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(32, 44, 66, 0.46) 0%, rgba(20, 30, 48, 0.5) 100%);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 18px;
             padding: 2rem;
             margin-bottom: 3rem;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                inset 0 0 36px rgba(212, 175, 55, 0.08),
+                0 12px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .verse-container::before {
+            content: "";
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            top: 0;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(212, 175, 55, 0), rgba(244, 212, 123, 0.9), rgba(212, 175, 55, 0));
+            opacity: 0.8;
+        }
+
+        .verse-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -55%;
+            width: 30%;
+            transform: skewX(-18deg);
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0), rgba(255, 241, 196, 0.22), rgba(255, 255, 255, 0));
+            opacity: 0;
+            animation: plaqueShimmer 9s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes plaqueShimmer {
+            0%, 82% { left: -55%; opacity: 0; }
+            85% { opacity: 0.12; }
+            94% { left: 130%; opacity: 0.2; }
+            100% { left: 130%; opacity: 0; }
         }
 
         .verse-text {
@@ -381,7 +638,88 @@
             gap: 1.5rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 4rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .hero-preview-card {
+            max-width: 560px;
+            margin: 0 auto 2.8rem;
+            padding: 1rem 1.05rem 1.05rem;
+            border-radius: 16px;
+            background: linear-gradient(180deg, rgba(17, 29, 50, 0.72) 0%, rgba(12, 23, 39, 0.78) 100%);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 10px 26px rgba(0, 0, 0, 0.25);
+            text-align: left;
+        }
+
+        .hero-preview-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(210, 221, 238, 0.85);
+            margin-bottom: 0.8rem;
+        }
+
+        .preview-pill {
+            border-radius: 999px;
+            padding: 0.2rem 0.55rem;
+            background: rgba(212, 175, 55, 0.18);
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            color: #f4d47b;
+            font-size: 0.72rem;
+            letter-spacing: 0.02em;
+            text-transform: none;
+        }
+
+        .hero-preview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.55rem 0.9rem;
+            margin-bottom: 0.72rem;
+        }
+
+        .hero-preview-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .hero-preview-item span {
+            font-size: 0.72rem;
+            color: rgba(155, 173, 199, 0.92);
+        }
+
+        .hero-preview-item strong {
+            font-size: 0.92rem;
+            color: #e8eef9;
+            font-weight: 700;
+        }
+
+        .hero-preview-due {
+            border-top: 1px solid rgba(148, 163, 184, 0.2);
+            padding-top: 0.72rem;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 0.7rem;
+        }
+
+        .hero-preview-due-label {
+            font-size: 0.78rem;
+            color: rgba(169, 188, 214, 0.9);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-preview-due-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #f4d47b;
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
         }
 
         .btn {
@@ -654,7 +992,78 @@
         #assetsCard .calc-card-title {
             font-size: 2.1rem;
             color: color-mix(in srgb, var(--gold-light) 88%, #fff 12%);
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .assets-topbar {
+            position: sticky;
+            top: 10px;
+            z-index: 5;
+            margin: 0 0 1.15rem;
+            padding: 0.7rem 0.85rem 0.8rem;
+            border-radius: 14px;
+            border: 1px solid rgba(212, 175, 55, 0.34);
+            background: linear-gradient(180deg, rgba(16, 28, 48, 0.96) 0%, rgba(11, 20, 34, 0.94) 100%);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.2);
+        }
+
+        .assets-live-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .assets-live-label {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: color-mix(in srgb, var(--gold-light) 70%, var(--text-secondary) 30%);
+        }
+
+        .assets-live-total {
+            font-size: 1.08rem;
+            font-weight: 800;
+            color: #f7df8a;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.24);
+        }
+
+        .assets-live-sub {
+            font-size: 0.75rem;
+            color: rgba(176, 193, 218, 0.86);
+            text-align: right;
+            width: 100%;
+            margin: 0 0 0.45rem;
+        }
+
+        .asset-category-chips {
+            display: flex;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+            margin-top: 0.1rem;
+        }
+
+        .asset-chip {
+            border: 1px solid rgba(148, 163, 184, 0.28);
+            background: rgba(15, 23, 42, 0.64);
+            color: var(--text-secondary);
+            border-radius: 999px;
+            padding: 0.3rem 0.68rem;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .asset-chip:hover {
+            color: var(--text-primary);
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.16);
+            transform: translateY(-1px);
         }
 
         #assetsCard .section-icon {
@@ -914,6 +1323,7 @@
             box-shadow: 0 8px 30px rgba(0,0,0,.25);
             position: relative;
             overflow: hidden;
+            isolation: isolate;
         }
 
         .calc-card::after {
@@ -1058,9 +1468,30 @@
         }
 
         .split-panel {
-            margin-top: 0.85rem;
+            margin-top: 0.75rem;
+            padding-top: 0;
+            border-top: 1px dashed transparent;
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(-4px);
+            overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), padding-top 0.25s ease, border-color 0.25s ease;
+        }
+
+        .split-panel.open {
+            max-height: 280px;
+            opacity: 1;
+            transform: translateY(0);
             padding-top: 0.85rem;
-            border-top: 1px dashed var(--border-color);
+            border-top-color: var(--border-color);
+        }
+
+        .asset-group {
+            scroll-margin-top: 220px;
+        }
+
+        #assetsCard > .form-label {
+            margin-bottom: 0.85rem;
         }
 
         .split-grid {
@@ -1307,6 +1738,7 @@
             z-index: 3;
             text-align: center;
             overflow: hidden;
+            isolation: isolate;
         }
 
         .results-card::before {
@@ -1327,6 +1759,169 @@
         .results-card > * {
             position: relative;
             z-index: 1;
+        }
+
+        #settingsCard::before,
+        #assetsCard::before,
+        #debtsCard::before,
+        #resultsCard::before,
+        #historyCard::before {
+            content: "";
+            position: absolute;
+            inset: -24% -12%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.88;
+            filter: blur(4px) saturate(120%);
+        }
+
+        #settingsCard::before {
+            background: radial-gradient(60% 52% at 18% 14%, rgba(74, 135, 219, 0.5), rgba(74, 135, 219, 0));
+        }
+
+        #assetsCard::before {
+            background: radial-gradient(66% 56% at 50% 10%, rgba(212, 175, 55, 0.58), rgba(212, 175, 55, 0));
+        }
+
+        #debtsCard::before {
+            background: radial-gradient(62% 52% at 78% 16%, rgba(239, 115, 51, 0.5), rgba(239, 115, 51, 0));
+        }
+
+        #resultsCard::before {
+            display: block;
+            background:
+                radial-gradient(56% 52% at 28% 14%, rgba(212, 175, 55, 0.5), rgba(212, 175, 55, 0)),
+                radial-gradient(56% 52% at 76% 18%, rgba(20, 184, 166, 0.42), rgba(20, 184, 166, 0));
+        }
+
+        #historyCard::before {
+            background: radial-gradient(64% 56% at 24% 14%, rgba(104, 92, 201, 0.5), rgba(104, 92, 201, 0));
+        }
+
+        #settingsCard > *,
+        #assetsCard > *,
+        #debtsCard > *,
+        #historyCard > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        #settingsCard {
+            border-color: rgba(74, 135, 219, 0.32);
+        }
+
+        #assetsCard {
+            border-color: rgba(212, 175, 55, 0.34);
+        }
+
+        #debtsCard {
+            border-color: rgba(239, 115, 51, 0.34);
+        }
+
+        #debtsCard .calc-card-title {
+            color: #ffb27a;
+            text-shadow: 0 0 12px rgba(239, 115, 51, 0.24);
+        }
+
+        #debtsCard .section-icon {
+            background: rgba(239, 115, 51, 0.16);
+            border-color: rgba(239, 115, 51, 0.45);
+            color: #ffc39b;
+        }
+
+        #debtsCard .form-input {
+            border-color: rgba(239, 115, 51, 0.28);
+        }
+
+        #debtsCard .form-input:focus {
+            border-color: rgba(239, 115, 51, 0.72);
+            box-shadow: 0 0 0 2px rgba(239, 115, 51, 0.18), 0 8px 18px rgba(239, 115, 51, 0.14);
+        }
+
+        #debtsCard .money-input {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            max-width: 560px;
+        }
+
+        #debtsCard .money-input .form-input {
+            width: 100%;
+            padding-right: 1.1rem;
+        }
+
+        #debtsCard .currency-mini {
+            position: static;
+            transform: none;
+            min-width: 72px;
+            height: 40px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .debt-helper-row {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            margin-top: 0.52rem;
+            padding: 0.34rem 0.58rem;
+            border-radius: 999px;
+            border: 1px solid rgba(239, 115, 51, 0.35);
+            background: rgba(239, 115, 51, 0.1);
+            color: #ffc39b;
+            font-size: 0.78rem;
+            line-height: 1.2;
+            position: relative;
+        }
+
+        .debt-helper-icon {
+            width: 16px;
+            height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            border: 1px solid rgba(239, 115, 51, 0.5);
+            font-size: 0.68rem;
+            font-weight: 700;
+            cursor: help;
+        }
+
+        .debt-helper-tip {
+            position: absolute;
+            left: 0;
+            top: calc(100% + 0.42rem);
+            width: min(320px, 82vw);
+            padding: 0.56rem 0.66rem;
+            border-radius: 10px;
+            border: 1px solid rgba(239, 115, 51, 0.45);
+            background: rgba(18, 13, 11, 0.94);
+            color: #ffd5bb;
+            font-size: 0.76rem;
+            line-height: 1.45;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+            opacity: 0;
+            transform: translateY(4px);
+            pointer-events: none;
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            z-index: 8;
+        }
+
+        .debt-helper-row:hover .debt-helper-tip,
+        .debt-helper-row:focus-within .debt-helper-tip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #resultsCard {
+            border-color: rgba(212, 175, 55, 0.34);
+        }
+
+        #historyCard {
+            border-color: rgba(104, 92, 201, 0.34);
         }
 
         .result-row {
@@ -1708,10 +2303,16 @@
 
             .top-nav-controls {
                 justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .top-theme-wrap {
+                width: fit-content;
+                margin: 0 auto;
             }
 
             .top-nav-theme {
-                min-width: 136px;
+                min-width: 120px;
             }
 
             .nav-spacer {
@@ -1734,6 +2335,20 @@
                 align-items: center;
             }
 
+            .hero-preview-card {
+                margin-bottom: 2rem;
+                padding: 0.9rem;
+            }
+
+            .hero-preview-grid {
+                grid-template-columns: 1fr;
+                gap: 0.5rem;
+            }
+
+            .hero-particles .floating-particle:nth-child(n+5) {
+                display: none;
+            }
+
             .btn {
                 width: 100%;
                 max-width: 300px;
@@ -1745,6 +2360,11 @@
 
             #assetsCard .form-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .assets-topbar {
+                top: 8px;
+                margin-bottom: 0.95rem;
             }
 
             #assetsCard .money-input .form-input {
@@ -1791,6 +2411,19 @@
             }
 
             .ramadan-crescent {
+                animation: none !important;
+            }
+
+            .aurora-layer {
+                animation: none !important;
+                transform: none !important;
+                opacity: 0.1 !important;
+            }
+
+            .top-link-indicator,
+            .top-link::after,
+            .nav-progress-fill {
+                transition: none !important;
                 animation: none !important;
             }
 
@@ -1909,12 +2542,14 @@
     </style>
 </head>
 <body>
+    <div class="aurora-layer" aria-hidden="true"></div>
     <div class="starfield"></div>
     <header class="top-nav" aria-label="Main navigation">
         <div class="top-nav-inner">
             <div class="top-nav-logo">Zakat App</div>
             <div class="top-nav-controls">
                 <nav class="top-nav-links">
+                    <span class="top-link-indicator" aria-hidden="true"></span>
                     <button type="button" class="top-link active" data-nav-target="landing">Home</button>
                     <button type="button" class="top-link" data-nav-target="how-it-works">How It Works</button>
                     <button type="button" class="top-link" data-nav-target="calculator">Calculator</button>
@@ -1923,14 +2558,19 @@
                     <button type="button" class="top-link" data-nav-target="resultsCard">Results</button>
                     <button type="button" class="top-link" data-nav-target="historyCard">History</button>
                 </nav>
-                <select id="topThemeMode" class="top-nav-theme" aria-label="Theme mode">
-                    <option value="midnight-gold">Midnight Gold</option>
-                    <option value="emerald-night">Emerald Night</option>
-                    <option value="royal-indigo">Royal Indigo</option>
-                    <option value="teal-dawn">Teal Dawn</option>
-                </select>
+                <div class="top-theme-wrap">
+                    <span class="top-theme-icon" aria-hidden="true">🎨</span>
+                    <span class="top-theme-label" id="topThemeLabel">Midnight Gold</span>
+                    <select id="topThemeMode" class="top-nav-theme" aria-label="Theme mode">
+                        <option value="midnight-gold">Midnight Gold</option>
+                        <option value="emerald-night">Emerald Night</option>
+                        <option value="royal-indigo">Royal Indigo</option>
+                        <option value="teal-dawn">Teal Dawn</option>
+                    </select>
+                </div>
             </div>
         </div>
+        <div class="nav-progress" aria-hidden="true"><div class="nav-progress-fill" id="navProgressFill"></div></div>
     </header>
     <div class="nav-spacer" aria-hidden="true"></div>
 
@@ -1939,6 +2579,14 @@
             <div class="moon-crater crater-1"></div>
             <div class="moon-crater crater-2"></div>
             <div class="moon-crater crater-3"></div>
+        </div>
+        <div class="hero-particles" aria-hidden="true">
+            <span class="floating-particle crescent" style="--x: 14%; --y: 26%; --dur: 15s; --delay: -2s;"></span>
+            <span class="floating-particle lantern" style="--x: 24%; --y: 38%; --dur: 18s; --delay: -5s;"></span>
+            <span class="floating-particle crescent" style="--x: 78%; --y: 24%; --dur: 16s; --delay: -1.5s;"></span>
+            <span class="floating-particle lantern" style="--x: 86%; --y: 46%; --dur: 19s; --delay: -6.5s;"></span>
+            <span class="floating-particle crescent" style="--x: 64%; --y: 62%; --dur: 17s; --delay: -3.2s;"></span>
+            <span class="floating-particle lantern" style="--x: 36%; --y: 68%; --dur: 20s; --delay: -7.4s;"></span>
         </div>
 
         <div class="hero-content">
@@ -1955,6 +2603,35 @@
             <div class="cta-buttons">
                 <button id="calculateCtaBtn" class="btn btn-primary">Calculate Your Zakat</button>
                 <a href="#how-it-works" class="btn btn-secondary">Learn How It Works</a>
+            </div>
+
+            <div class="hero-preview-card" aria-label="App preview">
+                <div class="hero-preview-head">
+                    <span>Mini Calculator Preview</span>
+                    <span class="preview-pill">Offline</span>
+                </div>
+                <div class="hero-preview-grid">
+                    <div class="hero-preview-item">
+                        <span>Total Assets</span>
+                        <strong>BDT 1,230,000</strong>
+                    </div>
+                    <div class="hero-preview-item">
+                        <span>Debts</span>
+                        <strong>BDT 180,000</strong>
+                    </div>
+                    <div class="hero-preview-item">
+                        <span>Nisab (Silver)</span>
+                        <strong>BDT 188,726</strong>
+                    </div>
+                    <div class="hero-preview-item">
+                        <span>Status</span>
+                        <strong>Above Nisab</strong>
+                    </div>
+                </div>
+                <div class="hero-preview-due">
+                    <span class="hero-preview-due-label">Estimated Zakat Due</span>
+                    <span class="hero-preview-due-value">BDT 26,250</span>
+                </div>
             </div>
 
             <div class="why-zakat">
@@ -2149,9 +2826,22 @@
 
         <div class="calc-card" id="assetsCard">
             <h3 class="calc-card-title"><span class="section-icon">💎</span>Your Assets</h3>
+            <div class="assets-topbar" id="assetsTopbar">
+                <div class="assets-live-row">
+                    <span class="assets-live-label">Live Total Assets</span>
+                    <span class="assets-live-total" id="assetsLiveTotal">BDT 0.00</span>
+                </div>
+                <div class="assets-live-sub" id="assetsLiveTotalSub">USD 0.00</div>
+                <div class="asset-category-chips" aria-label="Asset categories">
+                    <button type="button" class="asset-chip" data-asset-jump="assetsCashGroup">Cash</button>
+                    <button type="button" class="asset-chip" data-asset-jump="assetsMetalsGroup">Metals</button>
+                    <button type="button" class="asset-chip" data-asset-jump="assetsInvestmentsGroup">Investments</button>
+                    <button type="button" class="asset-chip" data-asset-jump="assetsBusinessGroup">Business</button>
+                </div>
+            </div>
             <p class="form-label">Core Assets</p>
             <div class="form-grid">
-                <div class="form-group">
+                <div class="form-group asset-group" id="assetsCashGroup">
                     <label class="form-label">Cash & Bank (Total)</label>
                     <div class="money-input">
                         <input type="number" id="cashBankTotalAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
@@ -2159,7 +2849,7 @@
                         <button type="button" class="currency-mini" data-currency-for="cashBankTotalCur">BDT</button>
                     </div>
                     <button type="button" class="split-link" id="splitCashBankBtn">Split details</button>
-                    <div class="split-panel" id="splitCashBankPanel" hidden>
+                    <div class="split-panel" id="splitCashBankPanel">
                         <div class="split-grid">
                             <div class="form-group">
                                 <label class="form-label">Cash at Home</label>
@@ -2183,7 +2873,7 @@
                     <div class="core-entry-list" id="cashBankExtraList"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group asset-group" id="assetsInvestmentsGroup">
                     <label class="form-label">Stocks & Investments</label>
                     <div class="money-input">
                         <input type="number" id="investmentsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
@@ -2194,7 +2884,7 @@
                     <div class="core-entry-list" id="stocksExtraList"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group asset-group" id="assetsMetalsGroup">
                     <label class="form-label">Gold (Cash Value)</label>
                     <div class="money-input">
                         <input type="number" id="goldAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
@@ -2216,7 +2906,7 @@
                     <div class="core-entry-list" id="silverExtraList"></div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group asset-group" id="assetsBusinessGroup">
                     <label class="form-label">Business Inventory</label>
                     <div class="money-input">
                         <input type="number" id="businessAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
@@ -2274,6 +2964,11 @@
                         <input type="number" id="debtsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
                         <input type="hidden" id="debtsCur" value="BDT">
                         <button type="button" class="currency-mini" data-currency-for="debtsCur">BDT</button>
+                    </div>
+                    <div class="debt-helper-row" role="note" aria-label="Debts helper">
+                        <span>Only short-term debts count</span>
+                        <span class="debt-helper-icon" tabindex="0" aria-label="More info">i</span>
+                        <span class="debt-helper-tip">Include only debts due within the current lunar year. Long-term liabilities are usually not deducted from zakatable wealth.</span>
                     </div>
                 </div>
             </div>
@@ -2385,6 +3080,7 @@
         let quickStepSections = [];
         let topNavLinks = [];
         let topNavSections = [];
+        let topLinkIndicator = null;
         let railLinks = [];
         let railSections = [];
         const calcInputIds = new Set([
@@ -2427,6 +3123,45 @@
             if (themeEl && themeEl.value !== mode) themeEl.value = mode;
             const topThemeEl = byId('topThemeMode');
             if (topThemeEl && topThemeEl.value !== mode) topThemeEl.value = mode;
+            updateTopThemeLabel(mode);
+        }
+
+        function themeLabelFromMode(mode) {
+            const labels = {
+                'midnight-gold': 'Midnight Gold',
+                'emerald-night': 'Emerald Night',
+                'royal-indigo': 'Royal Indigo',
+                'teal-dawn': 'Teal Dawn'
+            };
+            return labels[mode] || 'Midnight Gold';
+        }
+
+        function updateTopThemeLabel(mode) {
+            const labelEl = byId('topThemeLabel');
+            if (!labelEl) return;
+            const currentMode = mode || byId('topThemeMode')?.value || byId('themeMode')?.value || 'midnight-gold';
+            labelEl.textContent = themeLabelFromMode(currentMode);
+        }
+
+        function updateTopNavIndicator() {
+            if (!topLinkIndicator || !topNavLinks.length) return;
+            const activeLink = topNavLinks.find((link) => link.classList.contains('active')) || topNavLinks[0];
+            if (!activeLink) return;
+            const parentRect = activeLink.parentElement?.getBoundingClientRect();
+            const linkRect = activeLink.getBoundingClientRect();
+            if (!parentRect) return;
+            const x = linkRect.left - parentRect.left;
+            topLinkIndicator.style.width = `${linkRect.width}px`;
+            topLinkIndicator.style.transform = `translateX(${x}px)`;
+            topLinkIndicator.style.opacity = "1";
+        }
+
+        function updateNavProgress() {
+            const fill = byId('navProgressFill');
+            if (!fill) return;
+            const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            const pct = Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100));
+            fill.style.width = `${pct.toFixed(2)}%`;
         }
 
         function getZakatHistory() {
@@ -2793,6 +3528,36 @@
             (entries || []).forEach((entry) => addExtraAssetRow(entry));
         }
 
+        function setSplitPanelOpen(isOpen) {
+            const splitPanel = byId('splitCashBankPanel');
+            const splitBtn = byId('splitCashBankBtn');
+            if (!splitPanel || !splitBtn) return;
+            splitPanel.classList.toggle('open', isOpen);
+            splitBtn.textContent = isOpen ? 'Hide split details' : 'Split details';
+            splitBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        }
+
+        function setupAssetCategoryChips() {
+            document.querySelectorAll('.asset-chip[data-asset-jump]').forEach((chip) => {
+                chip.addEventListener('click', () => {
+                    const targetId = chip.getAttribute('data-asset-jump');
+                    const rawTarget = targetId ? byId(targetId) : null;
+                    if (!rawTarget) return;
+
+                    // Keep the section heading visible under fixed top-nav + sticky assets bar.
+                    const topNavH = document.querySelector('.top-nav')?.offsetHeight || 64;
+                    const assetsBarH = byId('assetsTopbar')?.offsetHeight || 0;
+                    const extraGap = 20;
+                    const offset = topNavH + Math.min(assetsBarH, 86) + extraGap;
+
+                    // "Cash" should jump to the top of assets, not below the heading.
+                    const target = targetId === 'assetsCashGroup' ? (byId('assetsCard') || rawTarget) : rawTarget;
+                    const targetY = Math.max(0, window.scrollY + target.getBoundingClientRect().top - offset);
+                    window.scrollTo({ top: targetY, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+                });
+            });
+        }
+
         function updateCurrentDates() {
             const now = new Date();
             const gregorianEl = document.getElementById('todayGregorian');
@@ -2983,6 +3748,14 @@
             animateNumber(byId('bdReceivables'), bdtToDisplay(receivablesTotalBdt), (v) => { byId('bdReceivables').textContent = symbol + formatter.format(v); });
             animateNumber(byId('bdExtraAssets'), bdtToDisplay(extraAssetsBdt), (v) => { byId('bdExtraAssets').textContent = symbol + formatter.format(v); });
             animateNumber(byId('bdDebts'), bdtToDisplay(debtsBdt), (v) => { byId('bdDebts').textContent = symbol + formatter.format(v); });
+            const assetsLiveTotalEl = byId('assetsLiveTotal');
+            if (assetsLiveTotalEl) assetsLiveTotalEl.textContent = symbol + formatter.format(totalAssets);
+            const assetsLiveTotalSubEl = byId('assetsLiveTotalSub');
+            if (assetsLiveTotalSubEl) {
+                assetsLiveTotalSubEl.textContent = currency === 'BDT'
+                    ? ("USD " + formatter.format(usdToBdt > 0 ? (totalAssetsBdt / usdToBdt) : 0))
+                    : ("BDT " + formatter.format(totalAssetsBdt));
+            }
             updateHawlReminderUI();
 
             const finalCard = document.querySelector('.final-result');
@@ -3140,10 +3913,7 @@
                 if (splitPanel && splitBtn) {
                     const cashSplit = parseFloat(data.cashAmt || '0') || 0;
                     const bankSplit = parseFloat(data.bankAmt || '0') || 0;
-                    if (cashSplit > 0 || bankSplit > 0) {
-                        splitPanel.removeAttribute('hidden');
-                        splitBtn.textContent = 'Hide split details';
-                    }
+                    setSplitPanelOpen(cashSplit > 0 || bankSplit > 0);
                 }
                 syncDefaultCurrenciesToMain();
                 recalcFast();
@@ -3151,6 +3921,7 @@
                 restoreCoreExtraEntries({});
                 restoreExtraAssets([]);
                 syncDefaultCurrenciesToMain();
+                setSplitPanelOpen(false);
                 const lastPaidEl = document.getElementById('lastZakatPaid');
                 if (lastPaidEl && !lastPaidEl.value) {
                     lastPaidEl.value = new Date().toISOString().slice(0, 10);
@@ -3258,6 +4029,7 @@
 
         function setupTopNav() {
             topNavLinks = Array.from(document.querySelectorAll('.top-link[data-nav-target]'));
+            topLinkIndicator = document.querySelector('.top-link-indicator');
             topNavSections = topNavLinks
                 .map((link) => byId(link.getAttribute('data-nav-target') || ''))
                 .filter(Boolean);
@@ -3266,6 +4038,8 @@
                 link.addEventListener('click', () => {
                     const target = byId(link.getAttribute('data-nav-target') || '');
                     if (!target) return;
+                    topNavLinks.forEach((item) => item.classList.toggle('active', item === link));
+                    updateTopNavIndicator();
                     target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
                 });
             });
@@ -3277,6 +4051,10 @@
                     scheduleSaveData(0);
                 });
             }
+            window.addEventListener('resize', updateTopNavIndicator, { passive: true });
+            updateTopThemeLabel();
+            updateTopNavIndicator();
+            updateNavProgress();
         }
 
         function updateTopNavActive() {
@@ -3292,6 +4070,7 @@
             topNavLinks.forEach((link) => {
                 link.classList.toggle('active', link.getAttribute('data-nav-target') === activeId);
             });
+            updateTopNavIndicator();
         }
 
         function setupSectionRail() {
@@ -3336,6 +4115,7 @@
             updateTopNavActive();
             updateSectionRailActive();
             updateQuickStartProgress();
+            updateNavProgress();
             scrollRafId = null;
         }
 
@@ -3352,14 +4132,8 @@
             const splitPanel = byId('splitCashBankPanel');
             if (splitBtn && splitPanel) {
                 splitBtn.addEventListener('click', () => {
-                    const isHidden = splitPanel.hasAttribute('hidden');
-                    if (isHidden) {
-                        splitPanel.removeAttribute('hidden');
-                        splitBtn.textContent = 'Hide split details';
-                    } else {
-                        splitPanel.setAttribute('hidden', '');
-                        splitBtn.textContent = 'Split details';
-                    }
+                    const isOpen = splitPanel.classList.contains('open');
+                    setSplitPanelOpen(!isOpen);
                 });
             }
 
@@ -3449,6 +4223,7 @@
             fillHijriDayOptions();
             setupScrollReveal();
             setupMoonParallax();
+            setupAssetCategoryChips();
             setupTopNav();
             setupSectionRail();
             applyTheme(byId('themeMode')?.value || localStorage.getItem(themeStorageKey) || 'midnight-gold');
