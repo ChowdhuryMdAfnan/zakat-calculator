@@ -25,18 +25,196 @@
             --teal-accent: #14b8a6;
             --indigo-soft: rgba(74, 85, 170, 0.16);
             --purple-depth: rgba(99, 70, 145, 0.12);
+            --page-glow-a: rgba(13, 29, 61, 0.28);
+            --page-glow-b: rgba(5, 56, 68, 0.18);
+            --page-base-start: #040913;
+            --page-base-end: #040812;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background:
-                radial-gradient(1200px 600px at 15% 5%, rgba(13, 29, 61, 0.28) 0%, rgba(13, 29, 61, 0) 60%),
-                radial-gradient(900px 460px at 85% 8%, rgba(5, 56, 68, 0.18) 0%, rgba(5, 56, 68, 0) 62%),
+                radial-gradient(1200px 600px at 15% 5%, var(--page-glow-a) 0%, rgba(13, 29, 61, 0) 60%),
+                radial-gradient(900px 460px at 85% 8%, var(--page-glow-b) 0%, rgba(5, 56, 68, 0) 62%),
                 radial-gradient(1100px 520px at 50% 40%, var(--indigo-soft) 0%, rgba(74, 85, 170, 0) 70%),
-                linear-gradient(180deg, #040913 0%, var(--dark-bg) 55%, #040812 100%);
+                linear-gradient(180deg, var(--page-base-start) 0%, var(--dark-bg) 55%, var(--page-base-end) 100%);
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
+        }
+
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1200;
+            padding: 0.65rem 1rem;
+            background: linear-gradient(180deg, rgba(3, 10, 22, 0.88) 0%, rgba(3, 10, 22, 0.62) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+        }
+
+        .top-nav-inner {
+            max-width: 1260px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .top-nav-logo {
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 0.02em;
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+
+        .top-nav-links {
+            display: flex;
+            gap: 0.55rem;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .top-nav-links::-webkit-scrollbar {
+            display: none;
+        }
+
+        .top-link {
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(15, 23, 42, 0.55);
+            color: var(--text-secondary);
+            border-radius: 999px;
+            padding: 0.5rem 0.95rem;
+            font-size: 0.86rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .top-link:hover {
+            color: var(--text-primary);
+            border-color: rgba(212, 175, 55, 0.55);
+        }
+
+        .top-link.active {
+            color: var(--text-primary);
+            border-color: rgba(212, 175, 55, 0.75);
+            background: rgba(212, 175, 55, 0.14);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18);
+        }
+
+        .top-nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            flex-shrink: 0;
+        }
+
+        .top-nav-theme {
+            min-width: 156px;
+            height: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            background: rgba(15, 23, 42, 0.62);
+            color: var(--text-primary);
+            font-size: 0.82rem;
+            font-weight: 600;
+            padding: 0 0.75rem;
+        }
+
+        .top-nav-theme:focus-visible {
+            outline: none;
+            border-color: rgba(212, 175, 55, 0.75);
+            box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.16);
+        }
+
+        .nav-spacer {
+            height: 64px;
+        }
+
+        #landing,
+        #how-it-works,
+        #calculator,
+        #settingsCard,
+        #assetsCard,
+        #debtsCard,
+        #resultsCard,
+        #historyCard {
+            scroll-margin-top: 84px;
+        }
+
+        body[data-theme="midnight-gold"] {
+            --dark-bg: #050a16;
+            --darker-bg: #03070f;
+            --gold: #d4af37;
+            --gold-light: #f4d47b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --accent: #10b981;
+            --teal-accent: #14b8a6;
+            --indigo-soft: rgba(74, 85, 170, 0.16);
+            --purple-depth: rgba(99, 70, 145, 0.12);
+            --page-glow-a: rgba(13, 29, 61, 0.28);
+            --page-glow-b: rgba(5, 56, 68, 0.18);
+            --page-base-start: #040913;
+            --page-base-end: #040812;
+        }
+
+        body[data-theme="emerald-night"] {
+            --dark-bg: #04120f;
+            --darker-bg: #020b09;
+            --gold: #1fa97a;
+            --gold-light: #8fe3c9;
+            --text-primary: #eaf7f3;
+            --text-secondary: #a7b9c7;
+            --accent: #1fa97a;
+            --teal-accent: #59d6b0;
+            --indigo-soft: rgba(39, 119, 100, 0.2);
+            --purple-depth: rgba(23, 74, 62, 0.18);
+            --page-glow-a: rgba(7, 46, 36, 0.34);
+            --page-glow-b: rgba(17, 84, 68, 0.2);
+            --page-base-start: #03120f;
+            --page-base-end: #04100d;
+        }
+
+        body[data-theme="royal-indigo"] {
+            --dark-bg: #070b1f;
+            --darker-bg: #040713;
+            --gold: #6c7cff;
+            --gold-light: #b8c2ff;
+            --text-primary: #edf0ff;
+            --text-secondary: #9fb0c7;
+            --accent: #8ea0ff;
+            --teal-accent: #7f8fff;
+            --indigo-soft: rgba(108, 124, 255, 0.2);
+            --purple-depth: rgba(66, 77, 152, 0.18);
+            --page-glow-a: rgba(31, 48, 115, 0.32);
+            --page-glow-b: rgba(46, 69, 155, 0.2);
+            --page-base-start: #060a1c;
+            --page-base-end: #06091a;
+        }
+
+        body[data-theme="teal-dawn"] {
+            --dark-bg: #06131a;
+            --darker-bg: #030d12;
+            --gold: #14b8a6;
+            --gold-light: #7ee8dd;
+            --text-primary: #ecf8f8;
+            --text-secondary: #a8bac6;
+            --accent: #14b8a6;
+            --teal-accent: #38d3c4;
+            --indigo-soft: rgba(20, 184, 166, 0.18);
+            --purple-depth: rgba(12, 82, 94, 0.16);
+            --page-glow-a: rgba(9, 58, 72, 0.33);
+            --page-glow-b: rgba(22, 99, 108, 0.22);
+            --page-base-start: #05131a;
+            --page-base-end: #051019;
         }
 
         .starfield {
@@ -286,7 +464,7 @@
 
         #how-it-works {
             padding: 6rem 2rem;
-            background: var(--darker-bg);
+            background: transparent;
             position: relative;
             z-index: 1;
         }
@@ -379,32 +557,19 @@
 
         #calculator {
             padding: 5rem 2rem;
-            max-width: 1260px;
+            max-width: 1380px;
             margin: 0 auto;
             position: relative;
             z-index: 1;
             isolation: isolate;
-            border-radius: 30px;
-            background:
-                radial-gradient(750px 260px at 78% 8%, rgba(212, 175, 55, 0.14) 0%, rgba(212, 175, 55, 0) 62%),
-                radial-gradient(680px 280px at 18% 12%, rgba(13, 148, 136, 0.12) 0%, rgba(13, 148, 136, 0) 60%),
-                radial-gradient(900px 420px at 50% 25%, var(--indigo-soft) 0%, rgba(74, 85, 170, 0) 72%),
-                linear-gradient(180deg, rgba(10, 24, 46, 0.62) 0%, rgba(8, 21, 40, 0.5) 100%);
-            border: 1px solid rgba(148, 163, 184, 0.08);
-            box-shadow: 0 26px 58px rgba(2, 6, 18, 0.46), 0 16px 42px var(--purple-depth);
+            border-radius: 0;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
         }
 
         #calculator::before {
-            content: "";
-            position: absolute;
-            inset: -20px;
-            z-index: 0;
-            pointer-events: none;
-            border-radius: 24px;
-            opacity: 0;
-            background: radial-gradient(circle at center, rgba(212, 175, 55, 0.22) 0%, rgba(212, 175, 55, 0.08) 35%, rgba(212, 175, 55, 0) 70%);
-            transform: scale(0.98);
-            transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            display: none;
         }
 
         #calculator.spotlight-active::before {
@@ -413,19 +578,7 @@
         }
 
         #calculator::after {
-            content: "";
-            position: absolute;
-            left: 3%;
-            right: 3%;
-            bottom: 0.6rem;
-            height: 180px;
-            z-index: 0;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 220' preserveAspectRatio='none'%3E%3Cg fill='%238a96aa'%3E%3Cpath d='M0 220H1200V182H0z'/%3E%3Cpath d='M60 220V170h32v50zM88 220V158h18v62zM106 220V170h32v50zM400 220V166h28v54zM428 220V154h14v66zM442 220V166h28v54zM760 220V168h30v52zM790 220V156h14v64zM804 220V168h30v52zM1080 220V170h32v50zM1112 220V160h16v60zM1128 220V170h32v50z'/%3E%3Cpath d='M180 220V174h180v46zM215 174a55 55 0 0 1 110 0zM522 220V176h154v44zM548 176a49 49 0 0 1 98 0zM868 220V175h198v45zM907 175a60 60 0 0 1 120 0z'/%3E%3Cpath d='M596 118a11 11 0 1 1 0 22a11 11 0 1 0 0 -22zM603 129a3 3 0 1 1 0 6a3 3 0 1 0 0 -6z'/%3E%3C/g%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-size: 100% 100%;
-            opacity: 0.055;
-            filter: blur(1.8px);
+            display: none;
         }
 
         #calculator > * {
@@ -436,6 +589,176 @@
         .calculator-header {
             text-align: center;
             margin-bottom: 3.5rem;
+        }
+
+        .calc-shell {
+            display: grid;
+            grid-template-columns: 155px minmax(0, 1fr);
+            gap: 0.9rem;
+            align-items: start;
+        }
+
+        .section-rail {
+            position: sticky;
+            top: 92px;
+            align-self: start;
+            display: grid;
+            gap: 0.55rem;
+            padding: 0.7rem;
+            border-radius: 18px;
+            background: rgba(15, 23, 42, 0.28);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+        }
+
+        .rail-link {
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(15, 23, 42, 0.5);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            padding: 0.5rem 0.65rem;
+            text-align: left;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .rail-link:hover {
+            color: var(--text-primary);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+
+        .rail-link.active {
+            color: var(--text-primary);
+            border-color: rgba(212, 175, 55, 0.72);
+            background: rgba(212, 175, 55, 0.14);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18);
+        }
+
+        .content-canvas {
+            border-radius: 0;
+            padding: 0.35rem 0;
+            background: transparent;
+            border: 0;
+            box-shadow: none;
+        }
+
+        /* Premium themed asset panel (applies across all theme modes via vars). */
+        #assetsCard {
+            background: rgba(15, 23, 42, 0.45);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        #assetsCard .calc-card-title {
+            font-size: 2.1rem;
+            color: color-mix(in srgb, var(--gold-light) 88%, #fff 12%);
+            margin-bottom: 2rem;
+        }
+
+        #assetsCard .section-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            font-size: 1.08rem;
+            background: linear-gradient(145deg, color-mix(in srgb, var(--gold) 84%, #fff 16%) 0%, color-mix(in srgb, var(--gold-light) 90%, #fff 10%) 100%);
+            color: rgba(8, 12, 22, 0.9);
+            border: 0;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+        }
+
+        #assetsCard .form-label {
+            text-transform: uppercase;
+            letter-spacing: 0.045em;
+            font-size: 0.84rem;
+            color: color-mix(in srgb, var(--gold-light) 78%, var(--text-primary) 22%);
+            margin-bottom: 0.55rem;
+        }
+
+        #assetsCard .form-grid {
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.35rem;
+            align-items: start;
+        }
+
+        #assetsCard .money-input {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        #assetsCard .money-input .form-input {
+            width: 100%;
+            min-height: 64px;
+            border-radius: 14px;
+            background: rgba(4, 8, 14, 0.92);
+            border: 1px solid color-mix(in srgb, var(--gold) 44%, rgba(148, 163, 184, 0.2));
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            font-size: 1.1rem;
+            padding-right: 5.8rem;
+        }
+
+        #assetsCard .money-input .form-input:focus {
+            border-color: color-mix(in srgb, var(--gold-light) 86%, #fff 14%);
+            box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 24%, transparent), 0 10px 20px color-mix(in srgb, var(--gold) 20%, transparent);
+            transform: translateY(-1px);
+        }
+
+        #assetsCard .currency-mini {
+            top: 50%;
+            right: 9px;
+            transform: translateY(-50%);
+            min-width: 62px;
+            height: 34px;
+            border-radius: 999px;
+            border: 0;
+            background: linear-gradient(145deg, color-mix(in srgb, var(--gold) 90%, #fff 10%) 0%, color-mix(in srgb, var(--gold-light) 86%, #fff 14%) 100%);
+            color: rgba(8, 12, 22, 0.95);
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            font-size: 0.86rem;
+            box-shadow: 0 6px 14px color-mix(in srgb, var(--gold) 36%, transparent);
+        }
+
+        #assetsCard .currency-mini[data-currency-for]:hover {
+            box-shadow: 0 10px 20px color-mix(in srgb, var(--gold) 42%, transparent);
+            transform: translateY(calc(-50% - 1px));
+        }
+
+        #assetsCard .currency-mini[data-currency-for]:focus-visible {
+            transform: translateY(-50%);
+        }
+
+        .extra-asset-row .money-input {
+            position: static;
+            display: flex;
+            align-items: center;
+            min-height: 58px;
+        }
+
+        .extra-asset-row .extra-asset-currency-btn {
+            position: static;
+            transform: none;
+            width: 100%;
+            min-width: 72px;
+            justify-content: center;
+        }
+
+        #assetsCard .split-link {
+            color: color-mix(in srgb, var(--gold-light) 86%, var(--text-secondary) 14%);
+            text-decoration: none;
+            border-bottom: 1px dashed color-mix(in srgb, var(--gold) 52%, transparent);
+        }
+
+        #assetsCard .split-panel {
+            border-top: 1px dashed color-mix(in srgb, var(--gold) 36%, rgba(148, 163, 184, 0.2));
+        }
+
+        #assetsCard .optional-accordion {
+            margin-top: 1.8rem;
+            border-radius: 20px;
+            background: rgba(8, 15, 27, 0.42);
+            box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 24%, rgba(148, 163, 184, 0.14));
         }
 
         .header-actions {
@@ -582,17 +905,13 @@
         }
 
         .calc-card {
-            background:
-                linear-gradient(180deg, rgba(24, 39, 66, 0.74) 0%, rgba(17, 30, 53, 0.72) 100%);
+            background: rgba(15, 23, 42, 0.45);
             backdrop-filter: blur(10px);
-            border: 0;
+            border: 1px solid rgba(148, 163, 184, 0.08);
             border-radius: 28px;
             padding: 2.2rem;
             margin-bottom: 2.6rem;
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.02),
-                0 14px 34px rgba(3, 8, 20, 0.3),
-                0 8px 20px rgba(10, 20, 36, 0.28);
+            box-shadow: 0 8px 30px rgba(0,0,0,.25);
             position: relative;
             overflow: hidden;
         }
@@ -853,6 +1172,37 @@
             margin-bottom: 0.75rem;
         }
 
+        .core-entry-list {
+            margin-top: 0.55rem;
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .core-extra-row {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr 0.65fr auto;
+            gap: 0.65rem;
+        }
+
+        .core-extra-row .form-input {
+            min-height: 48px;
+            border-radius: 12px;
+        }
+
+        .core-extra-row .money-input {
+            position: static;
+            display: flex;
+            align-items: center;
+        }
+
+        .core-extra-row .core-extra-currency-btn {
+            position: static;
+            transform: none;
+            width: 100%;
+            min-width: 72px;
+            justify-content: center;
+        }
+
         .mini-btn {
             border: 0;
             box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.15);
@@ -945,18 +1295,13 @@
         }
 
         .results-card {
-            background:
-                radial-gradient(760px 360px at 50% 8%, rgba(239, 201, 96, 0.32) 0%, rgba(239, 201, 96, 0.12) 42%, rgba(239, 201, 96, 0) 74%),
-                linear-gradient(145deg, rgba(66, 50, 18, 0.78) 0%, rgba(37, 31, 14, 0.92) 100%);
+            background: rgba(15, 23, 42, 0.45);
             border: 0;
             border-radius: 28px;
             padding: 2.8rem 2.4rem;
             margin-top: 2.2rem;
-            box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.03),
-                0 16px 38px rgba(3, 8, 20, 0.4),
-                0 0 0 1px rgba(244, 212, 123, 0.45),
-                0 0 68px rgba(212, 175, 55, 0.26);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            box-shadow: 0 8px 30px rgba(0,0,0,.25);
             transform: translateY(-4px);
             position: relative;
             z-index: 3;
@@ -965,20 +1310,7 @@
         }
 
         .results-card::before {
-            content: "";
-            position: absolute;
-            width: 340px;
-            height: 340px;
-            right: 6%;
-            top: 10%;
-            border-radius: 50%;
-            background:
-                radial-gradient(circle at 40% 40%, rgba(255, 235, 170, 0.06) 0%, rgba(255, 235, 170, 0.045) 42%, rgba(255, 235, 170, 0.01) 65%, rgba(255, 235, 170, 0) 74%);
-            filter: blur(2px);
-            opacity: 0.05;
-            pointer-events: none;
-            z-index: 0;
-            transform: rotate(-14deg);
+            display: none;
         }
 
         .results-card::after {
@@ -988,7 +1320,7 @@
             right: 2.4rem;
             bottom: 0;
             height: 1px;
-            background: linear-gradient(90deg, rgba(212, 175, 55, 0), rgba(255, 221, 132, 0.9), rgba(212, 175, 55, 0));
+            background: linear-gradient(90deg, rgba(148, 163, 184, 0), rgba(148, 163, 184, 0.24), rgba(148, 163, 184, 0));
             pointer-events: none;
         }
 
@@ -998,31 +1330,71 @@
         }
 
         .result-row {
+            display: none;
+        }
+
+        .results-hero {
+            max-width: 760px;
+            margin: 0 auto 1rem;
+            padding: 1.1rem 1rem 1.2rem;
+            border-radius: 18px;
+            background: linear-gradient(180deg, rgba(22, 45, 78, 0.62) 0%, rgba(15, 31, 55, 0.58) 100%);
+            border: 1px solid rgba(148, 177, 214, 0.28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 14px 28px rgba(3, 10, 24, 0.34);
+        }
+
+        .results-hero-status {
+            color: rgba(206, 224, 246, 0.92);
+            font-size: 0.92rem;
+            margin-bottom: 0.7rem;
+            letter-spacing: 0.01em;
+        }
+
+        .results-compact-grid {
+            max-width: 760px;
+            margin: 0.85rem auto 0.9rem;
             display: grid;
-            justify-items: center;
-            gap: 0.18rem;
-            max-width: 560px;
-            margin: 0 auto 0.65rem;
-            padding: 0.95rem 0.25rem;
-            background: transparent;
-            backdrop-filter: none;
-            border-radius: 0;
-            border-bottom: 1px solid rgba(244, 212, 123, 0.24);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.65rem;
+        }
+
+        .compact-stat {
+            border: 1px solid rgba(148, 177, 214, 0.24);
+            border-radius: 12px;
+            background: rgba(11, 24, 43, 0.56);
+            padding: 0.72rem 0.85rem;
+            text-align: left;
+        }
+
+        .compact-stat-label {
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: rgba(194, 214, 240, 0.82);
+            margin-bottom: 0.18rem;
+        }
+
+        .compact-stat-value {
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: #e8f1ff;
+            text-shadow: 0 0 10px rgba(74, 135, 219, 0.2);
         }
 
         .breakdown-card {
-            background: transparent;
-            border: 0;
-            box-shadow: none;
-            border-radius: 0;
-            padding: 1.1rem 0 0.4rem;
-            margin: 0.65rem auto 1rem;
-            max-width: 620px;
+            background: rgba(9, 20, 38, 0.56);
+            border: 1px solid rgba(148, 177, 214, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            border-radius: 14px;
+            padding: 0.9rem 0.9rem 0.55rem;
+            margin: 0.3rem auto 1rem;
+            max-width: 760px;
         }
 
         .breakdown-title {
             font-size: 0.95rem;
-            color: #f4d47b;
+            color: rgba(212, 226, 246, 0.95);
             margin-bottom: 0.75rem;
         }
 
@@ -1030,17 +1402,17 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
-            padding: 0.45rem 0;
-            color: rgba(248, 238, 205, 0.85);
-            border-bottom: 1px solid rgba(244, 212, 123, 0.16);
+            font-size: 0.84rem;
+            padding: 0.34rem 0;
+            color: rgba(211, 225, 243, 0.9);
+            border-bottom: 1px solid rgba(148, 177, 214, 0.18);
         }
 
         .history-card {
             margin-top: 2rem;
-            background: rgba(15, 23, 42, 0.5);
-            border: 0;
-            box-shadow: inset 0 0 0 1px rgba(148, 163, 184, 0.1);
+            background: rgba(15, 23, 42, 0.45);
+            border: 1px solid rgba(148, 163, 184, 0.08);
+            box-shadow: 0 8px 30px rgba(0,0,0,.25);
             border-top: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 18px;
             padding: 1.4rem;
@@ -1125,7 +1497,7 @@
 
         .result-label {
             font-size: 0.92rem;
-            color: rgba(248, 238, 205, 0.82);
+            color: rgba(194, 214, 240, 0.86);
             letter-spacing: 0.04em;
             text-transform: uppercase;
         }
@@ -1133,18 +1505,18 @@
         .result-value {
             font-size: 1.42rem;
             font-weight: 700;
-            color: #ffefb6;
-            text-shadow: 0 0 16px rgba(244, 212, 123, 0.35);
+            color: #e8f1ff;
+            text-shadow: 0 0 14px rgba(74, 135, 219, 0.28);
         }
 
         .final-result {
             background:
-                radial-gradient(420px 200px at 50% 40%, rgba(255, 226, 132, 0.3) 0%, rgba(255, 226, 132, 0.12) 42%, rgba(255, 226, 132, 0) 78%),
-                linear-gradient(180deg, rgba(88, 66, 24, 0.68) 0%, rgba(48, 37, 14, 0.62) 100%);
+                radial-gradient(420px 200px at 50% 40%, rgba(212, 175, 55, 0.34) 0%, rgba(212, 175, 55, 0.14) 42%, rgba(212, 175, 55, 0) 78%),
+                linear-gradient(180deg, rgba(117, 92, 34, 0.74) 0%, rgba(74, 57, 20, 0.7) 100%);
             padding: 2rem 1.2rem 1.3rem;
             border-radius: 20px;
             text-align: center;
-            margin-top: 1.6rem;
+            margin-top: 0.2rem;
             position: relative;
             overflow: hidden;
             transform: scale(1);
@@ -1152,8 +1524,8 @@
             animation: finalLoadIn 560ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
             isolation: isolate;
             box-shadow:
-                inset 0 0 0 1px rgba(255, 226, 132, 0.45),
-                0 14px 30px rgba(212, 175, 55, 0.28);
+                inset 0 0 0 1px rgba(212, 175, 55, 0.54),
+                0 6px 14px rgba(2, 6, 18, 0.24);
         }
 
         .final-result::before {
@@ -1162,8 +1534,9 @@
             inset: -20%;
             z-index: -1;
             background:
-                radial-gradient(circle at 50% 50%, rgba(255, 228, 145, 0.34) 0%, rgba(212, 175, 55, 0.2) 28%, rgba(212, 175, 55, 0.05) 60%, rgba(212, 175, 55, 0) 82%);
-            animation: finalGlowPulse 4.2s ease-in-out infinite;
+                radial-gradient(circle at 50% 50%, rgba(224, 189, 79, 0.36) 0%, rgba(212, 175, 55, 0.24) 28%, rgba(212, 175, 55, 0.07) 60%, rgba(212, 175, 55, 0) 82%);
+            opacity: 0.25;
+            animation: none;
         }
 
         .final-result::after {
@@ -1175,8 +1548,9 @@
             top: 45%;
             transform: translate(-50%, -50%);
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 238, 188, 0.46) 0%, rgba(212, 175, 55, 0.06) 45%, rgba(212, 175, 55, 0) 72%);
+            background: radial-gradient(circle, rgba(233, 205, 118, 0.5) 0%, rgba(212, 175, 55, 0.08) 45%, rgba(212, 175, 55, 0) 72%);
             z-index: -1;
+            opacity: 0.18;
         }
 
         .amount-divider {
@@ -1184,7 +1558,7 @@
             height: 1px;
             margin: 0.9rem auto;
             background: linear-gradient(90deg, rgba(212, 175, 55, 0), rgba(255, 218, 120, 0.98), rgba(212, 175, 55, 0));
-            box-shadow: 0 0 14px rgba(212, 175, 55, 0.35);
+            box-shadow: none;
         }
 
         .result-shimmer {
@@ -1195,15 +1569,15 @@
             height: 2px;
             background: linear-gradient(90deg, rgba(212, 175, 55, 0) 0%, rgba(255, 243, 196, 0.9) 50%, rgba(212, 175, 55, 0) 100%);
             background-size: 220% 100%;
-            animation: shimmerSweep 3.2s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-            opacity: 0.92;
+            animation: none;
+            opacity: 0.35;
         }
 
         .final-label {
             font-size: 1.05rem;
-            color: #f6db86;
+            color: #D4AF37;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.35rem;
             text-shadow: 0 0 10px rgba(212, 175, 55, 0.28);
         }
 
@@ -1211,7 +1585,7 @@
             font-size: clamp(2.2rem, 4.6vw, 3.35rem);
             font-weight: 800;
             color: #ffefb6;
-            text-shadow: 0 0 26px rgba(255, 224, 133, 0.62), 0 0 48px rgba(212, 175, 55, 0.22);
+            text-shadow: none;
             position: relative;
             display: inline-block;
             z-index: 1;
@@ -1230,7 +1604,8 @@
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 239, 188, 0.4) 0%, rgba(212, 175, 55, 0.24) 40%, rgba(212, 175, 55, 0) 74%);
             z-index: -1;
-            animation: amountAuraPulse 2.8s ease-in-out infinite;
+            opacity: 0.12;
+            animation: none;
         }
 
         .final-result.pulse-in {
@@ -1245,14 +1620,16 @@
         }
 
         .nisab-status {
-            margin: 1.2rem auto 0;
+            margin: 0.75rem auto 0;
             max-width: 620px;
-            padding: 0.95rem 1rem;
+            padding: 0.45rem 0.65rem;
             border-radius: 10px;
-            background: rgba(116, 87, 27, 0.38);
-            color: #fff4cf;
-            border: 1px solid rgba(244, 212, 123, 0.4);
+            background: rgba(116, 87, 27, 0.24);
+            color: #f8e5ab;
+            border: 1px solid rgba(244, 212, 123, 0.3);
             text-align: center;
+            font-size: 0.8rem;
+            line-height: 1.35;
         }
 
         #backToTop {
@@ -1304,6 +1681,43 @@
         }
 
         @media (max-width: 768px) {
+            .calc-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .section-rail {
+                display: none;
+            }
+
+            .content-canvas {
+                padding: 0;
+                border: 0;
+                box-shadow: none;
+                background: transparent;
+            }
+
+            .top-nav-inner {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.55rem;
+            }
+
+            .top-nav-logo {
+                text-align: center;
+            }
+
+            .top-nav-controls {
+                justify-content: center;
+            }
+
+            .top-nav-theme {
+                min-width: 136px;
+            }
+
+            .nav-spacer {
+                height: 90px;
+            }
+
             .moon {
                 width: 300px;
                 height: 300px;
@@ -1328,6 +1742,19 @@
             .form-grid {
                 grid-template-columns: 1fr;
             }
+
+            #assetsCard .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #assetsCard .money-input .form-input {
+                min-height: 58px;
+                font-size: 1.02rem;
+            }
+            
+            .results-compact-grid {
+                grid-template-columns: 1fr;
+            }
             
             .amount-currency {
                 grid-template-columns: 1fr;
@@ -1338,6 +1765,10 @@
             }
 
             .extra-asset-row {
+                grid-template-columns: 1fr;
+            }
+
+            .core-extra-row {
                 grid-template-columns: 1fr;
             }
 
@@ -1424,6 +1855,9 @@
 
         @media print {
             .starfield,
+            .top-nav,
+            .nav-spacer,
+            .section-rail,
             #landing,
             #how-it-works,
             #backToTop,
@@ -1476,6 +1910,29 @@
 </head>
 <body>
     <div class="starfield"></div>
+    <header class="top-nav" aria-label="Main navigation">
+        <div class="top-nav-inner">
+            <div class="top-nav-logo">Zakat App</div>
+            <div class="top-nav-controls">
+                <nav class="top-nav-links">
+                    <button type="button" class="top-link active" data-nav-target="landing">Home</button>
+                    <button type="button" class="top-link" data-nav-target="how-it-works">How It Works</button>
+                    <button type="button" class="top-link" data-nav-target="calculator">Calculator</button>
+                    <button type="button" class="top-link" data-nav-target="assetsCard">Assets</button>
+                    <button type="button" class="top-link" data-nav-target="debtsCard">Debts</button>
+                    <button type="button" class="top-link" data-nav-target="resultsCard">Results</button>
+                    <button type="button" class="top-link" data-nav-target="historyCard">History</button>
+                </nav>
+                <select id="topThemeMode" class="top-nav-theme" aria-label="Theme mode">
+                    <option value="midnight-gold">Midnight Gold</option>
+                    <option value="emerald-night">Emerald Night</option>
+                    <option value="royal-indigo">Royal Indigo</option>
+                    <option value="teal-dawn">Teal Dawn</option>
+                </select>
+            </div>
+        </div>
+    </header>
+    <div class="nav-spacer" aria-hidden="true"></div>
 
     <section id="landing">
         <div class="moon">
@@ -1496,7 +1953,7 @@
             </div>
 
             <div class="cta-buttons">
-                <button class="btn btn-primary" onclick="scrollToCalculator()">Calculate Your Zakat</button>
+                <button id="calculateCtaBtn" class="btn btn-primary">Calculate Your Zakat</button>
                 <a href="#how-it-works" class="btn btn-secondary">Learn How It Works</a>
             </div>
 
@@ -1572,7 +2029,7 @@
                 <span class="ramadan-badge" id="ramadanBadge">Ramadan Mubarak</span>
             </div>
             <div class="header-actions">
-                <button type="button" class="mini-btn" onclick="exportInvoicePdf()">Export Invoice PDF</button>
+                <button type="button" id="exportInvoiceBtn" class="mini-btn">Export Invoice PDF</button>
             </div>
             <div class="quick-start" id="quickStartBar" aria-label="Quick start">
                 <button type="button" class="quick-step active" data-target="assetsCard"><span class="moon-phase" aria-hidden="true">🌑</span><span>Assets</span></button>
@@ -1582,27 +2039,46 @@
                 <button type="button" class="quick-step" data-target="resultsCard"><span class="moon-phase" aria-hidden="true">🌓</span><span>Result</span></button>
             </div>
         </div>
+        <div class="calc-shell">
+            <aside class="section-rail" aria-label="Calculator sections">
+                <button type="button" class="rail-link active" data-rail-target="settingsCard">Settings</button>
+                <button type="button" class="rail-link" data-rail-target="assetsCard">Assets</button>
+                <button type="button" class="rail-link" data-rail-target="debtsCard">Debts</button>
+                <button type="button" class="rail-link" data-rail-target="resultsCard">Results</button>
+                <button type="button" class="rail-link" data-rail-target="historyCard">History</button>
+            </aside>
+            <div class="content-canvas">
 
-        <details class="calc-card settings-accordion">
+        <details class="calc-card settings-accordion" id="settingsCard">
             <summary class="calc-card-title"><span class="section-icon">⚙️</span>Settings</summary>
             <div class="settings-content">
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Display Currency</label>
-                    <select id="currency" class="select-input form-input" onchange="handleMainCurrencyChange()">
+                    <select id="currency" class="select-input form-input">
                         <option value="USD">USD ($)</option>
                         <option value="BDT">BDT</option>
                     </select>
                 </div>
 
                 <div class="form-group">
+                    <label class="form-label">Theme Mode</label>
+                    <select id="themeMode" class="select-input form-input">
+                        <option value="midnight-gold">Midnight Gold</option>
+                        <option value="emerald-night">Emerald Night</option>
+                        <option value="royal-indigo">Royal Indigo</option>
+                        <option value="teal-dawn">Teal Dawn</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-label">USD to BDT Rate</label>
-                    <input type="number" id="usdToBdt" class="form-input" value="122.30" step="0.01" oninput="calculateZakat()" placeholder="122.30">
+                    <input type="number" id="usdToBdt" class="form-input" value="122.30" step="0.01" placeholder="122.30">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Nisab Calculation</label>
-                    <select id="nisabType" class="select-input form-input" onchange="calculateZakat()">
+                    <select id="nisabType" class="select-input form-input">
                         <option value="silver">Silver (612.36g) - Recommended</option>
                         <option value="gold">Gold (87.48g)</option>
                     </select>
@@ -1618,12 +2094,12 @@
 
                 <div class="form-group">
                     <label class="form-label">Gold Price per Gram (USD)</label>
-                    <input type="number" id="goldPrice" class="form-input" value="159.93" step="0.01" oninput="calculateZakat()" placeholder="159.93">
+                    <input type="number" id="goldPrice" class="form-input" value="159.93" step="0.01" placeholder="159.93">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Silver Price per Gram (USD)</label>
-                    <input type="number" id="silverPrice" class="form-input" value="2.52" step="0.01" oninput="calculateZakat()" placeholder="2.52">
+                    <input type="number" id="silverPrice" class="form-input" value="2.52" step="0.01" placeholder="2.52">
                 </div>
             </div>
             <div class="hawl-card">
@@ -1632,7 +2108,7 @@
                     <div class="form-group">
                         <label class="form-label">Your Zakat Date (Hijri)</label>
                         <div class="amount-currency">
-                            <select id="zakatHijriMonth" class="select-input form-input" onchange="calculateZakat()">
+                            <select id="zakatHijriMonth" class="select-input form-input">
                                 <option value="">Month</option>
                                 <option>Muḥarram</option>
                                 <option>Safar</option>
@@ -1647,15 +2123,15 @@
                                 <option>Dhu al-Qadah</option>
                                 <option>Dhu al-Hijjah</option>
                             </select>
-                            <select id="zakatHijriDay" class="select-input form-input" onchange="calculateZakat()">
+                            <select id="zakatHijriDay" class="select-input form-input">
                                 <option value="">Day</option>
                             </select>
                         </div>
-                        <input type="text" id="zakatHijriNote" class="form-input" oninput="calculateZakat()" placeholder="Optional note (e.g., 1 Ramadan)" style="margin-top:0.6rem;">
+                        <input type="text" id="zakatHijriNote" class="form-input" placeholder="Optional note (e.g., 1 Ramadan)" style="margin-top:0.6rem;">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Last Zakat Paid (Gregorian)</label>
-                        <input type="date" id="lastZakatPaid" class="form-input" oninput="calculateZakat()">
+                        <input type="date" id="lastZakatPaid" class="form-input">
                     </div>
                 </div>
                 <div class="hawl-summary">
@@ -1672,13 +2148,13 @@
         </details>
 
         <div class="calc-card" id="assetsCard">
-            <h3 class="calc-card-title"><span class="section-icon">💼</span>Your Assets</h3>
+            <h3 class="calc-card-title"><span class="section-icon">💎</span>Your Assets</h3>
             <p class="form-label">Core Assets</p>
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Cash & Bank (Total)</label>
                     <div class="money-input">
-                        <input type="number" id="cashBankTotalAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
+                        <input type="number" id="cashBankTotalAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
                         <input type="hidden" id="cashBankTotalCur" value="BDT">
                         <button type="button" class="currency-mini" data-currency-for="cashBankTotalCur">BDT</button>
                     </div>
@@ -1688,7 +2164,7 @@
                             <div class="form-group">
                                 <label class="form-label">Cash at Home</label>
                                 <div class="money-input">
-                                    <input type="number" id="cashAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
+                                    <input type="number" id="cashAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
                                     <input type="hidden" id="cashCur" value="BDT">
                                     <button type="button" class="currency-mini" data-currency-for="cashCur">BDT</button>
                                 </div>
@@ -1696,71 +2172,83 @@
                             <div class="form-group">
                                 <label class="form-label">Bank Balance</label>
                                 <div class="money-input">
-                                    <input type="number" id="bankAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
+                                    <input type="number" id="bankAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
                                     <input type="hidden" id="bankCur" value="BDT">
                                     <button type="button" class="currency-mini" data-currency-for="bankCur">BDT</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Cryptocurrency</label>
-                    <div class="money-input">
-                        <input type="number" id="cryptoAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
-                        <input type="hidden" id="cryptoCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="cryptoCur">BDT</button>
-                    </div>
+                    <button type="button" class="split-link add-core-entry" data-core-field="cashBank">+ Add entry</button>
+                    <div class="core-entry-list" id="cashBankExtraList"></div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Stocks & Investments</label>
                     <div class="money-input">
-                        <input type="number" id="investmentsAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
+                        <input type="number" id="investmentsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
                         <input type="hidden" id="investmentsCur" value="BDT">
                         <button type="button" class="currency-mini" data-currency-for="investmentsCur">BDT</button>
                     </div>
+                    <button type="button" class="split-link add-core-entry" data-core-field="stocks">+ Add entry</button>
+                    <div class="core-entry-list" id="stocksExtraList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Gold (Cash Value)</label>
+                    <div class="money-input">
+                        <input type="number" id="goldAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                        <input type="hidden" id="goldCur" value="BDT">
+                        <button type="button" class="currency-mini" data-currency-for="goldCur">BDT</button>
+                    </div>
+                    <button type="button" class="split-link add-core-entry" data-core-field="gold">+ Add entry</button>
+                    <div class="core-entry-list" id="goldExtraList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Silver (Cash Value)</label>
+                    <div class="money-input">
+                        <input type="number" id="silverAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                        <input type="hidden" id="silverCur" value="BDT">
+                        <button type="button" class="currency-mini" data-currency-for="silverCur">BDT</button>
+                    </div>
+                    <button type="button" class="split-link add-core-entry" data-core-field="silver">+ Add entry</button>
+                    <div class="core-entry-list" id="silverExtraList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Business Inventory</label>
+                    <div class="money-input">
+                        <input type="number" id="businessAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                        <input type="hidden" id="businessCur" value="BDT">
+                        <button type="button" class="currency-mini" data-currency-for="businessCur">BDT</button>
+                    </div>
+                    <button type="button" class="split-link add-core-entry" data-core-field="business">+ Add entry</button>
+                    <div class="core-entry-list" id="businessExtraList"></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Money Owed to You</label>
+                    <div class="money-input">
+                        <input type="number" id="receivablesAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                        <input type="hidden" id="receivablesCur" value="BDT">
+                        <button type="button" class="currency-mini" data-currency-for="receivablesCur">BDT</button>
+                    </div>
+                    <button type="button" class="split-link add-core-entry" data-core-field="receivables">+ Add entry</button>
+                    <div class="core-entry-list" id="receivablesExtraList"></div>
                 </div>
             </div>
 
             <details class="optional-accordion">
-                <summary>Optional sections</summary>
+                <summary>Additional fields</summary>
                 <div class="optional-content">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label class="form-label">Gold (Cash Value)</label>
+                            <label class="form-label">Digital Assets</label>
                             <div class="money-input">
-                                <input type="number" id="goldAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
-                                <input type="hidden" id="goldCur" value="BDT">
-                                <button type="button" class="currency-mini" data-currency-for="goldCur">BDT</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Silver (Cash Value)</label>
-                            <div class="money-input">
-                                <input type="number" id="silverAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
-                                <input type="hidden" id="silverCur" value="BDT">
-                                <button type="button" class="currency-mini" data-currency-for="silverCur">BDT</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Business Inventory</label>
-                            <div class="money-input">
-                                <input type="number" id="businessAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
-                                <input type="hidden" id="businessCur" value="BDT">
-                                <button type="button" class="currency-mini" data-currency-for="businessCur">BDT</button>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Money Owed to You</label>
-                            <div class="money-input">
-                                <input type="number" id="receivablesAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
-                                <input type="hidden" id="receivablesCur" value="BDT">
-                                <button type="button" class="currency-mini" data-currency-for="receivablesCur">BDT</button>
+                                <input type="number" id="digitalAssetsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                                <input type="hidden" id="digitalAssetsCur" value="BDT">
+                                <button type="button" class="currency-mini" data-currency-for="digitalAssetsCur">BDT</button>
                             </div>
                         </div>
                     </div>
@@ -1783,7 +2271,7 @@
                 <div class="form-group">
                     <label class="form-label">Short-term Debts (due within year)</label>
                     <div class="money-input">
-                        <input type="number" id="debtsAmt" class="form-input" value="0" step="0.01" oninput="calculateZakat()" placeholder="Amount">
+                        <input type="number" id="debtsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
                         <input type="hidden" id="debtsCur" value="BDT">
                         <button type="button" class="currency-mini" data-currency-for="debtsCur">BDT</button>
                     </div>
@@ -1802,32 +2290,43 @@
         </div>
         <div class="results-card" id="resultsCard">
             <h3 class="calc-card-title"><span class="section-icon">📊</span>Results</h3>
-
-            <div class="result-row">
-                <span class="result-label">Total Assets</span>
-                <span class="result-value" id="totalAssets">$0.00</span>
+            <div class="results-hero">
+                <p class="results-hero-status" id="resultsHeroStatus">Your current status will appear here.</p>
+                <div class="final-result">
+                    <span class="result-shimmer" aria-hidden="true"></span>
+                    <div class="final-label" id="zakatAmountLabel">Your Zakat Due (2.5%)</div>
+                    <div class="amount-divider" aria-hidden="true"></div>
+                    <div class="final-amount" id="zakatAmount">BDT 0.00</div>
+                    <div class="amount-divider" aria-hidden="true"></div>
+                    <div class="final-subamount" id="zakatAmountSecondary">USD 0.00</div>
+                    <div class="nisab-status" id="nisabStatus"></div>
+                </div>
             </div>
 
-            <div class="result-row">
-                <span class="result-label">Total Liabilities</span>
-                <span class="result-value" id="totalLiabilities">$0.00</span>
-            </div>
-
-            <div class="result-row">
-                <span class="result-label">Zakatable Wealth</span>
-                <span class="result-value" id="zakatableWealth">$0.00</span>
-            </div>
-
-            <div class="result-row">
-                <span class="result-label">Nisab Threshold</span>
-                <span class="result-value" id="nisabThreshold">$0.00</span>
+            <div class="results-compact-grid">
+                <div class="compact-stat">
+                    <span class="compact-stat-label">Total Assets</span>
+                    <span class="compact-stat-value" id="totalAssets">$0.00</span>
+                </div>
+                <div class="compact-stat">
+                    <span class="compact-stat-label">Total Liabilities</span>
+                    <span class="compact-stat-value" id="totalLiabilities">$0.00</span>
+                </div>
+                <div class="compact-stat">
+                    <span class="compact-stat-label">Zakatable Wealth</span>
+                    <span class="compact-stat-value" id="zakatableWealth">$0.00</span>
+                </div>
+                <div class="compact-stat">
+                    <span class="compact-stat-label">Nisab Threshold</span>
+                    <span class="compact-stat-value" id="nisabThreshold">$0.00</span>
+                </div>
             </div>
 
             <div class="breakdown-card">
                 <div class="breakdown-title">Breakdown</div>
                 <div class="breakdown-row"><span>Cash + Bank</span><strong id="bdCashBank">-</strong></div>
                 <div class="breakdown-row"><span>Metals</span><strong id="bdMetals">-</strong></div>
-                <div class="breakdown-row"><span>Crypto</span><strong id="bdCrypto">-</strong></div>
+                <div class="breakdown-row"><span>Digital Assets</span><strong id="bdCrypto">-</strong></div>
                 <div class="breakdown-row"><span>Stocks</span><strong id="bdStocks">-</strong></div>
                 <div class="breakdown-row"><span>Business</span><strong id="bdBusiness">-</strong></div>
                 <div class="breakdown-row"><span>Receivables</span><strong id="bdReceivables">-</strong></div>
@@ -1835,19 +2334,9 @@
                 <div class="breakdown-row"><span>Debts deducted</span><strong id="bdDebts">-</strong></div>
             </div>
 
-            <div class="final-result">
-                <span class="result-shimmer" aria-hidden="true"></span>
-                <div class="final-label" id="zakatAmountLabel">Your Zakat Due (2.5%)</div>
-                <div class="amount-divider" aria-hidden="true"></div>
-                <div class="final-amount" id="zakatAmount">BDT 0.00</div>
-                <div class="amount-divider" aria-hidden="true"></div>
-                <div class="final-subamount" id="zakatAmountSecondary">USD 0.00</div>
-                <div class="nisab-status" id="nisabStatus"></div>
-            </div>
-
         </div>
 
-        <div class="calc-card history-card">
+        <div class="calc-card history-card" id="historyCard">
             <h3 class="calc-card-title"><span class="section-icon">📈</span>Zakat History Tracker</h3>
             <div class="history-actions">
                 <input type="number" id="historyYear" class="form-input" min="1900" max="2200" placeholder="Year (e.g., 2026)">
@@ -1856,6 +2345,8 @@
             <svg id="historyChart" class="history-chart" viewBox="0 0 100 40" preserveAspectRatio="none" aria-label="Zakat history line chart"></svg>
             <div class="history-list" id="historyList">No history saved yet.</div>
             <div class="breakdown-row"><span>Total zakat given (lifetime)</span><strong id="historyLifetime">BDT 0.00</strong></div>
+        </div>
+            </div>
         </div>
     </section>
 
@@ -1874,7 +2365,7 @@
         </table>
     </section>
 
-    <button id="backToTop" onclick="scrollToTop()">↑</button>
+    <button id="backToTop">↑</button>
 
     <script>
         const currencySymbols = {
@@ -1884,7 +2375,59 @@
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const runningAnimations = new WeakMap();
         const zakatHistoryStorageKey = 'zakatHistoryData';
+        const themeStorageKey = 'zakatThemeMode';
+        const elementCache = new Map();
+        const formatterCache = new Map();
+        let saveTimer = null;
+        let midnightRefreshTimer = null;
+        let scrollRafId = null;
+        let quickStepButtons = [];
+        let quickStepSections = [];
+        let topNavLinks = [];
+        let topNavSections = [];
+        let railLinks = [];
+        let railSections = [];
+        const calcInputIds = new Set([
+            'usdToBdt', 'goldPrice', 'silverPrice', 'zakatHijriMonth', 'zakatHijriDay', 'zakatHijriNote',
+            'lastZakatPaid', 'cashBankTotalAmt', 'cashAmt', 'bankAmt', 'investmentsAmt',
+            'goldAmt', 'silverAmt', 'businessAmt', 'receivablesAmt', 'digitalAssetsAmt', 'debtsAmt', 'currency', 'nisabType', 'themeMode'
+        ]);
         let latestZakatAmountBdt = 0;
+
+        function byId(id) {
+            if (!elementCache.has(id)) {
+                elementCache.set(id, document.getElementById(id));
+            }
+            return elementCache.get(id);
+        }
+
+        function getCurrencyFormatter(currency) {
+            if (!formatterCache.has(currency)) {
+                formatterCache.set(currency, new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }));
+            }
+            return formatterCache.get(currency);
+        }
+
+        function scheduleSaveData(delayMs = 300) {
+            if (saveTimer) clearTimeout(saveTimer);
+            saveTimer = setTimeout(() => {
+                saveData();
+                saveTimer = null;
+            }, delayMs);
+        }
+
+        function applyTheme(themeMode) {
+            const allowed = new Set(['midnight-gold', 'emerald-night', 'royal-indigo', 'teal-dawn']);
+            const mode = allowed.has(themeMode) ? themeMode : 'midnight-gold';
+            document.body.setAttribute('data-theme', mode);
+            const themeEl = byId('themeMode');
+            if (themeEl && themeEl.value !== mode) themeEl.value = mode;
+            const topThemeEl = byId('topThemeMode');
+            if (topThemeEl && topThemeEl.value !== mode) topThemeEl.value = mode;
+        }
 
         function getZakatHistory() {
             try {
@@ -2074,7 +2617,7 @@
                     <option value="Gold">Gold</option>
                     <option value="Silver">Silver</option>
                     <option value="Stocks">Stocks</option>
-                    <option value="Crypto">Crypto</option>
+                    <option value="Digital Assets">Digital Assets</option>
                     <option value="Business">Business</option>
                     <option value="Receivable">Receivable</option>
                     <option value="Other">Other</option>
@@ -2092,17 +2635,77 @@
                 el.addEventListener('input', calculateZakat);
                 el.addEventListener('change', calculateZakat);
             });
-            row.querySelector('.extra-asset-currency-btn').addEventListener('click', () => {
-                const hidden = row.querySelector('.extra-asset-currency');
-                hidden.value = hidden.value === 'USD' ? 'BDT' : 'USD';
-                row.querySelector('.extra-asset-currency-btn').textContent = hidden.value;
-                calculateZakat();
-            });
             row.querySelector('.remove-asset-row').addEventListener('click', () => {
                 row.remove();
                 calculateZakat();
             });
             list.appendChild(row);
+        }
+
+        function addCoreExtraRow(field, entry = {}) {
+            const list = byId(`${field}ExtraList`);
+            if (!list) return;
+            const defaultCurrency = byId('currency')?.value || 'BDT';
+
+            const row = document.createElement('div');
+            row.className = 'core-extra-row';
+            row.dataset.field = field;
+            row.innerHTML = `
+                <input type="text" class="form-input core-extra-label" placeholder="Source (optional)" value="${entry.label || ''}">
+                <input type="number" class="form-input core-extra-amount" step="0.01" placeholder="Amount" value="${entry.amount || 0}">
+                <div class="money-input">
+                    <input type="hidden" class="core-extra-currency" value="${entry.currency || defaultCurrency}">
+                    <button type="button" class="currency-mini core-extra-currency-btn">${entry.currency || defaultCurrency}</button>
+                </div>
+                <button type="button" class="mini-btn remove-core-row">Remove</button>
+            `;
+
+            row.querySelectorAll('input').forEach((el) => {
+                el.addEventListener('input', calculateZakat);
+                el.addEventListener('change', calculateZakat);
+            });
+            row.querySelector('.remove-core-row').addEventListener('click', () => {
+                row.remove();
+                calculateZakat();
+            });
+            list.appendChild(row);
+        }
+
+        function serializeCoreExtraEntries() {
+            const fields = ['cashBank', 'stocks', 'gold', 'silver', 'business', 'receivables'];
+            const data = {};
+            fields.forEach((field) => {
+                const rows = [];
+                byId(`${field}ExtraList`)?.querySelectorAll('.core-extra-row').forEach((row) => {
+                    rows.push({
+                        label: row.querySelector('.core-extra-label')?.value || '',
+                        amount: row.querySelector('.core-extra-amount')?.value || '0',
+                        currency: row.querySelector('.core-extra-currency')?.value || 'BDT'
+                    });
+                });
+                data[field] = rows;
+            });
+            return data;
+        }
+
+        function restoreCoreExtraEntries(data) {
+            const fields = ['cashBank', 'stocks', 'gold', 'silver', 'business', 'receivables'];
+            fields.forEach((field) => {
+                const list = byId(`${field}ExtraList`);
+                if (!list) return;
+                list.innerHTML = '';
+                (data?.[field] || []).forEach((entry) => addCoreExtraRow(field, entry));
+            });
+        }
+
+        function getCoreExtraTotalBdt(field, toBdt) {
+            let total = 0;
+            byId(`${field}ExtraList`)?.querySelectorAll('.core-extra-row').forEach((row) => {
+                const amount = parseFloat(row.querySelector('.core-extra-amount')?.value) || 0;
+                const currency = row.querySelector('.core-extra-currency')?.value || 'BDT';
+                total += toBdt(amount, currency);
+            });
+            return total;
         }
 
         function updateCurrencyMiniButtons() {
@@ -2130,7 +2733,7 @@
                 goldCur: 'goldAmt',
                 silverCur: 'silverAmt',
                 investmentsCur: 'investmentsAmt',
-                cryptoCur: 'cryptoAmt',
+                digitalAssetsCur: 'digitalAssetsAmt',
                 businessCur: 'businessAmt',
                 receivablesCur: 'receivablesAmt',
                 debtsCur: 'debtsAmt'
@@ -2226,13 +2829,14 @@
         }
 
         function scheduleDateRefreshAtMidnight() {
+            if (midnightRefreshTimer) clearTimeout(midnightRefreshTimer);
             const now = new Date();
             const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
             const msUntilMidnight = nextMidnight.getTime() - now.getTime();
 
-            setTimeout(() => {
+            midnightRefreshTimer = setTimeout(() => {
                 updateCurrentDates();
-                setInterval(updateCurrentDates, 24 * 60 * 60 * 1000);
+                scheduleDateRefreshAtMidnight();
             }, msUntilMidnight);
         }
 
@@ -2300,123 +2904,85 @@
             }
         }
 
-        function calculateZakat() {
-            const currency = document.getElementById('currency').value;
+        function recalcFast() {
+            const currency = byId('currency').value;
             const symbol = currencySymbols[currency];
-            const nisabType = document.getElementById('nisabType').value;
-            const goldPrice = parseFloat(document.getElementById('goldPrice').value) || 0;
-            const silverPrice = parseFloat(document.getElementById('silverPrice').value) || 0;
-            const usdToBdt = parseFloat(document.getElementById('usdToBdt').value) || 0;
+            const nisabType = byId('nisabType').value;
+            const goldPrice = parseFloat(byId('goldPrice').value) || 0;
+            const silverPrice = parseFloat(byId('silverPrice').value) || 0;
+            const usdToBdt = parseFloat(byId('usdToBdt').value) || 0;
 
-            const read = (id) => parseFloat(document.getElementById(id).value) || 0;
+            const read = (id) => parseFloat(byId(id).value) || 0;
             const toBdt = (amount, entryCurrency) => {
                 if (entryCurrency === 'BDT') return amount;
                 if (entryCurrency === 'USD') return amount * usdToBdt;
                 return 0;
             };
-            const bdtToDisplay = (amountBdt) => {
-                if (currency === 'BDT') return amountBdt;
-                return usdToBdt > 0 ? (amountBdt / usdToBdt) : 0;
-            };
+            const bdtToDisplay = (amountBdt) => (currency === 'BDT' ? amountBdt : (usdToBdt > 0 ? (amountBdt / usdToBdt) : 0));
 
             const splitCash = read('cashAmt');
             const splitBank = read('bankAmt');
             const useSplitCashBank = splitCash > 0 || splitBank > 0;
             const cashBdt = useSplitCashBank
-                ? toBdt(splitCash, document.getElementById('cashCur').value)
-                : toBdt(read('cashBankTotalAmt'), document.getElementById('cashBankTotalCur').value);
-            const bankBdt = useSplitCashBank
-                ? toBdt(splitBank, document.getElementById('bankCur').value)
-                : 0;
-            const goldBdt = toBdt(read('goldAmt'), document.getElementById('goldCur').value);
-            const silverBdt = toBdt(read('silverAmt'), document.getElementById('silverCur').value);
-            const investmentsBdt = toBdt(read('investmentsAmt'), document.getElementById('investmentsCur').value);
-            const cryptoBdt = toBdt(read('cryptoAmt'), document.getElementById('cryptoCur').value);
-            const businessBdt = toBdt(read('businessAmt'), document.getElementById('businessCur').value);
-            const receivablesBdt = toBdt(read('receivablesAmt'), document.getElementById('receivablesCur').value);
+                ? toBdt(splitCash, byId('cashCur').value)
+                : toBdt(read('cashBankTotalAmt'), byId('cashBankTotalCur').value);
+            const bankBdt = useSplitCashBank ? toBdt(splitBank, byId('bankCur').value) : 0;
+            const goldBdt = toBdt(read('goldAmt'), byId('goldCur').value);
+            const silverBdt = toBdt(read('silverAmt'), byId('silverCur').value);
+            const investmentsBdt = toBdt(read('investmentsAmt'), byId('investmentsCur').value);
+            const digitalAssetsBdt = toBdt(read('digitalAssetsAmt'), byId('digitalAssetsCur').value);
+            const businessBdt = toBdt(read('businessAmt'), byId('businessCur').value);
+            const receivablesBdt = toBdt(read('receivablesAmt'), byId('receivablesCur').value);
             const extraAssetsBdt = getExtraAssetsBdt(toBdt);
+            const debtsBdt = toBdt(read('debtsAmt'), byId('debtsCur').value);
 
-            const debtsBdt = toBdt(read('debtsAmt'), document.getElementById('debtsCur').value);
+            const cashBankBdt = cashBdt + bankBdt + getCoreExtraTotalBdt('cashBank', toBdt);
+            const stocksBdt = investmentsBdt + getCoreExtraTotalBdt('stocks', toBdt);
+            const goldTotalBdt = goldBdt + getCoreExtraTotalBdt('gold', toBdt);
+            const silverTotalBdt = silverBdt + getCoreExtraTotalBdt('silver', toBdt);
+            const businessTotalBdt = businessBdt + getCoreExtraTotalBdt('business', toBdt);
+            const receivablesTotalBdt = receivablesBdt + getCoreExtraTotalBdt('receivables', toBdt);
 
-            const totalAssetsBdt = cashBdt + bankBdt + goldBdt + silverBdt + investmentsBdt + cryptoBdt + businessBdt + receivablesBdt + extraAssetsBdt;
+            const totalAssetsBdt = cashBankBdt + goldTotalBdt + silverTotalBdt + stocksBdt + digitalAssetsBdt + businessTotalBdt + receivablesTotalBdt + extraAssetsBdt;
             const totalLiabilitiesBdt = debtsBdt;
             const zakatableWealthBdt = totalAssetsBdt - totalLiabilitiesBdt;
 
-            // Gold/silver prices are USD per gram, so nisab starts in USD then converts to BDT.
             const GOLD_NISAB_GRAMS = 87.48;
             const SILVER_NISAB_GRAMS = 612.36;
-            const nisabUsd = nisabType === 'gold'
-                ? (GOLD_NISAB_GRAMS * goldPrice)
-                : (SILVER_NISAB_GRAMS * silverPrice);
+            const nisabUsd = nisabType === 'gold' ? (GOLD_NISAB_GRAMS * goldPrice) : (SILVER_NISAB_GRAMS * silverPrice);
             const nisabThresholdBdt = nisabUsd * usdToBdt;
             const zakatAmountBdt = zakatableWealthBdt >= nisabThresholdBdt ? (zakatableWealthBdt * 0.025) : 0;
             latestZakatAmountBdt = zakatAmountBdt;
 
+            const formatter = getCurrencyFormatter(currency);
             const totalAssets = bdtToDisplay(totalAssetsBdt);
             const totalLiabilities = bdtToDisplay(totalLiabilitiesBdt);
             const zakatableWealth = bdtToDisplay(zakatableWealthBdt);
             const nisabThreshold = bdtToDisplay(nisabThresholdBdt);
             const zakatAmountDisplay = bdtToDisplay(zakatAmountBdt);
             const zakatAmountUsd = usdToBdt > 0 ? (zakatAmountBdt / usdToBdt) : 0;
-            const cashBankDisplay = bdtToDisplay(cashBdt + bankBdt);
-            const metalsDisplay = bdtToDisplay(goldBdt + silverBdt);
-            const cryptoDisplay = bdtToDisplay(cryptoBdt);
-            const stocksDisplay = bdtToDisplay(investmentsBdt);
-            const businessDisplay = bdtToDisplay(businessBdt);
-            const receivablesDisplay = bdtToDisplay(receivablesBdt);
-            const extraAssetsDisplay = bdtToDisplay(extraAssetsBdt);
-            const debtsDisplay = bdtToDisplay(debtsBdt);
 
-            const formatter = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
-
-            animateNumber(document.getElementById('totalAssets'), totalAssets, (v) => {
-                document.getElementById('totalAssets').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('totalLiabilities'), totalLiabilities, (v) => {
-                document.getElementById('totalLiabilities').textContent = symbol + formatter.format(v);
-            });
-            document.getElementById('zakatableWealth').textContent = currency === 'BDT'
+            animateNumber(byId('totalAssets'), totalAssets, (v) => { byId('totalAssets').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('totalLiabilities'), totalLiabilities, (v) => { byId('totalLiabilities').textContent = symbol + formatter.format(v); });
+            byId('zakatableWealth').textContent = currency === 'BDT'
                 ? ("BDT " + formatter.format(zakatableWealthBdt))
                 : (symbol + formatter.format(zakatableWealth) + " (BDT " + formatter.format(zakatableWealthBdt) + ")");
-            document.getElementById('nisabThreshold').textContent = currency === 'BDT'
+            byId('nisabThreshold').textContent = currency === 'BDT'
                 ? ("BDT " + formatter.format(nisabThresholdBdt))
                 : (symbol + formatter.format(nisabThreshold) + " (BDT " + formatter.format(nisabThresholdBdt) + ")");
-            document.getElementById('zakatAmountLabel').textContent = `Your Zakat Due (2.5%) in ${currency}`;
-            animateNumber(document.getElementById('zakatAmount'), zakatAmountDisplay, (v) => {
-                document.getElementById('zakatAmount').textContent = formatter.format(v);
+            byId('zakatAmountLabel').textContent = `Your Zakat Due (2.5%) in ${currency}`;
+            animateNumber(byId('zakatAmount'), zakatAmountDisplay, (v) => { byId('zakatAmount').textContent = formatter.format(v); }, 850);
+            animateNumber(byId('zakatAmountSecondary'), currency === 'BDT' ? zakatAmountUsd : zakatAmountBdt, (v) => {
+                byId('zakatAmountSecondary').textContent = currency === 'BDT' ? ("USD " + formatter.format(v)) : ("BDT " + formatter.format(v));
             }, 850);
-            animateNumber(document.getElementById('zakatAmountSecondary'), currency === 'BDT' ? zakatAmountUsd : zakatAmountBdt, (v) => {
-                document.getElementById('zakatAmountSecondary').textContent = currency === 'BDT'
-                    ? ("USD " + formatter.format(v))
-                    : ("BDT " + formatter.format(v));
-            }, 850);
-            animateNumber(document.getElementById('bdCashBank'), cashBankDisplay, (v) => {
-                document.getElementById('bdCashBank').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdMetals'), metalsDisplay, (v) => {
-                document.getElementById('bdMetals').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdCrypto'), cryptoDisplay, (v) => {
-                document.getElementById('bdCrypto').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdStocks'), stocksDisplay, (v) => {
-                document.getElementById('bdStocks').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdBusiness'), businessDisplay, (v) => {
-                document.getElementById('bdBusiness').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdReceivables'), receivablesDisplay, (v) => {
-                document.getElementById('bdReceivables').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdExtraAssets'), extraAssetsDisplay, (v) => {
-                document.getElementById('bdExtraAssets').textContent = symbol + formatter.format(v);
-            });
-            animateNumber(document.getElementById('bdDebts'), debtsDisplay, (v) => {
-                document.getElementById('bdDebts').textContent = symbol + formatter.format(v);
-            });
+            animateNumber(byId('bdCashBank'), bdtToDisplay(cashBankBdt), (v) => { byId('bdCashBank').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdMetals'), bdtToDisplay(goldTotalBdt + silverTotalBdt), (v) => { byId('bdMetals').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdCrypto'), bdtToDisplay(digitalAssetsBdt), (v) => { byId('bdCrypto').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdStocks'), bdtToDisplay(stocksBdt), (v) => { byId('bdStocks').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdBusiness'), bdtToDisplay(businessTotalBdt), (v) => { byId('bdBusiness').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdReceivables'), bdtToDisplay(receivablesTotalBdt), (v) => { byId('bdReceivables').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdExtraAssets'), bdtToDisplay(extraAssetsBdt), (v) => { byId('bdExtraAssets').textContent = symbol + formatter.format(v); });
+            animateNumber(byId('bdDebts'), bdtToDisplay(debtsBdt), (v) => { byId('bdDebts').textContent = symbol + formatter.format(v); });
             updateHawlReminderUI();
 
             const finalCard = document.querySelector('.final-result');
@@ -2426,61 +2992,74 @@
                 finalCard.classList.add('pulse-in');
             }
 
-            const statusEl = document.getElementById('nisabStatus');
+            const statusEl = byId('nisabStatus');
+            const heroStatusEl = byId('resultsHeroStatus');
             if (zakatableWealthBdt < nisabThresholdBdt) {
-                statusEl.innerHTML = '⚠️ Your wealth is below the Nisab threshold. Zakat is not obligatory at this time.';
+                if (heroStatusEl) heroStatusEl.textContent = 'Below Nisab. Zakat is not due at this time.';
+                statusEl.innerHTML = 'Below Nisab threshold';
                 statusEl.style.background = 'rgba(139, 97, 24, 0.4)';
                 statusEl.style.border = '1px solid rgba(255, 208, 106, 0.55)';
             } else {
-                statusEl.innerHTML = '✅ Your wealth exceeds the Nisab threshold. Zakat is due if you\'ve held this wealth for one lunar year (Hawl).';
+                if (heroStatusEl) heroStatusEl.textContent = 'Above Nisab. Your zakat is due for this cycle.';
+                statusEl.innerHTML = 'Above Nisab threshold';
                 statusEl.style.background = 'rgba(116, 87, 27, 0.38)';
                 statusEl.style.border = '1px solid rgba(244, 212, 123, 0.5)';
             }
 
             updateQuickStartProgress();
-            saveData();
+        }
+
+        function calculateZakat() {
+            recalcFast();
+            scheduleSaveData();
         }
 
         function saveData() {
             const data = {
-                currency: document.getElementById('currency').value,
-                nisabType: document.getElementById('nisabType').value,
-                usdToBdt: document.getElementById('usdToBdt').value,
-                goldPrice: document.getElementById('goldPrice').value,
-                silverPrice: document.getElementById('silverPrice').value,
-                zakatHijriMonth: document.getElementById('zakatHijriMonth').value,
-                zakatHijriDay: document.getElementById('zakatHijriDay').value,
-                zakatHijriNote: document.getElementById('zakatHijriNote').value,
-                lastZakatPaid: document.getElementById('lastZakatPaid').value,
-                cashBankTotalAmt: document.getElementById('cashBankTotalAmt').value,
-                cashBankTotalCur: document.getElementById('cashBankTotalCur').value,
-                cashAmt: document.getElementById('cashAmt').value,
-                cashCur: document.getElementById('cashCur').value,
-                bankAmt: document.getElementById('bankAmt').value,
-                bankCur: document.getElementById('bankCur').value,
-                goldAmt: document.getElementById('goldAmt').value,
-                goldCur: document.getElementById('goldCur').value,
-                silverAmt: document.getElementById('silverAmt').value,
-                silverCur: document.getElementById('silverCur').value,
-                investmentsAmt: document.getElementById('investmentsAmt').value,
-                investmentsCur: document.getElementById('investmentsCur').value,
-                cryptoAmt: document.getElementById('cryptoAmt').value,
-                cryptoCur: document.getElementById('cryptoCur').value,
-                businessAmt: document.getElementById('businessAmt').value,
-                businessCur: document.getElementById('businessCur').value,
-                receivablesAmt: document.getElementById('receivablesAmt').value,
-                receivablesCur: document.getElementById('receivablesCur').value,
-                debtsAmt: document.getElementById('debtsAmt').value,
-                debtsCur: document.getElementById('debtsCur').value,
+                currency: byId('currency').value,
+                themeMode: byId('themeMode')?.value || 'midnight-gold',
+                nisabType: byId('nisabType').value,
+                usdToBdt: byId('usdToBdt').value,
+                goldPrice: byId('goldPrice').value,
+                silverPrice: byId('silverPrice').value,
+                zakatHijriMonth: byId('zakatHijriMonth').value,
+                zakatHijriDay: byId('zakatHijriDay').value,
+                zakatHijriNote: byId('zakatHijriNote').value,
+                lastZakatPaid: byId('lastZakatPaid').value,
+                cashBankTotalAmt: byId('cashBankTotalAmt').value,
+                cashBankTotalCur: byId('cashBankTotalCur').value,
+                cashAmt: byId('cashAmt').value,
+                cashCur: byId('cashCur').value,
+                bankAmt: byId('bankAmt').value,
+                bankCur: byId('bankCur').value,
+                goldAmt: byId('goldAmt').value,
+                goldCur: byId('goldCur').value,
+                silverAmt: byId('silverAmt').value,
+                silverCur: byId('silverCur').value,
+                investmentsAmt: byId('investmentsAmt').value,
+                investmentsCur: byId('investmentsCur').value,
+                digitalAssetsAmt: byId('digitalAssetsAmt').value,
+                digitalAssetsCur: byId('digitalAssetsCur').value,
+                businessAmt: byId('businessAmt').value,
+                businessCur: byId('businessCur').value,
+                receivablesAmt: byId('receivablesAmt').value,
+                receivablesCur: byId('receivablesCur').value,
+                debtsAmt: byId('debtsAmt').value,
+                debtsCur: byId('debtsCur').value,
+                coreExtraEntries: serializeCoreExtraEntries(),
                 extraAssets: serializeExtraAssets()
             };
             localStorage.setItem('zakatCalculatorData', JSON.stringify(data));
+            localStorage.setItem(themeStorageKey, data.themeMode);
         }
 
         function loadData() {
             const saved = localStorage.getItem('zakatCalculatorData');
+            const savedTheme = localStorage.getItem(themeStorageKey);
+            if (savedTheme) applyTheme(savedTheme);
             if (saved) {
                 const data = JSON.parse(saved);
+                if (data.themeMode) applyTheme(data.themeMode);
 
                 // Backward compatibility: migrate old BDT/USD split fields if present.
                 const migrate = (newAmt, newCur, oldBDT, oldUSD) => {
@@ -2500,10 +3079,15 @@
                 migrate('goldAmt', 'goldCur', 'goldBDT', 'goldUSD');
                 migrate('silverAmt', 'silverCur', 'silverBDT', 'silverUSD');
                 migrate('investmentsAmt', 'investmentsCur', 'investmentsBDT', 'investmentsUSD');
-                migrate('cryptoAmt', 'cryptoCur', 'cryptoBDT', 'cryptoUSD');
+                migrate('digitalAssetsAmt', 'digitalAssetsCur', 'cryptoBDT', 'cryptoUSD');
                 migrate('businessAmt', 'businessCur', 'businessBDT', 'businessUSD');
                 migrate('receivablesAmt', 'receivablesCur', 'receivablesBDT', 'receivablesUSD');
                 migrate('debtsAmt', 'debtsCur', 'debtsBDT', 'debtsUSD');
+
+                if (data.digitalAssetsAmt === undefined && data.cryptoAmt !== undefined) {
+                    data.digitalAssetsAmt = data.cryptoAmt;
+                    data.digitalAssetsCur = data.cryptoCur || 'BDT';
+                }
 
                 // Migrate previous dual cash inputs back into current single cash input.
                 if (data.cashAmt === undefined) {
@@ -2534,10 +3118,22 @@
                     }));
                 }
 
+                if (!data.coreExtraEntries || typeof data.coreExtraEntries !== 'object') {
+                    data.coreExtraEntries = {
+                        cashBank: [],
+                        stocks: [],
+                        gold: [],
+                        silver: [],
+                        business: [],
+                        receivables: []
+                    };
+                }
+
                 Object.keys(data).forEach(key => {
                     const el = document.getElementById(key);
                     if (el) el.value = data[key];
                 });
+                restoreCoreExtraEntries(data.coreExtraEntries);
                 restoreExtraAssets(data.extraAssets);
                 const splitPanel = document.getElementById('splitCashBankPanel');
                 const splitBtn = document.getElementById('splitCashBankBtn');
@@ -2550,15 +3146,16 @@
                     }
                 }
                 syncDefaultCurrenciesToMain();
-                calculateZakat();
+                recalcFast();
             } else {
+                restoreCoreExtraEntries({});
                 restoreExtraAssets([]);
                 syncDefaultCurrenciesToMain();
                 const lastPaidEl = document.getElementById('lastZakatPaid');
                 if (lastPaidEl && !lastPaidEl.value) {
                     lastPaidEl.value = new Date().toISOString().slice(0, 10);
                 }
-                calculateZakat();
+                recalcFast();
             }
         }
 
@@ -2575,10 +3172,6 @@
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function exportToPdf() {
-            window.print();
         }
 
         function exportInvoicePdf() {
@@ -2608,14 +3201,25 @@
         function hasEnteredFinancialData() {
             const fieldIds = [
                 'cashBankTotalAmt', 'cashAmt', 'bankAmt', 'goldAmt', 'silverAmt',
-                'investmentsAmt', 'cryptoAmt', 'businessAmt', 'receivablesAmt', 'debtsAmt'
+                'investmentsAmt', 'digitalAssetsAmt', 'businessAmt', 'receivablesAmt', 'debtsAmt'
             ];
             const hasMainValues = fieldIds.some((id) => {
-                const el = document.getElementById(id);
+                const el = byId(id);
                 const value = parseFloat(el?.value || '0');
                 return Number.isFinite(value) && Math.abs(value) > 0;
             });
             if (hasMainValues) return true;
+
+            const coreFields = ['cashBank', 'stocks', 'gold', 'silver', 'business', 'receivables'];
+            const hasCoreExtraValues = coreFields.some((field) => {
+                const list = byId(`${field}ExtraList`);
+                if (!list) return false;
+                return Array.from(list.querySelectorAll('.core-extra-amount')).some((input) => {
+                    const value = parseFloat(input.value || '0');
+                    return Number.isFinite(value) && Math.abs(value) > 0;
+                });
+            });
+            if (hasCoreExtraValues) return true;
 
             return serializeExtraAssets().some((entry) => {
                 const value = parseFloat(entry?.amount || '0');
@@ -2624,10 +3228,10 @@
         }
 
         function updateQuickStartProgress() {
-            const stepButtons = Array.from(document.querySelectorAll('.quick-step'));
+            const stepButtons = quickStepButtons.length ? quickStepButtons : Array.from(document.querySelectorAll('.quick-step'));
             if (!stepButtons.length) return;
 
-            const sectionIds = ['assetsCard', 'debtsCard', 'resultsCard'];
+            const sectionIds = quickStepSections.length ? quickStepSections : ['assetsCard', 'debtsCard', 'resultsCard'];
             let activeIndex = 0;
             const anchor = window.innerHeight * 0.35;
 
@@ -2652,19 +3256,100 @@
             }
         }
 
-        window.addEventListener('scroll', () => {
-            const backToTop = document.getElementById('backToTop');
-            if (window.scrollY > 500) {
-                backToTop.classList.add('show');
-            } else {
-                backToTop.classList.remove('show');
+        function setupTopNav() {
+            topNavLinks = Array.from(document.querySelectorAll('.top-link[data-nav-target]'));
+            topNavSections = topNavLinks
+                .map((link) => byId(link.getAttribute('data-nav-target') || ''))
+                .filter(Boolean);
+
+            topNavLinks.forEach((link) => {
+                link.addEventListener('click', () => {
+                    const target = byId(link.getAttribute('data-nav-target') || '');
+                    if (!target) return;
+                    target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+                });
+            });
+
+            const topThemeEl = byId('topThemeMode');
+            if (topThemeEl) {
+                topThemeEl.addEventListener('change', () => {
+                    applyTheme(topThemeEl.value);
+                    scheduleSaveData(0);
+                });
             }
+        }
+
+        function updateTopNavActive() {
+            if (!topNavLinks.length) return;
+            const anchor = window.innerHeight * 0.28;
+            let activeId = 'landing';
+
+            topNavSections.forEach((section) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= anchor) activeId = section.id;
+            });
+
+            topNavLinks.forEach((link) => {
+                link.classList.toggle('active', link.getAttribute('data-nav-target') === activeId);
+            });
+        }
+
+        function setupSectionRail() {
+            railLinks = Array.from(document.querySelectorAll('.rail-link[data-rail-target]'));
+            railSections = railLinks
+                .map((link) => byId(link.getAttribute('data-rail-target') || ''))
+                .filter(Boolean);
+
+            railLinks.forEach((link) => {
+                link.addEventListener('click', () => {
+                    const target = byId(link.getAttribute('data-rail-target') || '');
+                    if (!target) return;
+                    target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+                });
+            });
+        }
+
+        function updateSectionRailActive() {
+            if (!railLinks.length) return;
+            const anchor = window.innerHeight * 0.3;
+            let activeId = 'settingsCard';
+
+            railSections.forEach((section) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= anchor) activeId = section.id;
+            });
+
+            railLinks.forEach((link) => {
+                link.classList.toggle('active', link.getAttribute('data-rail-target') === activeId);
+            });
+        }
+
+        function onScrollTick() {
+            const backToTop = byId('backToTop');
+            if (backToTop) {
+                if (window.scrollY > 500) {
+                    backToTop.classList.add('show');
+                } else {
+                    backToTop.classList.remove('show');
+                }
+            }
+            updateTopNavActive();
+            updateSectionRailActive();
             updateQuickStartProgress();
-        });
+            scrollRafId = null;
+        }
+
+        window.addEventListener('scroll', () => {
+            if (scrollRafId) return;
+            scrollRafId = requestAnimationFrame(onScrollTick);
+        }, { passive: true });
 
         window.addEventListener('load', () => {
-            const splitBtn = document.getElementById('splitCashBankBtn');
-            const splitPanel = document.getElementById('splitCashBankPanel');
+            quickStepButtons = Array.from(document.querySelectorAll('.quick-step'));
+            quickStepSections = ['assetsCard', 'debtsCard', 'resultsCard'];
+
+            const splitBtn = byId('splitCashBankBtn');
+            const splitPanel = byId('splitCashBankPanel');
             if (splitBtn && splitPanel) {
                 splitBtn.addEventListener('click', () => {
                     const isHidden = splitPanel.hasAttribute('hidden');
@@ -2678,26 +3363,84 @@
                 });
             }
 
+            const calculator = byId('calculator');
+            if (calculator) {
+                const onCalcInput = (event) => {
+                    const target = event.target;
+                    if (!(target instanceof HTMLElement)) return;
+                    if (!target.id || !calcInputIds.has(target.id)) return;
+                    if (target.id === 'currency') {
+                        handleMainCurrencyChange();
+                        return;
+                    }
+                    if (target.id === 'themeMode') {
+                        applyTheme(target.value);
+                        scheduleSaveData(0);
+                        return;
+                    }
+                    calculateZakat();
+                };
+                calculator.addEventListener('input', onCalcInput);
+                calculator.addEventListener('change', onCalcInput);
+            }
+
             document.addEventListener('click', (event) => {
                 const btn = event.target.closest('.currency-mini[data-currency-for]');
-                if (!btn) return;
-                const hiddenId = btn.getAttribute('data-currency-for');
-                if (hiddenId) toggleCurrencyFor(hiddenId);
+                if (btn) {
+                    const hiddenId = btn.getAttribute('data-currency-for');
+                    if (hiddenId) toggleCurrencyFor(hiddenId);
+                    return;
+                }
+
+                const coreBtn = event.target.closest('.core-extra-currency-btn');
+                if (coreBtn) {
+                    const row = coreBtn.closest('.core-extra-row');
+                    const hidden = row ? row.querySelector('.core-extra-currency') : null;
+                    if (!hidden) return;
+                    hidden.value = hidden.value === 'USD' ? 'BDT' : 'USD';
+                    coreBtn.textContent = hidden.value;
+                    calculateZakat();
+                    return;
+                }
+
+                const extraBtn = event.target.closest('.extra-asset-currency-btn');
+                if (!extraBtn) return;
+                const row = extraBtn.closest('.extra-asset-row');
+                const hidden = row ? row.querySelector('.extra-asset-currency') : null;
+                if (!hidden) return;
+                hidden.value = hidden.value === 'USD' ? 'BDT' : 'USD';
+                extraBtn.textContent = hidden.value;
+                calculateZakat();
             });
 
-            const addAssetBtn = document.getElementById('addAssetRowBtn');
-            if (addAssetBtn) addAssetBtn.addEventListener('click', () => addExtraAssetRow({ type: 'Other', amount: 0, currency: document.getElementById('currency')?.value || 'BDT' }));
-            const saveHistoryBtn = document.getElementById('saveHistoryBtn');
+            const ctaBtn = byId('calculateCtaBtn');
+            if (ctaBtn) ctaBtn.addEventListener('click', scrollToCalculator);
+            const exportBtn = byId('exportInvoiceBtn');
+            if (exportBtn) exportBtn.addEventListener('click', exportInvoicePdf);
+            const backToTopBtn = byId('backToTop');
+            if (backToTopBtn) backToTopBtn.addEventListener('click', scrollToTop);
+
+            const addAssetBtn = byId('addAssetRowBtn');
+            if (addAssetBtn) addAssetBtn.addEventListener('click', () => addExtraAssetRow({ type: 'Other', amount: 0, currency: byId('currency')?.value || 'BDT' }));
+            document.querySelectorAll('.add-core-entry[data-core-field]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const field = btn.getAttribute('data-core-field');
+                    if (!field) return;
+                    addCoreExtraRow(field, { label: '', amount: 0, currency: byId('currency')?.value || 'BDT' });
+                    calculateZakat();
+                });
+            });
+            const saveHistoryBtn = byId('saveHistoryBtn');
             if (saveHistoryBtn) {
                 saveHistoryBtn.addEventListener('click', () => {
-                    const y = parseInt(document.getElementById('historyYear')?.value || '', 10) || new Date().getFullYear();
+                    const y = parseInt(byId('historyYear')?.value || '', 10) || new Date().getFullYear();
                     upsertZakatHistory(y, latestZakatAmountBdt);
                 });
             }
-            document.querySelectorAll('.quick-step').forEach((btn) => {
+            quickStepButtons.forEach((btn) => {
                 btn.addEventListener('click', () => {
                     const targetId = btn.getAttribute('data-target');
-                    const target = targetId ? document.getElementById(targetId) : null;
+                    const target = targetId ? byId(targetId) : null;
                     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
@@ -2706,11 +3449,16 @@
             fillHijriDayOptions();
             setupScrollReveal();
             setupMoonParallax();
+            setupTopNav();
+            setupSectionRail();
+            applyTheme(byId('themeMode')?.value || localStorage.getItem(themeStorageKey) || 'midnight-gold');
             loadData();
-            const historyYearEl = document.getElementById('historyYear');
+            const historyYearEl = byId('historyYear');
             if (historyYearEl && !historyYearEl.value) historyYearEl.value = String(new Date().getFullYear());
             renderZakatHistory();
             updateCurrencyMiniButtons();
+            updateTopNavActive();
+            updateSectionRailActive();
             updateQuickStartProgress();
         });
     </script>
