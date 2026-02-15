@@ -1733,6 +1733,17 @@
             transform: translateY(-1px);
         }
 
+        .settings-live-prices {
+            gap: 0.5rem;
+            align-self: end;
+        }
+
+        .settings-live-status {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-height: 1.1rem;
+        }
+
         .invoice-sheet {
             display: none;
         }
@@ -3206,13 +3217,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Gold Price per Gram (USD)</label>
-                    <input type="number" id="goldPrice" class="form-input" value="159.93" step="0.01" placeholder="159.93">
+                    <label class="form-label" id="goldPriceLabel">Gold Price per Gram (USD)</label>
+                    <input type="number" id="goldPrice" class="form-input" value="" step="0.01" placeholder="Enter gold price per gram">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Silver Price per Gram (USD)</label>
-                    <input type="number" id="silverPrice" class="form-input" value="2.52" step="0.01" placeholder="2.52">
+                    <label class="form-label" id="silverPriceLabel">Silver Price per Gram (USD)</label>
+                    <input type="number" id="silverPrice" class="form-input" value="" step="0.01" placeholder="Enter silver price per gram">
+                </div>
+
+                <div class="form-group settings-live-prices">
+                    <button type="button" id="fetchLivePricesBtn" class="mini-btn">Fetch Live 24K Gold &amp; 999 Silver</button>
+                    <span id="livePriceStatus" class="settings-live-status"></span>
                 </div>
             </div>
             <div class="hawl-card">
@@ -3255,7 +3271,7 @@
                 </div>
             </div>
             <div class="info-box">
-                <p><strong>Defaults are examples:</strong> Update with today’s market rates or enter your own.</p>
+                <p><strong>Market rates:</strong> Click “Fetch Live 24K Gold &amp; 999 Silver” or enter your own values.</p>
             </div>
             </div>
         </details>
@@ -3555,6 +3571,7 @@
         let scrollRafId = null;
         let quickStepButtons = [];
         let quickStepSections = [];
+        let lastDisplayCurrency = null;
         let topNavLinks = [];
         let topNavSections = [];
         let topLinkIndicator = null;
@@ -3976,6 +3993,145 @@
             calculateZakat();
         }
 
+        function updateMetalPriceLabels() {
+            const displayCurrency = byId('currency')?.value || 'BDT';
+            const goldPriceLabel = byId('goldPriceLabel');
+            const silverPriceLabel = byId('silverPriceLabel');
+            if (goldPriceLabel) goldPriceLabel.textContent = `Gold Price per Gram (${displayCurrency})`;
+            if (silverPriceLabel) silverPriceLabel.textContent = `Silver Price per Gram (${displayCurrency})`;
+        }
+
+        function getMetalPriceCurrency() {
+            const goldInput = byId('goldPrice');
+            const silverInput = byId('silverPrice');
+            return goldInput?.dataset.priceCurrency || silverInput?.dataset.priceCurrency || 'USD';
+        }
+
+        function setMetalPriceCurrency(currency) {
+            const safe = currency === 'BDT' ? 'BDT' : 'USD';
+            const goldInput = byId('goldPrice');
+            const silverInput = byId('silverPrice');
+            if (goldInput) goldInput.dataset.priceCurrency = safe;
+            if (silverInput) silverInput.dataset.priceCurrency = safe;
+        }
+
+        function convertMetalPricesBetweenCurrencies(fromCurrency, toCurrency) {
+            if (!fromCurrency || !toCurrency || fromCurrency === toCurrency) return;
+            const rate = parseFloat(byId('usdToBdt')?.value) || 0;
+            if (rate <= 0) return;
+            setMetalPriceBaseUsdFromVisible(fromCurrency);
+            renderMetalPricesFromBaseUsd(toCurrency);
+        }
+
+        function setMetalPriceBaseUsdFromVisible(visibleCurrency) {
+            const rate = parseFloat(byId('usdToBdt')?.value) || 0;
+            ['goldPrice', 'silverPrice'].forEach((id) => {
+                const input = byId(id);
+                if (!input) return;
+                const raw = parseFloat(input.value);
+                if (!Number.isFinite(raw)) return;
+                const baseUsd = visibleCurrency === 'USD'
+                    ? raw
+                    : (rate > 0 ? (raw / rate) : raw);
+                input.dataset.baseUsd = String(baseUsd);
+            });
+            setMetalPriceCurrency(visibleCurrency);
+        }
+
+        function renderMetalPricesFromBaseUsd(targetCurrency) {
+            const rate = parseFloat(byId('usdToBdt')?.value) || 0;
+            ['goldPrice', 'silverPrice'].forEach((id) => {
+                const input = byId(id);
+                if (!input) return;
+                let baseUsd = parseFloat(input.dataset.baseUsd || '');
+                if (!Number.isFinite(baseUsd)) {
+                    const fallback = parseFloat(input.value);
+                    if (!Number.isFinite(fallback)) return;
+                    const currentCurrency = getMetalPriceCurrency();
+                    baseUsd = currentCurrency === 'USD' ? fallback : (rate > 0 ? (fallback / rate) : fallback);
+                    input.dataset.baseUsd = String(baseUsd);
+                }
+                const nextVal = targetCurrency === 'USD' ? baseUsd : baseUsd * rate;
+                input.value = Number.isFinite(nextVal) ? nextVal.toFixed(2) : input.value;
+            });
+            setMetalPriceCurrency(targetCurrency);
+        }
+
+        function maybeMigrateLegacyMetalPrices(displayCurrency) {
+            const goldVal = parseFloat(byId('goldPrice')?.value || '');
+            const silverVal = parseFloat(byId('silverPrice')?.value || '');
+            if (!Number.isFinite(goldVal) || !Number.isFinite(silverVal)) return;
+
+            // Heuristic for older saves where labels changed but values stayed in previous currency.
+            if (displayCurrency === 'BDT' && goldVal < 1000 && silverVal < 50) {
+                convertMetalPricesBetweenCurrencies('USD', 'BDT');
+                return;
+            }
+            if (displayCurrency === 'USD' && goldVal > 1000 && silverVal > 50) {
+                convertMetalPricesBetweenCurrencies('BDT', 'USD');
+            }
+        }
+
+        async function fetchLiveMetalPrices() {
+            const statusEl = byId('livePriceStatus');
+            const btn = byId('fetchLivePricesBtn');
+            if (statusEl) statusEl.textContent = 'Fetching live prices...';
+            if (btn) btn.disabled = true;
+
+            try {
+                const [goldRes, silverRes] = await Promise.all([
+                    fetch('https://api.gold-api.com/price/XAU'),
+                    fetch('https://api.gold-api.com/price/XAG')
+                ]);
+                if (!goldRes.ok || !silverRes.ok) {
+                    throw new Error('Unable to fetch live prices');
+                }
+
+                const [goldData, silverData] = await Promise.all([goldRes.json(), silverRes.json()]);
+                const ozToGram = 31.1034768;
+                const goldUsdPerGram = (Number(goldData?.price) || 0) / ozToGram;
+                const silverUsdPerGram = (Number(silverData?.price) || 0) / ozToGram;
+
+                if (!(goldUsdPerGram > 0) || !(silverUsdPerGram > 0)) {
+                    throw new Error('Invalid live price response');
+                }
+
+                const goldInput = byId('goldPrice');
+                const silverInput = byId('silverPrice');
+                if (goldInput) goldInput.dataset.baseUsd = String(goldUsdPerGram);
+                if (silverInput) silverInput.dataset.baseUsd = String(silverUsdPerGram);
+
+                const displayCurrency = byId('currency')?.value || 'BDT';
+                renderMetalPricesFromBaseUsd(displayCurrency);
+                updateMetalPriceLabels();
+                calculateZakat();
+
+                const updatedAt = goldData?.updatedAt || silverData?.updatedAt || '';
+                let updatedText = 'Live prices updated';
+                if (updatedAt) {
+                    const dt = new Date(updatedAt);
+                    if (!Number.isNaN(dt.getTime())) {
+                        updatedText += ` (${new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(dt)})`;
+                    }
+                }
+                if (statusEl) statusEl.textContent = updatedText;
+            } catch (error) {
+                if (statusEl) statusEl.textContent = 'Live price fetch failed. Enter values manually.';
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        }
+
+        function autoFetchLiveMetalPricesIfEmpty() {
+            const goldVal = parseFloat(byId('goldPrice')?.value || '');
+            const silverVal = parseFloat(byId('silverPrice')?.value || '');
+            const goldEmpty = !Number.isFinite(goldVal) || goldVal <= 0;
+            const silverEmpty = !Number.isFinite(silverVal) || silverVal <= 0;
+            if (goldEmpty && silverEmpty) {
+                fetchLiveMetalPrices();
+            }
+        }
+
         function syncDefaultCurrenciesToMain() {
             const mainCurrency = document.getElementById('currency')?.value || 'BDT';
             const fieldMap = {
@@ -4012,6 +4168,16 @@
         }
 
         function handleMainCurrencyChange() {
+            const currencyEl = byId('currency');
+            if (!currencyEl) return;
+            const nextCurrency = currencyEl.value || 'BDT';
+            const prevCurrency = lastDisplayCurrency || getMetalPriceCurrency();
+            if (prevCurrency !== nextCurrency) {
+                convertMetalPricesBetweenCurrencies(prevCurrency, nextCurrency);
+            }
+            setMetalPriceCurrency(nextCurrency);
+            lastDisplayCurrency = nextCurrency;
+            updateMetalPriceLabels();
             syncDefaultCurrenciesToMain();
             calculateZakat();
         }
@@ -4193,6 +4359,7 @@
             const goldPrice = parseFloat(byId('goldPrice').value) || 0;
             const silverPrice = parseFloat(byId('silverPrice').value) || 0;
             const usdToBdt = parseFloat(byId('usdToBdt').value) || 0;
+            const priceCurrency = currency;
 
             const read = (id) => parseFloat(byId(id).value) || 0;
             const toBdt = (amount, entryCurrency) => {
@@ -4231,8 +4398,10 @@
 
             const GOLD_NISAB_GRAMS = 87.48;
             const SILVER_NISAB_GRAMS = 612.36;
-            const nisabUsd = nisabType === 'gold' ? (GOLD_NISAB_GRAMS * goldPrice) : (SILVER_NISAB_GRAMS * silverPrice);
-            const nisabThresholdBdt = nisabUsd * usdToBdt;
+            const nisabPriceValue = nisabType === 'gold' ? (GOLD_NISAB_GRAMS * goldPrice) : (SILVER_NISAB_GRAMS * silverPrice);
+            const nisabThresholdBdt = priceCurrency === 'BDT'
+                ? nisabPriceValue
+                : nisabPriceValue * usdToBdt;
             const zakatAmountBdt = zakatableWealthBdt >= nisabThresholdBdt ? (zakatableWealthBdt * 0.025) : 0;
             latestZakatAmountBdt = zakatAmountBdt;
 
@@ -4338,6 +4507,7 @@
                 usdToBdt: byId('usdToBdt').value,
                 goldPrice: byId('goldPrice').value,
                 silverPrice: byId('silverPrice').value,
+                metalPriceCurrency: getMetalPriceCurrency(),
                 zakatHijriMonth: byId('zakatHijriMonth').value,
                 zakatHijriDay: byId('zakatHijriDay').value,
                 zakatHijriNote: byId('zakatHijriNote').value,
@@ -4449,6 +4619,23 @@
                     const el = document.getElementById(key);
                     if (el) el.value = data[key];
                 });
+
+                // Preserve and migrate metal price currency context.
+                const savedMetalCurrency = (data.metalPriceCurrency === 'BDT' || data.metalPriceCurrency === 'USD')
+                    ? data.metalPriceCurrency
+                    : 'USD';
+                setMetalPriceCurrency(savedMetalCurrency);
+                const displayCurrency = byId('currency')?.value || 'BDT';
+                if (savedMetalCurrency !== displayCurrency) {
+                    convertMetalPricesBetweenCurrencies(savedMetalCurrency, displayCurrency);
+                }
+                // Safety migration for older/stale saves where metalPriceCurrency was stored
+                // but values were still in the other unit.
+                maybeMigrateLegacyMetalPrices(displayCurrency);
+                lastDisplayCurrency = displayCurrency;
+                setMetalPriceBaseUsdFromVisible(displayCurrency);
+                updateMetalPriceLabels();
+
                 restoreCoreExtraEntries(data.coreExtraEntries);
                 restoreExtraAssets(data.extraAssets);
                 const splitPanel = document.getElementById('splitCashBankPanel');
@@ -4463,6 +4650,10 @@
             } else {
                 restoreCoreExtraEntries({});
                 restoreExtraAssets([]);
+                setMetalPriceCurrency(byId('currency')?.value || 'USD');
+                setMetalPriceBaseUsdFromVisible(byId('currency')?.value || 'BDT');
+                updateMetalPriceLabels();
+                lastDisplayCurrency = byId('currency')?.value || 'BDT';
                 syncDefaultCurrenciesToMain();
                 setSplitPanelOpen(false);
                 const lastPaidEl = document.getElementById('lastZakatPaid');
@@ -4742,6 +4933,20 @@
                         handleMainCurrencyChange();
                         return;
                     }
+                    if (target.id === 'usdToBdt') {
+                        const displayCurrency = byId('currency')?.value || 'BDT';
+                        if (displayCurrency === 'BDT') {
+                            renderMetalPricesFromBaseUsd('BDT');
+                        }
+                        calculateZakat();
+                        return;
+                    }
+                    if (target.id === 'goldPrice' || target.id === 'silverPrice') {
+                        const displayCurrency = byId('currency')?.value || 'BDT';
+                        setMetalPriceBaseUsdFromVisible(displayCurrency);
+                        calculateZakat();
+                        return;
+                    }
                     if (target.id === 'themeMode') {
                         applyTheme(target.value);
                         scheduleSaveData(0);
@@ -4786,6 +4991,8 @@
             if (ctaBtn) ctaBtn.addEventListener('click', scrollToCalculator);
             const exportBtn = byId('exportInvoiceBtn');
             if (exportBtn) exportBtn.addEventListener('click', exportInvoicePdf);
+            const livePricesBtn = byId('fetchLivePricesBtn');
+            if (livePricesBtn) livePricesBtn.addEventListener('click', fetchLiveMetalPrices);
             const backToTopBtn = byId('backToTop');
             if (backToTopBtn) backToTopBtn.addEventListener('click', scrollToTop);
 
@@ -4831,6 +5038,7 @@
             updateTopNavActive();
             updateSectionRailActive();
             updateQuickStartProgress();
+            autoFetchLiveMetalPricesIfEmpty();
         });
     </script>
 </body>
