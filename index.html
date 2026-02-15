@@ -80,6 +80,8 @@
             background-position: bottom center;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 260' preserveAspectRatio='none'%3E%3Cpath fill='%23060d1a' d='M0 260V212c40-4 64-26 96-26 37 0 61 22 93 22 30 0 54-20 90-20s54 18 90 18c28 0 52-16 76-16 38 0 56 24 94 24 32 0 54-18 86-18 28 0 50 12 80 12 42 0 64-36 106-36 44 0 62 32 104 32 26 0 44-14 70-14 39 0 56 22 92 22 34 0 54-22 88-22 38 0 58 30 96 30 34 0 52-22 86-22 30 0 56 20 86 20 34 0 60-22 88-22 38 0 56 24 95 24 31 0 49-14 79-14 25 0 43 8 69 16V260Z'/%3E%3Cpath fill='%23091121' d='M172 211c10-52 35-82 70-82s60 30 70 82zm366 5c8-40 28-64 56-64s49 24 56 64zm178-2c12-68 46-108 92-108s80 40 92 108zm306 0c9-48 34-76 68-76 34 0 58 28 67 76zm250 0c7-32 21-52 38-52 17 0 31 20 38 52z'/%3E%3Ccircle cx='762' cy='105' r='10' fill='%23091121'/%3E%3Cpath fill='%23091121' d='M772 103c10-11 23-16 36-16 13 0 24 4 31 12-8-3-14-4-21-4-18 0-30 8-46 22z'/%3E%3C/svg%3E");
             filter: blur(1.4px);
+            transform: translate3d(var(--skyline-px, 0px), var(--skyline-py, 0px), 0);
+            will-change: transform;
         }
 
         .aurora-layer {
@@ -393,6 +395,8 @@
             animation: twinkle 8s ease-in-out infinite;
             pointer-events: none;
             z-index: 1;
+            transform: translate3d(var(--star-px, 0px), var(--star-py, 0px), 0);
+            will-change: transform, opacity;
         }
 
         @keyframes twinkle {
@@ -801,7 +805,7 @@
         }
 
         #how-it-works {
-            padding: 6rem 2rem;
+            padding: 4.6rem 2rem;
             background: transparent;
             position: relative;
             z-index: 1;
@@ -821,7 +825,7 @@
         .section-subtitle {
             text-align: center;
             color: var(--text-secondary);
-            margin-bottom: 4rem;
+            margin-bottom: 2.9rem;
             font-size: 1.1rem;
         }
 
@@ -893,8 +897,34 @@
             line-height: 1.7;
         }
 
+        .section-separator {
+            position: relative;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .section-separator::before {
+            content: "";
+            width: min(860px, 86vw);
+            height: 1px;
+            background: linear-gradient(
+                90deg,
+                rgba(212, 175, 55, 0),
+                rgba(212, 175, 55, 0.56) 32%,
+                rgba(118, 227, 200, 0.56) 68%,
+                rgba(118, 227, 200, 0)
+            );
+            box-shadow:
+                0 0 14px rgba(212, 175, 55, 0.2),
+                0 0 20px rgba(118, 227, 200, 0.12);
+            opacity: 0.78;
+        }
+
         #calculator {
-            padding: 5rem 2rem;
+            padding: 3.8rem 2rem;
             max-width: 1380px;
             margin: 0 auto;
             position: relative;
@@ -926,7 +956,7 @@
 
         .calculator-header {
             text-align: center;
-            margin-bottom: 3.5rem;
+            margin-bottom: 2.6rem;
         }
 
         .calc-shell {
@@ -1318,8 +1348,8 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(148, 163, 184, 0.08);
             border-radius: 28px;
-            padding: 2.2rem;
-            margin-bottom: 2.6rem;
+            padding: 1.7rem 1.85rem;
+            margin-bottom: 1.9rem;
             box-shadow: 0 8px 30px rgba(0,0,0,.25);
             position: relative;
             overflow: hidden;
@@ -1345,7 +1375,7 @@
         .settings-accordion > summary {
             list-style: none;
             cursor: pointer;
-            padding: 2rem 2.2rem;
+            padding: 1.55rem 1.8rem;
             margin: 0;
             user-select: none;
             position: relative;
@@ -1380,7 +1410,7 @@
         }
 
         .settings-content {
-            padding: 0 2.2rem 2.2rem;
+            padding: 0 1.8rem 1.7rem;
         }
 
         .reveal-on-scroll {
@@ -1397,7 +1427,7 @@
         .calc-card-title {
             font-size: 1.85rem;
             font-weight: 700;
-            margin-bottom: 1.9rem;
+            margin-bottom: 1.6rem;
             color: var(--gold);
             letter-spacing: 0.02em;
             display: inline-flex;
@@ -1421,7 +1451,7 @@
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.85rem;
+            gap: 1.55rem;
         }
 
         .form-group {
@@ -1738,7 +1768,7 @@
             background: rgba(15, 23, 42, 0.45);
             border: 0;
             border-radius: 28px;
-            padding: 2.8rem 2.4rem;
+            padding: 2.1rem 1.95rem;
             margin-top: 0.8rem;
             border: 1px solid rgba(148, 163, 184, 0.08);
             box-shadow: 0 8px 30px rgba(0,0,0,.25);
@@ -1771,7 +1801,7 @@
         }
 
         .results-tabs {
-            margin: 1rem auto 0.9rem;
+            margin: 0.8rem auto 0.75rem;
             display: inline-flex;
             gap: 0.45rem;
             padding: 0.3rem;
@@ -2055,13 +2085,13 @@
         }
 
         .history-card {
-            margin-top: 2rem;
+            margin-top: 1.7rem;
             background: rgba(15, 23, 42, 0.45);
             border: 1px solid rgba(148, 163, 184, 0.08);
             box-shadow: 0 8px 30px rgba(0,0,0,.25);
             border-top: 1px solid rgba(212, 175, 55, 0.35);
             border-radius: 18px;
-            padding: 1.4rem;
+            padding: 1.05rem;
         }
 
         .history-accordion {
@@ -2072,7 +2102,7 @@
         .history-accordion > summary {
             list-style: none;
             cursor: pointer;
-            padding: 2rem 2.2rem;
+            padding: 1.55rem 1.8rem;
             margin: 0;
             user-select: none;
             position: relative;
@@ -2121,7 +2151,7 @@
         }
 
         .history-content {
-            padding: 0 2.2rem 2.2rem;
+            padding: 0 1.8rem 1.7rem;
         }
 
         .history-actions {
@@ -3048,6 +3078,8 @@
         </div>
     </section>
 
+    <div class="section-separator" aria-hidden="true"></div>
+
     <section id="calculator">
         <div class="calculator-header">
             <h2 class="calculator-title">Zakat Calculator</h2>
@@ -3729,9 +3761,8 @@
         }
 
         function setupMoonParallax() {
-            const landing = document.getElementById('landing');
             const moon = document.querySelector('.moon');
-            if (!landing || !moon || prefersReducedMotion) return;
+            if (prefersReducedMotion) return;
 
             let rafId = null;
             let targetX = 0;
@@ -3740,10 +3771,18 @@
             let currentY = 0;
 
             const tick = () => {
-                currentX += (targetX - currentX) * 0.12;
-                currentY += (targetY - currentY) * 0.12;
-                moon.style.setProperty('--moon-px', `${currentX.toFixed(2)}px`);
-                moon.style.setProperty('--moon-py', `${currentY.toFixed(2)}px`);
+                currentX += (targetX - currentX) * 0.1;
+                currentY += (targetY - currentY) * 0.1;
+
+                // Layer depth: skyline (slow) -> starfield (medium) -> moon (faster).
+                document.documentElement.style.setProperty('--skyline-px', `${(currentX * 1.4).toFixed(2)}px`);
+                document.documentElement.style.setProperty('--skyline-py', `${(currentY * 0.9).toFixed(2)}px`);
+                document.documentElement.style.setProperty('--star-px', `${(currentX * 2.3).toFixed(2)}px`);
+                document.documentElement.style.setProperty('--star-py', `${(currentY * 1.6).toFixed(2)}px`);
+                if (moon) {
+                    moon.style.setProperty('--moon-px', `${(currentX * 3.6).toFixed(2)}px`);
+                    moon.style.setProperty('--moon-py', `${(currentY * 3.6).toFixed(2)}px`);
+                }
 
                 if (Math.abs(targetX - currentX) > 0.05 || Math.abs(targetY - currentY) > 0.05) {
                     rafId = requestAnimationFrame(tick);
@@ -3756,16 +3795,15 @@
                 if (!rafId) rafId = requestAnimationFrame(tick);
             };
 
-            landing.addEventListener('mousemove', (event) => {
-                const rect = landing.getBoundingClientRect();
-                const nx = ((event.clientX - rect.left) / rect.width) - 0.5;
-                const ny = ((event.clientY - rect.top) / rect.height) - 0.5;
-                targetX = nx * 6; // very subtle: ~3px range each side
-                targetY = ny * 6;
+            window.addEventListener('mousemove', (event) => {
+                const nx = (event.clientX / window.innerWidth) - 0.5;
+                const ny = (event.clientY / window.innerHeight) - 0.5;
+                targetX = nx * 3.2;
+                targetY = ny * 3.2;
                 startTick();
             });
 
-            landing.addEventListener('mouseleave', () => {
+            document.addEventListener('mouseleave', () => {
                 targetX = 0;
                 targetY = 0;
                 startTick();
