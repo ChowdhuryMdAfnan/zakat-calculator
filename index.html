@@ -2728,9 +2728,13 @@
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             body {
                 overflow-x: hidden;
+            }
+
+            #landing {
+                padding: 1.1rem 0.9rem 1.2rem;
             }
 
             .top-nav {
@@ -2750,34 +2754,48 @@
                 font-size: 0.9rem;
             }
 
-            .top-nav-menu-btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-
             .top-nav-controls {
                 width: 100%;
                 justify-content: flex-start;
                 flex-direction: column;
                 gap: 0.45rem;
-                display: none;
+                display: flex;
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                pointer-events: none;
+                transform: translateY(-8px);
+                transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.28s ease;
             }
 
             .top-nav.mobile-open .top-nav-controls {
-                display: flex;
+                max-height: 340px;
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+                padding-top: 0.45rem;
             }
 
             .top-nav-links {
                 width: 100%;
-                padding: 0.14rem;
-                justify-content: flex-start;
-                overflow-x: auto;
+                padding: 0;
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.4rem;
+                border: 0;
+                background: transparent;
+                overflow: visible;
+            }
+
+            .top-link-indicator {
+                display: none;
             }
 
             .top-link {
-                padding: 0.44rem 0.8rem;
-                font-size: 0.8rem;
+                width: 100%;
+                text-align: center;
+                padding: 0.46rem 0.7rem;
+                font-size: 0.79rem;
             }
 
             .top-theme-wrap {
@@ -2797,7 +2815,7 @@
             }
 
             .top-nav.mobile-open + .nav-spacer {
-                height: 152px;
+                height: 250px;
             }
 
             #landing,
@@ -2812,19 +2830,61 @@
             }
 
             .moon {
-                width: 300px;
-                height: 300px;
-                top: 5%;
-                right: -50px;
+                width: 250px;
+                height: 250px;
+                top: 18%;
+                right: -80px;
+                opacity: 0.32;
             }
 
             .hero-title {
-                font-size: 4rem;
+                font-size: 3.4rem;
+                margin-bottom: 0.6rem;
+            }
+
+            .hero-subtitle {
+                margin-bottom: 2.1rem;
+                font-size: 1.05rem;
+            }
+
+            .hero-content {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .verse-container {
+                max-width: 100%;
+                padding: 1.2rem 1.05rem;
+                margin-bottom: 2.1rem;
+                border-radius: 14px;
+                overflow: visible;
+            }
+
+            .verse-container::after {
+                display: none;
+            }
+
+            .verse-text {
+                font-size: 0.98rem;
+                line-height: 1.55;
+                max-width: 92%;
+                margin: 0 auto 0.4rem;
+                padding-inline: 0.3rem;
+                overflow-wrap: anywhere;
+                word-break: break-word;
+                text-align: center;
+                text-indent: 0;
+            }
+
+            .verse-reference {
+                font-size: 0.86rem;
             }
 
             .cta-buttons {
                 flex-direction: column;
                 align-items: center;
+                gap: 0.85rem;
+                margin-bottom: 1.5rem;
             }
 
             .hero-preview-card {
@@ -2843,7 +2903,7 @@
 
             .btn {
                 width: 100%;
-                max-width: 300px;
+                max-width: 340px;
             }
 
             #calculator {
@@ -2986,13 +3046,21 @@
             }
         }
 
+        @media (max-width: 900px) {
+            .top-nav-menu-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 480px) {
             .nav-spacer {
                 height: 82px;
             }
 
             .top-nav.mobile-open + .nav-spacer {
-                height: 168px;
+                height: 298px;
             }
 
             .top-nav-logo {
@@ -3001,7 +3069,11 @@
 
             .top-link {
                 font-size: 0.76rem;
-                padding: 0.4rem 0.7rem;
+                padding: 0.42rem 0.62rem;
+            }
+
+            .top-nav-links {
+                grid-template-columns: 1fr;
             }
 
             .top-theme-label {
@@ -3015,6 +3087,18 @@
 
             #calculator {
                 padding: 2.75rem 0.8rem;
+            }
+
+            #landing {
+                padding: 0.85rem 0.8rem;
+            }
+
+            .hero-title {
+                font-size: 3.25rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
             }
 
             .calc-card-title {
@@ -3229,9 +3313,7 @@
             <p class="hero-subtitle">Purify your wealth. Strengthen your community.</p>
 
             <div class="verse-container">
-                <p class="verse-text">
-                    "Take from their wealth a charity by which you purify them and cause them increase."
-                </p>
+                <p class="verse-text">"Take from their wealth a charity by which you purify them and cause them increase."</p>
                 <p class="verse-reference">— Qur'an 9:103</p>
             </div>
 
@@ -4962,7 +5044,7 @@
                 .filter(Boolean);
             const topNavEl = document.querySelector('.top-nav');
             const mobileMenuBtn = byId('mobileMenuToggle');
-            const isMobileNav = () => window.matchMedia('(max-width: 768px)').matches;
+            const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
 
             const closeMobileMenu = () => {
                 if (!topNavEl || !mobileMenuBtn) return;
@@ -4977,6 +5059,22 @@
                     mobileMenuBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
                 });
             }
+
+            document.addEventListener('click', (event) => {
+                if (!isMobileNav() || !topNavEl || !mobileMenuBtn) return;
+                const target = event.target;
+                if (!(target instanceof Node)) return;
+                if (!topNavEl.classList.contains('mobile-open')) return;
+                if (topNavEl.contains(target)) return;
+                closeMobileMenu();
+            });
+
+            document.addEventListener('keydown', (event) => {
+                if (!isMobileNav() || !topNavEl) return;
+                if (event.key === 'Escape' && topNavEl.classList.contains('mobile-open')) {
+                    closeMobileMenu();
+                }
+            });
 
             topNavLinks.forEach((link) => {
                 link.addEventListener('click', () => {
