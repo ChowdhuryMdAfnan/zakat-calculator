@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zakat Entries</title>
+  <style>
+    :root {
+      --bg: #050a16;
+      --bg-soft: rgba(15, 23, 42, 0.76);
+      --card: rgba(12, 20, 34, 0.82);
+      --border: rgba(148, 163, 184, 0.2);
+      --text: #e9eefc;
+      --muted: #97a8bf;
+      --gold: #d4af37;
+      --gold-soft: #f4d47b;
+      --teal: #24c6b7;
+      --danger: #ef6a5f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 500px at 10% 0%, rgba(33, 59, 108, 0.22), transparent 60%),
+        radial-gradient(1000px 420px at 90% 0%, rgba(212, 175, 55, 0.13), transparent 62%),
+        linear-gradient(180deg, #040913 0%, var(--bg) 55%, #030812 100%);
+      padding: 1.25rem;
+    }
+
+    .container {
+      max-width: 1380px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .topbar {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1rem 1.1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      backdrop-filter: blur(8px);
+    }
+
+    .title-wrap h1 {
+      font-size: clamp(1.4rem, 4.6vw, 2.3rem);
+      color: var(--gold-soft);
+      letter-spacing: 0.02em;
+      margin-bottom: 0.15rem;
+    }
+
+    .title-wrap p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .pill {
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      background: rgba(212, 175, 55, 0.13);
+      color: var(--gold-soft);
+      border-radius: 999px;
+      padding: 0.35rem 0.7rem;
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+
+    .btn {
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.84);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 0.5rem 0.85rem;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.86rem;
+      cursor: pointer;
+    }
+
+    .btn:hover { border-color: rgba(212, 175, 55, 0.5); }
+
+    .filters {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 0.9rem;
+      display: grid;
+      grid-template-columns: 1.5fr repeat(3, minmax(160px, 1fr));
+      gap: 0.7rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .input, .select {
+      min-height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(9, 17, 30, 0.9);
+      color: var(--text);
+      padding: 0 0.78rem;
+      font-size: 0.92rem;
+      width: 100%;
+    }
+
+    .input::placeholder { color: #8394ad; }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(160px, 1fr));
+      gap: 0.7rem;
+    }
+
+    .summary-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 0.8rem;
+      min-height: 94px;
+    }
+
+    .summary-label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .summary-value {
+      font-size: clamp(1.1rem, 3.3vw, 1.55rem);
+      font-weight: 800;
+      color: var(--gold-soft);
+      line-height: 1.2;
+    }
+
+    .totals-list {
+      display: grid;
+      gap: 0.3rem;
+      margin-top: 0.2rem;
+    }
+
+    .totals-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .table-wrap {
+      background: var(--bg-soft);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(8px);
+    }
+
+    .table-scroll {
+      overflow: auto;
+      max-height: 65vh;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 880px;
+    }
+
+    th, td {
+      padding: 0.72rem 0.8rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: rgba(10, 18, 32, 0.98);
+    }
+
+    td {
+      font-size: 0.92rem;
+      color: #dde7f9;
+    }
+
+    .amount-cell {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: var(--gold-soft);
+      white-space: nowrap;
+    }
+
+    .category-pill {
+      display: inline-flex;
+      border: 1px solid rgba(36, 198, 183, 0.34);
+      background: rgba(36, 198, 183, 0.12);
+      color: #a4efe7;
+      padding: 0.15rem 0.52rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      border: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.7);
+      color: var(--text);
+      border-radius: 8px;
+      padding: 0.35rem 0.56rem;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 32px;
+    }
+
+    .action-btn.edit:hover { border-color: rgba(36, 198, 183, 0.6); }
+    .action-btn.delete:hover { border-color: rgba(239, 106, 95, 0.65); color: #ffc4bb; }
+
+    .empty {
+      padding: 2.2rem 1rem;
+      text-align: center;
+      color: var(--muted);
+      display: none;
+    }
+
+    .empty h3 {
+      color: var(--gold-soft);
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .empty p { margin-bottom: 0.9rem; }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(3, 8, 18, 0.78);
+      z-index: 20;
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-card {
+      width: min(540px, 100%);
+      background: rgba(9, 18, 32, 0.98);
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      border-radius: 14px;
+      padding: 1rem;
+    }
+
+    .modal-title {
+      color: var(--gold-soft);
+      font-size: 1.15rem;
+      margin-bottom: 0.8rem;
+      font-weight: 800;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: 0.65rem;
+      margin-bottom: 0.65rem;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.55rem;
+      margin-top: 0.2rem;
+    }
+
+    .btn-primary {
+      border-color: rgba(212, 175, 55, 0.65);
+      background: linear-gradient(135deg, #d4af37 0%, #f4d47b 100%);
+      color: #08111f;
+    }
+
+    .pdf-report-root {
+      position: fixed;
+      left: -100000px;
+      top: 0;
+      width: 1024px;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 28px;
+      z-index: -1;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+
+    .pdf-report-root * {
+      color: #0f172a;
+      opacity: 1 !important;
+    }
+
+    .pdf-report-root.is-active {
+      left: 0;
+      z-index: 3000;
+    }
+
+    .pdf-title h1 {
+      font-size: 34px;
+      margin: 0 0 6px;
+      color: #111827;
+    }
+
+    .pdf-meta {
+      font-size: 14px;
+      color: #475569;
+      margin-bottom: 2px;
+    }
+
+    .pdf-kpis {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .pdf-kpi {
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      background: #f8fafc;
+      padding: 9px;
+    }
+
+    .pdf-kpi-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #64748b;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+    }
+
+    .pdf-kpi-value {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      line-height: 1.2;
+    }
+
+    .pdf-section {
+      margin-top: 18px;
+    }
+
+    .pdf-section h2 {
+      margin: 0 0 8px;
+      font-size: 21px;
+      color: #111827;
+    }
+
+    .pdf-insights {
+      margin: 0;
+      padding-left: 20px;
+      color: #334155;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .pdf-table-wrap {
+      margin-top: 10px;
+      border: 1px solid #dbe3ef;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .pdf-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .pdf-table th,
+    .pdf-table td {
+      border-bottom: 1px solid #e5e7eb;
+      padding: 8px 10px;
+      text-align: left;
+      vertical-align: top;
+      color: #0f172a !important;
+    }
+
+    .pdf-table th {
+      background: #f1f5f9;
+      color: #334155;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.03em;
+    }
+
+    .pdf-table td {
+      font-weight: 500;
+    }
+
+    .pdf-chart-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .pdf-chart-card {
+      border: 1px solid #dbe3ef;
+      border-radius: 12px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .pdf-chart-card h3 {
+      margin: 0 0 8px;
+      color: #334155;
+      font-size: 14px;
+    }
+
+    .pdf-chart {
+      width: 100%;
+      height: 240px;
+    }
+
+    .pdf-chart-image {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+    }
+
+    @media (max-width: 980px) {
+      .filters { grid-template-columns: 1fr 1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 680px) {
+      body { padding: 0.8rem; }
+      .filters { grid-template-columns: 1fr; }
+      .modal-grid { grid-template-columns: 1fr; }
+      .topbar { padding: 0.8rem; }
+      .title-wrap h1 { font-size: 1.45rem; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="topbar">
+      <div class="title-wrap">
+        <h1>All Entries</h1>
+        <p>Track, search, and edit every entry you added from the calculator.</p>
+      </div>
+      <div class="top-actions">
+        <span class="pill" id="entriesCountPill">0 Entries</span>
+        <button type="button" class="btn" id="exportPdfReportBtn">Export PDF Report</button>
+        <a href="faq.html" class="btn">FAQ</a>
+        <a href="index.html#calculator" class="btn">Go to Calculator</a>
+      </div>
+    </section>
+
+    <section class="filters" aria-label="Entries filters">
+      <input id="searchInput" class="input" type="text" placeholder="Search category or note...">
+      <select id="categoryFilter" class="select" aria-label="Filter category"></select>
+      <select id="currencyFilter" class="select" aria-label="Filter currency"></select>
+      <select id="sortFilter" class="select" aria-label="Sort entries">
+        <option value="newest">Newest</option>
+        <option value="oldest">Oldest</option>
+        <option value="amount_desc">Amount high ? low</option>
+        <option value="amount_asc">Amount low ? high</option>
+      </select>
+    </section>
+
+    <section class="summary-grid">
+      <article class="summary-card">
+        <div class="summary-label">Total Entries</div>
+        <div class="summary-value" id="summaryCount">0</div>
+      </article>
+      <article class="summary-card" style="grid-column: span 2;">
+        <div class="summary-label">Totals by Currency</div>
+        <div class="totals-list" id="totalsByCurrency"></div>
+      </article>
+    </section>
+
+    <section class="table-wrap">
+      <div class="table-scroll" id="tableScroll">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Currency</th>
+              <th>Note</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="entriesTableBody"></tbody>
+        </table>
+      </div>
+      <div class="empty" id="emptyState">
+        <h3>No entries yet</h3>
+        <p>Add entries from your calculator to see them here.</p>
+        <a href="index.html#calculator" class="btn">Go to Calculator</a>
+      </div>
+    </section>
+  </main>
+  <div id="pdfReport" class="pdf-report-root" aria-hidden="true"></div>
+
+  <div class="modal" id="editModal" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <div class="modal-card">
+      <h2 class="modal-title" id="editTitle">Edit Entry</h2>
+      <div class="modal-grid">
+        <input id="editCategory" class="input" type="text" placeholder="Category">
+        <select id="editCurrency" class="select">
+          <option value="BDT">BDT</option>
+          <option value="USD">USD</option>
+        </select>
+      </div>
+      <div class="modal-grid">
+        <input id="editAmount" class="input" type="number" min="0" step="0.01" placeholder="Amount">
+        <input id="editDate" class="input" type="text" placeholder="Created at" readonly>
+      </div>
+      <textarea id="editNote" class="input" rows="4" placeholder="Note (optional)" style="padding:0.6rem 0.78rem; min-height:100px; resize: vertical;"></textarea>
+      <div class="modal-actions">
+        <button class="btn" type="button" id="cancelEditBtn">Cancel</button>
+        <button class="btn btn-primary" type="button" id="saveEditBtn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script>
+    const ENTRIES_KEY = 'zakat_entries_v1';
+    const CALC_STATE_KEY = 'zakatCalculatorData';
+    const ZAKAT_HISTORY_KEY = 'zakatHistoryData';
+    const state = {
+      entries: [],
+      filtered: [],
+      selectedEntryId: null
+    };
+
+    function loadEntries() {
+      try {
+        const raw = localStorage.getItem(ENTRIES_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (_error) {
+        return [];
+      }
+    }
+
+    function saveEntries(entries) {
+      localStorage.setItem(ENTRIES_KEY, JSON.stringify(entries));
+      state.entries = entries;
+    }
+
+    function formatDate(iso) {
+      const date = new Date(iso || Date.now());
+      if (Number.isNaN(date.getTime())) return '-';
+      return new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(date);
+    }
+
+    function formatAmount(value) {
+      const amount = Number(value) || 0;
+      return new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(amount);
+    }
+
+    function sanitizeAmount(value) {
+      const cleaned = String(value ?? '').replace(/[,\s]/g, '').trim();
+      if (!cleaned) return 0;
+      const parsed = Number.parseFloat(cleaned);
+      return Number.isFinite(parsed) ? parsed : 0;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function detectDebtCategory(categoryText) {
+      return /debt|liabil/i.test(String(categoryText || ''));
+    }
+
+    function getCalcState() {
+      try {
+        const raw = localStorage.getItem(CALC_STATE_KEY);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (_error) {
+        return {};
+      }
+    }
+
+    function getHistoryRows() {
+      try {
+        const raw = localStorage.getItem(ZAKAT_HISTORY_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        if (!Array.isArray(parsed)) return [];
+        return parsed
+          .map((row) => ({ year: parseInt(row.year, 10), amountBdt: sanitizeAmount(row.amountBdt) }))
+          .filter((row) => Number.isFinite(row.year))
+          .sort((a, b) => a.year - b.year);
+      } catch (_error) {
+        return [];
+      }
+    }
+
+    function buildReportDataFromState() {
+      const rows = state.filtered.length ? state.filtered : state.entries;
+      const calcState = getCalcState();
+      const selectedCurrency = String(calcState.currency || 'BDT').toUpperCase();
+      const usdToBdt = sanitizeAmount(calcState.usdToBdt || 0);
+      const toBdt = (amount, currency) => {
+        const val = sanitizeAmount(amount);
+        const cur = String(currency || 'BDT').toUpperCase();
+        if (cur === 'BDT') return val;
+        return usdToBdt > 0 ? val * usdToBdt : 0;
+      };
+      const bdtToSelected = (amountBdt) => {
+        if (selectedCurrency === 'BDT') return amountBdt;
+        return usdToBdt > 0 ? amountBdt / usdToBdt : 0;
+      };
+      const fmt = (value) => new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(sanitizeAmount(value));
+      const formatSelected = (amountBdt) => `${selectedCurrency} ${fmt(bdtToSelected(amountBdt))}`;
+      const formatBdt = (amountBdt) => `BDT ${fmt(amountBdt)}`;
+
+      const mappedRows = rows.map((entry) => {
+        const amount = sanitizeAmount(entry.amount);
+        const currency = String(entry.currency || 'BDT').toUpperCase();
+        return {
+          id: entry.id,
+          createdAt: entry.createdAt || '',
+          category: entry.category || 'Other',
+          note: entry.note || '',
+          amount,
+          currency,
+          convertedBdt: toBdt(amount, currency)
+        };
+      });
+
+      const assetRows = mappedRows.filter((entry) => !detectDebtCategory(entry.category));
+      const debtRows = mappedRows.filter((entry) => detectDebtCategory(entry.category));
+
+      const totalAssetsBdt = assetRows.reduce((sum, row) => sum + row.convertedBdt, 0);
+      const totalLiabilitiesBdt = debtRows.reduce((sum, row) => sum + row.convertedBdt, 0);
+      const netWealthBdt = totalAssetsBdt - totalLiabilitiesBdt;
+
+      const nisabType = String(calcState.nisabType || 'silver').toLowerCase();
+      const nisabMethod = nisabType === 'gold' ? 'Gold (87.48g)' : 'Silver (612.36g)';
+      const goldPrice = sanitizeAmount(calcState.goldPrice || 0);
+      const silverPrice = sanitizeAmount(calcState.silverPrice || 0);
+      const nisabRaw = nisabType === 'gold' ? 87.48 * goldPrice : 612.36 * silverPrice;
+      const nisabThresholdBdt = selectedCurrency === 'BDT' ? nisabRaw : nisabRaw * usdToBdt;
+      const zakatDueBdt = netWealthBdt >= nisabThresholdBdt ? netWealthBdt * 0.025 : 0;
+
+      const categoryTotalsBdt = {};
+      assetRows.forEach((row) => {
+        categoryTotalsBdt[row.category] = (categoryTotalsBdt[row.category] || 0) + row.convertedBdt;
+      });
+      const sortedCategories = Object.entries(categoryTotalsBdt).sort((a, b) => b[1] - a[1]);
+      const biggestCategory = sortedCategories[0] || ['None', 0];
+      const biggestCategoryPct = totalAssetsBdt > 0 ? (biggestCategory[1] / totalAssetsBdt) * 100 : 0;
+
+      const top3 = [...assetRows].sort((a, b) => b.convertedBdt - a.convertedBdt).slice(0, 3);
+      const liabilityRatio = totalAssetsBdt > 0 ? totalLiabilitiesBdt / totalAssetsBdt : 0;
+      const nisabMultiple = nisabThresholdBdt > 0 ? netWealthBdt / nisabThresholdBdt : 0;
+
+      const debtTotalsBdt = {};
+      debtRows.forEach((row) => {
+        debtTotalsBdt[row.category] = (debtTotalsBdt[row.category] || 0) + row.convertedBdt;
+      });
+      const allCategoryLabels = Array.from(new Set([...Object.keys(categoryTotalsBdt), ...Object.keys(debtTotalsBdt)])).slice(0, 8);
+      const chartBarAssets = allCategoryLabels.map((label) => bdtToSelected(categoryTotalsBdt[label] || 0));
+      const chartBarDebts = allCategoryLabels.map((label) => bdtToSelected(debtTotalsBdt[label] || 0));
+
+      const historyRows = getHistoryRows();
+
+      return {
+        generatedAt: new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'medium' }).format(new Date()),
+        selectedCurrency,
+        nisabMethod,
+        kpis: {
+          totalAssets: formatSelected(totalAssetsBdt),
+          totalLiabilities: formatSelected(totalLiabilitiesBdt),
+          netWealth: formatSelected(netWealthBdt),
+          nisabThreshold: formatSelected(nisabThresholdBdt),
+          zakatDue: formatSelected(zakatDueBdt)
+        },
+        tables: {
+          assets: assetRows,
+          debts: debtRows
+        },
+        insights: {
+          biggestAsset: `${biggestCategory[0]} (${biggestCategoryPct.toFixed(1)}%)`,
+          top3: top3.map((row) => `${row.category}: ${formatSelected(row.convertedBdt)}`),
+          liabilityRatio: `${(liabilityRatio * 100).toFixed(1)}%`,
+          nisabMultiple: `${nisabMultiple.toFixed(2)}x`
+        },
+        charts: {
+          pie: {
+            labels: sortedCategories.map(([label]) => label),
+            values: sortedCategories.map(([, value]) => bdtToSelected(value))
+          },
+          bar: {
+            labels: allCategoryLabels,
+            assets: chartBarAssets,
+            debts: chartBarDebts
+          },
+          line: {
+            labels: historyRows.map((row) => String(row.year)),
+            values: historyRows.map((row) => bdtToSelected(row.amountBdt))
+          }
+        },
+        formatters: {
+          selected: formatSelected,
+          bdt: formatBdt
+        }
+      };
+    }
+
+    function renderReportHTML(data) {
+      const root = document.getElementById('pdfReport');
+      if (!root) return;
+
+      const tableRows = (rows) => {
+        if (!rows.length) return `<tr><td colspan=\"7\">No entries found.</td></tr>`;
+        return rows.map((row) => `
+          <tr>
+            <td>${escapeHtml(row.createdAt ? formatDate(row.createdAt) : '-')}</td>
+            <td>${escapeHtml(row.category)}</td>
+            <td>${escapeHtml(row.note || '-')}</td>
+            <td><strong>${escapeHtml(formatAmount(row.amount))}</strong></td>
+            <td>${escapeHtml(row.currency)}</td>
+            <td>${escapeHtml(data.formatters.bdt(row.convertedBdt))}</td>
+            <td>${escapeHtml(data.formatters.selected(row.convertedBdt))}</td>
+          </tr>
+        `).join('');
+      };
+
+      root.innerHTML = `
+        <section class=\"pdf-title\">
+          <h1>Zakat Report</h1>
+          <div class=\"pdf-meta\">Generated: ${escapeHtml(data.generatedAt)}</div>
+          <div class=\"pdf-meta\">Selected Currency: ${escapeHtml(data.selectedCurrency)} | Nisab Method: ${escapeHtml(data.nisabMethod)}</div>
+        </section>
+
+        <section class=\"pdf-kpis\">
+          <article class=\"pdf-kpi\"><div class=\"pdf-kpi-label\">Total Assets</div><div class=\"pdf-kpi-value\">${escapeHtml(data.kpis.totalAssets)}</div></article>
+          <article class=\"pdf-kpi\"><div class=\"pdf-kpi-label\">Total Liabilities</div><div class=\"pdf-kpi-value\">${escapeHtml(data.kpis.totalLiabilities)}</div></article>
+          <article class=\"pdf-kpi\"><div class=\"pdf-kpi-label\">Net Zakatable Wealth</div><div class=\"pdf-kpi-value\">${escapeHtml(data.kpis.netWealth)}</div></article>
+          <article class=\"pdf-kpi\"><div class=\"pdf-kpi-label\">Nisab Threshold</div><div class=\"pdf-kpi-value\">${escapeHtml(data.kpis.nisabThreshold)}</div></article>
+          <article class=\"pdf-kpi\"><div class=\"pdf-kpi-label\">Zakat Due</div><div class=\"pdf-kpi-value\">${escapeHtml(data.kpis.zakatDue)}</div></article>
+        </section>
+
+        <section class=\"pdf-section\">
+          <h2>Insights</h2>
+          <ul class=\"pdf-insights\">
+            <li><strong>Biggest asset category:</strong> ${escapeHtml(data.insights.biggestAsset)}</li>
+            <li><strong>Top 3 entries by value:</strong> ${data.insights.top3.length ? `<ul>${data.insights.top3.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : 'No data'}</li>
+            <li><strong>Liability ratio:</strong> ${escapeHtml(data.insights.liabilityRatio)}</li>
+            <li><strong>Net vs nisab multiple:</strong> ${escapeHtml(data.insights.nisabMultiple)}</li>
+          </ul>
+        </section>
+
+        <section class=\"pdf-section\">
+          <h2>Charts</h2>
+          <div class=\"pdf-chart-grid\">
+            <article class=\"pdf-chart-card\"><h3>Asset Category Share</h3><canvas id=\"pdfChartPie\" class=\"pdf-chart\"></canvas></article>
+            <article class=\"pdf-chart-card\"><h3>Assets vs Liabilities by Category</h3><canvas id=\"pdfChartBar\" class=\"pdf-chart\"></canvas></article>
+          </div>
+          <div class=\"pdf-chart-grid\" style=\"grid-template-columns:1fr;\">
+            <article class=\"pdf-chart-card\">
+              <h3>Zakat Due Over Time</h3>
+              ${data.charts.line.labels.length ? '<canvas id=\"pdfChartLine\" class=\"pdf-chart\"></canvas>' : '<div>No history data available.</div>'}
+            </article>
+          </div>
+        </section>
+
+        <section class=\"pdf-section\">
+          <h2>Assets Entries</h2>
+          <div class=\"pdf-table-wrap\">
+            <table class=\"pdf-table\">
+              <thead><tr><th>Date</th><th>Category</th><th>Label/Note</th><th>Amount</th><th>Currency</th><th>Converted (BDT)</th><th>Converted (${escapeHtml(data.selectedCurrency)})</th></tr></thead>
+              <tbody>${tableRows(data.tables.assets)}</tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class=\"pdf-section\">
+          <h2>Debts Entries</h2>
+          <div class=\"pdf-table-wrap\">
+            <table class=\"pdf-table\">
+              <thead><tr><th>Date</th><th>Category</th><th>Label/Note</th><th>Amount</th><th>Currency</th><th>Converted (BDT)</th><th>Converted (${escapeHtml(data.selectedCurrency)})</th></tr></thead>
+              <tbody>${tableRows(data.tables.debts)}</tbody>
+            </table>
+          </div>
+        </section>
+      `;
+    }
+
+    async function renderReportCharts(data) {
+      if (!window.Chart) return;
+      const charts = [];
+      const opts = { responsive: true, maintainAspectRatio: false, animation: false };
+
+      const pieEl = document.getElementById('pdfChartPie');
+      if (pieEl && data.charts.pie.labels.length) {
+        charts.push(new Chart(pieEl.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: data.charts.pie.labels,
+            datasets: [{ data: data.charts.pie.values, backgroundColor: ['#d4af37', '#22c55e', '#3b82f6', '#f97316', '#8b5cf6', '#14b8a6', '#eab308', '#0ea5e9'] }]
+          },
+          options: { ...opts, plugins: { legend: { position: 'bottom' } } }
+        }));
+      }
+
+      const barEl = document.getElementById('pdfChartBar');
+      if (barEl && data.charts.bar.labels.length) {
+        charts.push(new Chart(barEl.getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: data.charts.bar.labels,
+            datasets: [
+              { label: 'Assets', data: data.charts.bar.assets, backgroundColor: 'rgba(34, 197, 94, 0.75)' },
+              { label: 'Liabilities', data: data.charts.bar.debts, backgroundColor: 'rgba(239, 106, 95, 0.75)' }
+            ]
+          },
+          options: { ...opts, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+        }));
+      }
+
+      const lineEl = document.getElementById('pdfChartLine');
+      if (lineEl && data.charts.line.labels.length) {
+        charts.push(new Chart(lineEl.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: data.charts.line.labels,
+            datasets: [{ label: `Zakat Due (${data.selectedCurrency})`, data: data.charts.line.values, borderColor: '#d4af37', backgroundColor: 'rgba(212,175,55,0.25)', fill: true, tension: 0.28 }]
+          },
+          options: { ...opts, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+        }));
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 120));
+
+      charts.forEach((chart) => {
+        const canvas = chart.canvas;
+        const img = document.createElement('img');
+        img.src = canvas.toDataURL('image/png', 1);
+        img.className = 'pdf-chart-image';
+        canvas.replaceWith(img);
+        chart.destroy();
+      });
+    }
+
+    async function generatePDFfromReport() {
+      const root = document.getElementById('pdfReport');
+      if (!root || !window.html2canvas || !window.jspdf?.jsPDF) {
+        throw new Error('PDF libraries not loaded.');
+      }
+
+      root.classList.add('is-active');
+      await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+      const canvas = await window.html2canvas(root, {
+        scale: 2.5,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        windowWidth: root.scrollWidth,
+        windowHeight: root.scrollHeight,
+        scrollX: 0,
+        scrollY: 0
+      });
+
+      root.classList.remove('is-active');
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 10;
+      const contentWidth = pageWidth - (margin * 2);
+      const contentHeight = pageHeight - (margin * 2);
+      const sliceHeightPx = Math.floor((contentHeight * canvas.width) / contentWidth);
+      const pages = Math.ceil(canvas.height / sliceHeightPx);
+
+      for (let i = 0; i < pages; i += 1) {
+        if (i > 0) pdf.addPage();
+        const slice = document.createElement('canvas');
+        slice.width = canvas.width;
+        slice.height = Math.min(sliceHeightPx, canvas.height - (i * sliceHeightPx));
+        const ctx = slice.getContext('2d');
+        ctx.drawImage(canvas, 0, i * sliceHeightPx, canvas.width, slice.height, 0, 0, canvas.width, slice.height);
+        const imgData = slice.toDataURL('image/png', 1);
+        const renderedHeight = (slice.height * contentWidth) / slice.width;
+        pdf.addImage(imgData, 'PNG', margin, margin, contentWidth, renderedHeight, undefined, 'FAST');
+        pdf.setFontSize(10);
+        pdf.setTextColor(110);
+        pdf.text(`Page ${i + 1} / ${pages}`, pageWidth - margin, pageHeight - 4, { align: 'right' });
+      }
+
+      const fileDate = new Date().toISOString().slice(0, 10);
+      pdf.save(`zakat-report-${fileDate}.pdf`);
+    }
+
+    async function exportPDFReport() {
+      try {
+        const data = buildReportDataFromState();
+        renderReportHTML(data);
+        await renderReportCharts(data);
+        await generatePDFfromReport();
+      } catch (error) {
+        console.error(error);
+        alert('Could not export PDF report. Please try again.');
+      }
+    }
+
+    function getFilterValues() {
+      return {
+        search: (document.getElementById('searchInput').value || '').trim().toLowerCase(),
+        category: document.getElementById('categoryFilter').value || 'all',
+        currency: document.getElementById('currencyFilter').value || 'all',
+        sort: document.getElementById('sortFilter').value || 'newest'
+      };
+    }
+
+    function buildUniqueOptions(items, field) {
+      return Array.from(new Set(items.map((item) => String(item[field] || '').trim()).filter(Boolean))).sort((a, b) => a.localeCompare(b));
+    }
+
+    function renderFilterOptions() {
+      const categories = buildUniqueOptions(state.entries, 'category');
+      const currencies = buildUniqueOptions(state.entries, 'currency');
+      const categoryEl = document.getElementById('categoryFilter');
+      const currencyEl = document.getElementById('currencyFilter');
+
+      const currentCategory = categoryEl.value || 'all';
+      const currentCurrency = currencyEl.value || 'all';
+
+      categoryEl.innerHTML = `<option value="all">All Categories</option>${categories.map((item) => `<option value="${item}">${item}</option>`).join('')}`;
+      currencyEl.innerHTML = `<option value="all">All Currencies</option>${currencies.map((item) => `<option value="${item}">${item}</option>`).join('')}`;
+
+      if (["all", ...categories].includes(currentCategory)) categoryEl.value = currentCategory;
+      if (["all", ...currencies].includes(currentCurrency)) currencyEl.value = currentCurrency;
+    }
+
+    function getFilteredAndSortedEntries() {
+      const { search, category, currency, sort } = getFilterValues();
+      let rows = [...state.entries];
+
+      if (search) {
+        rows = rows.filter((entry) => {
+          const hay = `${entry.category || ''} ${entry.note || ''}`.toLowerCase();
+          return hay.includes(search);
+        });
+      }
+
+      if (category !== 'all') rows = rows.filter((entry) => String(entry.category) === category);
+      if (currency !== 'all') rows = rows.filter((entry) => String(entry.currency) === currency);
+
+      const byCreated = (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+      const byAmount = (a, b) => (Number(a.amount) || 0) - (Number(b.amount) || 0);
+
+      if (sort === 'oldest') rows.sort(byCreated);
+      else if (sort === 'amount_desc') rows.sort((a, b) => byAmount(b, a));
+      else if (sort === 'amount_asc') rows.sort(byAmount);
+      else rows.sort((a, b) => byCreated(b, a));
+
+      return rows;
+    }
+
+    function renderSummary(rows) {
+      document.getElementById('summaryCount').textContent = String(rows.length);
+      document.getElementById('entriesCountPill').textContent = `${rows.length} Entr${rows.length === 1 ? 'y' : 'ies'}`;
+
+      const totals = rows.reduce((acc, entry) => {
+        const cur = String(entry.currency || 'BDT');
+        const amount = Number(entry.amount) || 0;
+        acc[cur] = (acc[cur] || 0) + amount;
+        return acc;
+      }, {});
+
+      const list = document.getElementById('totalsByCurrency');
+      const currencies = Object.keys(totals);
+      if (!currencies.length) {
+        list.innerHTML = `<div class="totals-item"><span style="color:var(--muted);">No totals available</span><span>-</span></div>`;
+        return;
+      }
+      list.innerHTML = currencies.map((cur) => {
+        return `<div class="totals-item"><span>${cur}</span><strong>${formatAmount(totals[cur])}</strong></div>`;
+      }).join('');
+    }
+
+    function renderTable() {
+      const rows = getFilteredAndSortedEntries();
+      state.filtered = rows;
+      renderSummary(rows);
+
+      const tbody = document.getElementById('entriesTableBody');
+      const empty = document.getElementById('emptyState');
+      const tableScroll = document.getElementById('tableScroll');
+
+      if (!rows.length) {
+        tbody.innerHTML = '';
+        tableScroll.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+
+      empty.style.display = 'none';
+      tableScroll.style.display = 'block';
+
+      tbody.innerHTML = rows.map((entry) => {
+        const note = String(entry.note || '').trim();
+        return `
+          <tr data-entry-id="${entry.id}">
+            <td>${formatDate(entry.createdAt)}</td>
+            <td><span class="category-pill">${entry.category || 'Other'}</span></td>
+            <td class="amount-cell">${formatAmount(entry.amount || 0)}</td>
+            <td>${entry.currency || '-'}</td>
+            <td>${note || '<span style="color:var(--muted)">-</span>'}</td>
+            <td>
+              <div class="actions">
+                <button type="button" class="action-btn edit" data-action="edit" data-id="${entry.id}">Edit</button>
+                <button type="button" class="action-btn delete" data-action="delete" data-id="${entry.id}">Delete</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openEditModal(entryId) {
+      const entry = state.entries.find((item) => item.id === entryId);
+      if (!entry) return;
+      state.selectedEntryId = entryId;
+
+      document.getElementById('editCategory').value = entry.category || '';
+      document.getElementById('editAmount').value = Number(entry.amount) || 0;
+      document.getElementById('editCurrency').value = entry.currency || 'BDT';
+      document.getElementById('editNote').value = entry.note || '';
+      document.getElementById('editDate').value = formatDate(entry.createdAt);
+
+      document.getElementById('editModal').classList.add('show');
+    }
+
+    function closeEditModal() {
+      state.selectedEntryId = null;
+      document.getElementById('editModal').classList.remove('show');
+    }
+
+    function saveEdit() {
+      if (!state.selectedEntryId) return;
+      const amountValue = Number(document.getElementById('editAmount').value);
+      if (!Number.isFinite(amountValue) || amountValue < 0) {
+        alert('Amount must be a number greater than or equal to 0.');
+        return;
+      }
+
+      const updated = state.entries.map((entry) => {
+        if (entry.id !== state.selectedEntryId) return entry;
+        return {
+          ...entry,
+          category: (document.getElementById('editCategory').value || 'Other').trim(),
+          amount: amountValue,
+          currency: document.getElementById('editCurrency').value || 'BDT',
+          note: document.getElementById('editNote').value || ''
+        };
+      });
+
+      saveEntries(updated);
+      closeEditModal();
+      renderFilterOptions();
+      renderTable();
+    }
+
+    function deleteEntry(entryId) {
+      const ok = window.confirm('Delete this entry?');
+      if (!ok) return;
+      const filtered = state.entries.filter((entry) => entry.id !== entryId);
+      saveEntries(filtered);
+      renderFilterOptions();
+      renderTable();
+    }
+
+    function bindEvents() {
+      ['searchInput', 'categoryFilter', 'currencyFilter', 'sortFilter'].forEach((id) => {
+        const el = document.getElementById(id);
+        const evt = id === 'searchInput' ? 'input' : 'change';
+        el.addEventListener(evt, renderTable);
+      });
+      const exportBtn = document.getElementById('exportPdfReportBtn');
+      if (exportBtn) exportBtn.addEventListener('click', exportPDFReport);
+
+      document.getElementById('entriesTableBody').addEventListener('click', (event) => {
+        const btn = event.target.closest('button[data-action]');
+        if (!btn) return;
+        const entryId = btn.getAttribute('data-id');
+        const action = btn.getAttribute('data-action');
+        if (!entryId) return;
+        if (action === 'edit') openEditModal(entryId);
+        if (action === 'delete') deleteEntry(entryId);
+      });
+
+      document.getElementById('cancelEditBtn').addEventListener('click', closeEditModal);
+      document.getElementById('saveEditBtn').addEventListener('click', saveEdit);
+
+      document.getElementById('editModal').addEventListener('click', (event) => {
+        if (event.target.id === 'editModal') closeEditModal();
+      });
+
+      window.addEventListener('storage', (event) => {
+        if (event.key !== ENTRIES_KEY) return;
+        state.entries = loadEntries();
+        renderFilterOptions();
+        renderTable();
+      });
+    }
+
+    function init() {
+      state.entries = loadEntries();
+      renderFilterOptions();
+      renderTable();
+      bindEvents();
+    }
+
+    init();
+  </script>
+</body>
+</html>
+
+

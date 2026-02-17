@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -64,17 +64,19 @@
             inset: -8%;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.028;
+            opacity: 0.02;
             background:
-                radial-gradient(circle at 20% 12%, rgba(244, 212, 123, 0.2), transparent 42%),
+                linear-gradient(180deg, rgba(4, 10, 22, 0.42) 0%, rgba(4, 10, 22, 0.18) 45%, rgba(4, 10, 22, 0.5) 100%),
+                radial-gradient(circle at 20% 12%, rgba(244, 212, 123, 0.14), transparent 44%),
                 repeating-conic-gradient(
                     from 0deg at 50% 50%,
-                    rgba(244, 212, 123, 0.6) 0deg 8deg,
+                    rgba(244, 212, 123, 0.34) 0deg 8deg,
                     rgba(244, 212, 123, 0) 8deg 16deg
                 );
-            background-size: 140% 140%, 280px 280px;
-            background-position: center center;
+            background-size: 100% 100%, 140% 140%, 280px 280px;
+            background-position: center center, center center, center center;
             mask-image: radial-gradient(circle at center, black 12%, rgba(0, 0, 0, 0.48) 56%, transparent 86%);
+            filter: blur(1.6px);
         }
 
         body::after {
@@ -275,11 +277,45 @@
         .top-theme-wrap {
             display: inline-flex;
             align-items: center;
-            gap: 0.42rem;
+            gap: 0;
             border: 1px solid rgba(148, 163, 184, 0.22);
             border-radius: 12px;
-            padding: 0 0.4rem 0 0.6rem;
+            padding: 0 0.45rem;
             background: rgba(15, 23, 42, 0.62);
+        }
+
+        .entries-nav-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 12px;
+            padding: 0.5rem 0.78rem;
+            background: rgba(15, 23, 42, 0.62);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 700;
+            white-space: nowrap;
+            min-height: 40px;
+        }
+
+        .entries-nav-btn:hover {
+            border-color: rgba(212, 175, 55, 0.55);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18);
+        }
+
+        .entries-badge {
+            border-radius: 999px;
+            min-width: 1.4rem;
+            padding: 0.08rem 0.38rem;
+            text-align: center;
+            font-size: 0.72rem;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.42);
+            color: #f4d47b;
+            line-height: 1.2;
         }
 
         .top-theme-icon {
@@ -1266,6 +1302,55 @@
             flex-wrap: wrap;
         }
 
+        .assets-entry-tools {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .assets-entry-tools .form-label {
+            margin-bottom: 0;
+        }
+
+        .view-all-entries-link {
+            color: var(--teal-accent);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            white-space: nowrap;
+        }
+
+        .view-all-entries-link:hover {
+            color: color-mix(in srgb, var(--teal-accent) 78%, #fff 22%);
+        }
+
+        .app-toast {
+            position: fixed;
+            right: 1rem;
+            bottom: 1rem;
+            z-index: 1400;
+            padding: 0.62rem 0.8rem;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.45);
+            background: rgba(12, 24, 42, 0.95);
+            color: #f5e6b8;
+            font-size: 0.82rem;
+            font-weight: 600;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transform: translateY(8px);
+            pointer-events: none;
+            transition: opacity 0.22s ease, transform 0.22s ease;
+        }
+
+        .app-toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .calculator-title {
             font-size: 2.5rem;
             font-weight: 700;
@@ -1457,7 +1542,7 @@
         }
 
         .settings-accordion[open] > summary::after {
-            content: "−";
+            content: "-";
         }
 
         .settings-summary-right {
@@ -1781,6 +1866,104 @@
         .settings-live-prices {
             gap: 0.5rem;
             align-self: end;
+        }
+
+        .highlight-callout {
+            position: relative;
+            display: grid;
+            gap: 0.55rem;
+            padding: 0.75rem;
+            border-radius: 14px;
+            border: 1px solid rgba(34, 197, 94, 0.28);
+            background:
+                radial-gradient(130% 140% at 14% 0%, rgba(22, 163, 74, 0.16), rgba(22, 163, 74, 0) 64%),
+                linear-gradient(180deg, rgba(8, 37, 25, 0.58) 0%, rgba(6, 28, 20, 0.5) 100%);
+            box-shadow:
+                inset 0 1px 0 rgba(167, 243, 208, 0.08),
+                0 0 0 1px rgba(34, 197, 94, 0.1),
+                0 7px 17px rgba(4, 36, 22, 0.24);
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+            animation: calloutBreathe 5.8s ease-in-out infinite;
+        }
+
+        .highlight-callout::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: linear-gradient(105deg, rgba(255, 255, 255, 0) 18%, rgba(187, 247, 208, 0.12) 50%, rgba(255, 255, 255, 0) 82%);
+            transform: translateX(-140%);
+            animation: calloutShimmer 8.5s ease-in-out infinite;
+        }
+
+        .highlight-callout #fetchLivePricesBtn {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(34, 197, 94, 0.58);
+            background: linear-gradient(145deg, rgba(34, 197, 94, 0.95) 0%, rgba(74, 222, 128, 0.95) 100%);
+            color: #062312;
+            font-weight: 800;
+            box-shadow: 0 7px 16px rgba(22, 163, 74, 0.28);
+            transition: transform 0.22s ease, box-shadow 0.28s ease, filter 0.28s ease;
+        }
+
+        .highlight-callout #fetchLivePricesBtn::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 180%;
+            aspect-ratio: 1 / 1;
+            transform: translate(-50%, -50%) scale(0.2);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(220, 252, 231, 0.34) 0%, rgba(220, 252, 231, 0) 60%);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.42s ease, opacity 0.42s ease;
+        }
+
+        .highlight-callout #fetchLivePricesBtn:hover {
+            transform: translateY(-2px) scale(1.02);
+            filter: saturate(1.05) brightness(1.02);
+            box-shadow: 0 9px 18px rgba(22, 163, 74, 0.34), 0 0 0 1px rgba(74, 222, 128, 0.24);
+        }
+
+        .highlight-callout #fetchLivePricesBtn:active {
+            transform: translateY(0) scale(0.98);
+            box-shadow: 0 5px 11px rgba(22, 163, 74, 0.26);
+        }
+
+        .highlight-callout #fetchLivePricesBtn:active::after {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .highlight-callout .settings-live-status {
+            color: #9ee8bf;
+        }
+
+        @keyframes calloutBreathe {
+            0%, 100% {
+                box-shadow:
+                    inset 0 1px 0 rgba(167, 243, 208, 0.08),
+                    0 0 0 1px rgba(34, 197, 94, 0.1),
+                    0 7px 17px rgba(4, 36, 22, 0.24);
+            }
+            50% {
+                box-shadow:
+                    inset 0 1px 0 rgba(187, 247, 208, 0.12),
+                    0 0 0 1px rgba(74, 222, 128, 0.16),
+                    0 8px 20px rgba(7, 56, 32, 0.3),
+                    0 0 14px rgba(34, 197, 94, 0.16);
+            }
+        }
+
+        @keyframes calloutShimmer {
+            0%, 70% { transform: translateX(-140%); opacity: 0; }
+            78% { opacity: 1; }
+            92% { transform: translateX(140%); opacity: 1; }
+            100% { transform: translateX(140%); opacity: 0; }
         }
 
         .settings-live-status {
@@ -2230,7 +2413,7 @@
         }
 
         .history-accordion[open] > summary::after {
-            content: "−";
+            content: "-";
         }
 
         .history-summary-left {
@@ -2744,6 +2927,166 @@
             text-align: left;
         }
 
+        .pdf-report-root {
+            position: fixed;
+            left: -100000px;
+            top: 0;
+            width: 1024px;
+            max-width: none;
+            background: #ffffff;
+            color: #0f172a;
+            border: 0;
+            z-index: -1;
+            padding: 28px;
+            font-family: "Segoe UI", Tahoma, sans-serif;
+        }
+
+        .pdf-report-root.is-active {
+            left: 0;
+            z-index: 2000;
+        }
+
+        .pdf-report-title {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .pdf-report-title h1 {
+            margin: 0;
+            font-size: 36px;
+            line-height: 1.1;
+            color: #111827;
+        }
+
+        .pdf-report-meta {
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .pdf-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            margin: 14px 0 20px;
+        }
+
+        .pdf-kpi-card {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px;
+            background: #f8fafc;
+        }
+
+        .pdf-kpi-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #64748b;
+            margin-bottom: 6px;
+        }
+
+        .pdf-kpi-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #0f172a;
+            line-height: 1.2;
+            word-break: break-word;
+        }
+
+        .pdf-report-section {
+            margin-top: 18px;
+        }
+
+        .pdf-report-section h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+            color: #111827;
+        }
+
+        .pdf-insights-list {
+            margin: 0;
+            padding-left: 20px;
+            color: #334155;
+            font-size: 14px;
+            line-height: 1.55;
+        }
+
+        .pdf-table-wrap {
+            border: 1px solid #dbe3ef;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .pdf-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .pdf-table th,
+        .pdf-table td {
+            border-bottom: 1px solid #e5e7eb;
+            padding: 8px 10px;
+            text-align: left;
+            vertical-align: top;
+            word-break: break-word;
+        }
+
+        .pdf-table th {
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+        }
+
+        .pdf-table td strong {
+            color: #0f172a;
+        }
+
+        .pdf-chart-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 10px;
+        }
+
+        .pdf-chart-card {
+            border: 1px solid #dbe3ef;
+            border-radius: 12px;
+            padding: 10px;
+            background: #ffffff;
+        }
+
+        .pdf-chart-title {
+            margin: 0 0 8px;
+            font-size: 14px;
+            color: #334155;
+            font-weight: 700;
+        }
+
+        .pdf-chart-canvas {
+            width: 100%;
+            height: 240px;
+        }
+
+        .pdf-chart-image {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            display: block;
+        }
+
+        .pdf-empty-note {
+            color: #64748b;
+            font-size: 13px;
+            font-style: italic;
+            padding: 8px 0;
+        }
+
         @media (max-width: 900px) {
             .calc-shell {
                 grid-template-columns: 1fr;
@@ -2777,7 +3120,7 @@
             .top-nav-inner {
                 flex-direction: row;
                 align-items: center;
-                justify-content: space-between;
+                justify-content: center;
                 gap: 0.45rem;
                 flex-wrap: wrap;
             }
@@ -2834,7 +3177,12 @@
             .top-theme-wrap {
                 width: 100%;
                 margin: 0;
-                justify-content: space-between;
+                justify-content: center;
+            }
+
+            .entries-nav-btn {
+                width: 100%;
+                justify-content: center;
             }
 
             .top-nav-theme {
@@ -3173,6 +3521,17 @@
                 opacity: 0.1 !important;
             }
 
+            .highlight-callout,
+            .highlight-callout::before {
+                animation: none !important;
+            }
+
+            .highlight-callout #fetchLivePricesBtn:hover,
+            .highlight-callout #fetchLivePricesBtn:active {
+                transform: none !important;
+                filter: none !important;
+            }
+
             .top-link-indicator,
             .top-link::after,
             .nav-progress-fill {
@@ -3251,7 +3610,8 @@
             #how-it-works,
             #backToTop,
             .mini-btn,
-            .header-actions {
+            .header-actions,
+            .app-toast {
                 display: none !important;
             }
 
@@ -3314,10 +3674,13 @@
                     <button type="button" class="top-link" data-nav-target="debtsCard">Debts</button>
                     <button type="button" class="top-link" data-nav-target="resultsCard">Results</button>
                     <button type="button" class="top-link" data-nav-target="historyCard">History</button>
+                    <a href="faq.html" class="top-link" aria-label="Open FAQ page">FAQ</a>
                 </nav>
+                <a href="entries.html" class="entries-nav-btn" id="allEntriesBtn" aria-label="Open all entries">
+                    <span>All Entries</span>
+                    <span class="entries-badge" id="entriesCountBadge">0</span>
+                </a>
                 <div class="top-theme-wrap">
-                    <span class="top-theme-icon" aria-hidden="true">🎨</span>
-                    <span class="top-theme-label" id="topThemeLabel">Midnight Gold</span>
                     <select id="topThemeMode" class="top-nav-theme" aria-label="Theme mode">
                         <option value="midnight-gold">Midnight Gold</option>
                         <option value="emerald-night">Emerald Night</option>
@@ -3352,7 +3715,7 @@
 
             <div class="verse-container">
                 <p class="verse-text">"Take from their wealth a charity by which you purify them and cause them increase."</p>
-                <p class="verse-reference">— Qur'an 9:103</p>
+                <p class="verse-reference">� Qur'an 9:103</p>
             </div>
 
             <div class="cta-buttons">
@@ -3391,17 +3754,17 @@
 
             <div class="why-zakat">
                 <div class="why-card">
-                    <div class="why-icon">✨</div>
+                    <div class="why-icon">&#x2728;</div>
                     <h3 class="why-title">Purifies Wealth</h3>
                     <p class="why-text">Brings barakah (blessing) to your earnings and possessions</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">🤝</div>
+                    <div class="why-icon">&#x1F91D;</div>
                     <h3 class="why-title">Supports the Needy</h3>
                     <p class="why-text">Helps those in need and strengthens community bonds</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">⚖️</div>
+                    <div class="why-icon">&#x2696;&#xFE0F;</div>
                     <h3 class="why-title">Social Balance</h3>
                     <p class="why-text">Creates equity and fulfills our responsibility to society</p>
                 </div>
@@ -3466,11 +3829,11 @@
                 <button type="button" id="exportInvoiceBtn" class="mini-btn">Export Invoice PDF</button>
             </div>
             <div class="quick-start" id="quickStartBar" aria-label="Quick start">
-                <button type="button" class="quick-step active" data-target="assetsCard"><span class="moon-phase" aria-hidden="true">🌑</span><span>Assets</span></button>
-                <span class="quick-sep">→</span>
-                <button type="button" class="quick-step" data-target="debtsCard"><span class="moon-phase" aria-hidden="true">🌓</span><span>Debts</span></button>
-                <span class="quick-sep">→</span>
-                <button type="button" class="quick-step" data-target="resultsCard"><span class="moon-phase" aria-hidden="true">🌓</span><span>Result</span></button>
+                <button type="button" class="quick-step active" data-target="assetsCard"><span class="moon-phase" aria-hidden="true">&#x1F311;</span><span>Assets</span></button>
+                <span class="quick-sep">&#x2192;</span>
+                <button type="button" class="quick-step" data-target="debtsCard"><span class="moon-phase" aria-hidden="true">&#x1F313;</span><span>Debts</span></button>
+                <span class="quick-sep">&#x2192;</span>
+                <button type="button" class="quick-step" data-target="resultsCard"><span class="moon-phase" aria-hidden="true">&#x1F314;</span><span>Result</span></button>
             </div>
         </div>
         <div class="calc-shell">
@@ -3485,7 +3848,7 @@
 
         <details class="calc-card settings-accordion" id="settingsCard">
             <summary class="calc-card-title">
-                <span class="history-summary-left"><span class="section-icon">⚙️</span>Settings</span>
+                <span class="history-summary-left"><span class="section-icon">&#x2699;&#xFE0F;</span>Settings</span>
                 <span class="settings-summary-right">Tap to expand</span>
             </summary>
             <div class="settings-content">
@@ -3540,8 +3903,10 @@
                 </div>
 
                 <div class="form-group settings-live-prices">
-                    <button type="button" id="fetchLivePricesBtn" class="mini-btn">Fetch Live 24K Gold &amp; 999 Silver</button>
-                    <span id="livePriceStatus" class="settings-live-status"></span>
+                    <div class="highlight-callout">
+                        <button type="button" id="fetchLivePricesBtn" class="mini-btn">Fetch Live 24K Gold &amp; 999 Silver</button>
+                        <span id="livePriceStatus" class="settings-live-status"></span>
+                    </div>
                 </div>
             </div>
             <div class="hawl-card">
@@ -3552,14 +3917,14 @@
                         <div class="amount-currency">
                             <select id="zakatHijriMonth" class="select-input form-input">
                                 <option value="">Month</option>
-                                <option>Muḥarram</option>
+                                <option>Mu?arram</option>
                                 <option>Safar</option>
                                 <option>Rabi al-Awwal</option>
                                 <option>Rabi al-Thani</option>
                                 <option>Jumada al-Ula</option>
                                 <option>Jumada al-Akhirah</option>
                                 <option>Rajab</option>
-                                <option>Sha’ban</option>
+                                <option>Sha�ban</option>
                                 <option>Ramadan</option>
                                 <option>Shawwal</option>
                                 <option>Dhu al-Qadah</option>
@@ -3584,13 +3949,13 @@
                 </div>
             </div>
             <div class="info-box">
-                <p><strong>Market rates:</strong> Click “Fetch Live 24K Gold &amp; 999 Silver” or enter your own values.</p>
+                <p><strong>Market rates:</strong> Click �Fetch Live 24K Gold &amp; 999 Silver� or enter your own values.</p>
             </div>
             </div>
         </details>
 
         <div class="calc-card" id="assetsCard">
-            <h3 class="calc-card-title"><span class="section-icon">💎</span>Your Assets</h3>
+            <h3 class="calc-card-title"><span class="section-icon">&#x1F48E;</span>Your Assets</h3>
             <div class="assets-topbar" id="assetsTopbar">
                 <div class="assets-live-row">
                     <span class="assets-live-label">Live Total Assets</span>
@@ -3604,7 +3969,10 @@
                     <button type="button" class="asset-chip" data-asset-jump="assetsBusinessGroup">Business</button>
                 </div>
             </div>
-            <p class="form-label">Core Assets</p>
+            <div class="assets-entry-tools">
+                <p class="form-label">Core Assets</p>
+                <a class="view-all-entries-link" href="entries.html">View all entries</a>
+            </div>
             <div class="form-grid">
                 <div class="form-group asset-group" id="assetsCashGroup">
                     <label class="form-label">Cash & Bank (Total)</label>
@@ -3739,6 +4107,7 @@
                             <div class="extra-assets-title">Additional Asset Entries</div>
                             <div class="extra-assets-actions">
                                 <button type="button" id="addAssetRowBtn" class="mini-btn">+ Add Entry</button>
+                                <a class="view-all-entries-link" href="entries.html">View all entries</a>
                             </div>
                         </div>
                         <div id="extraAssetsList"></div>
@@ -3748,7 +4117,7 @@
         </div>
 
         <div class="calc-card" id="debtsCard">
-            <h3 class="calc-card-title"><span class="section-icon">🧾</span>Liabilities</h3>
+            <h3 class="calc-card-title"><span class="section-icon">&#x1F4C4;</span>Liabilities</h3>
             <div class="form-grid">
                 <div class="form-group">
                     <label class="form-label">Short-term Debts (due within year)</label>
@@ -3770,7 +4139,7 @@
         </div>
 
         <div class="results-card" id="resultsCard">
-            <h3 class="calc-card-title"><span class="section-icon">🎉</span>Results</h3>
+            <h3 class="calc-card-title"><span class="section-icon">&#x1F389;</span>Results</h3>
             <div class="info-box results-prelude-info">
                 <p>
                     <strong>Important:</strong> This calculator provides an estimate. Zakat is due if you've held wealth above nisab for one complete lunar year (Hawl).
@@ -3861,7 +4230,7 @@
 
         <details class="calc-card history-card history-accordion" id="historyCard">
             <summary>
-                <span class="history-summary-left"><span class="section-icon">📈</span>Zakat History Tracker</span>
+                <span class="history-summary-left"><span class="section-icon">&#x1F5D3;&#xFE0F;</span>Zakat History Tracker</span>
                 <span class="history-summary-right">Tap to expand</span>
             </summary>
             <div class="history-content">
@@ -3893,8 +4262,14 @@
         </table>
     </section>
 
-    <button id="backToTop">↑</button>
+    <div id="pdfReport" class="pdf-report-root" aria-hidden="true"></div>
 
+    <button id="backToTop">?</button>
+    <div id="appToast" class="app-toast" role="status" aria-live="polite"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
     <script>
         const currencySymbols = {
             'USD': '$',
@@ -3904,6 +4279,9 @@
         const runningAnimations = new WeakMap();
         const zakatHistoryStorageKey = 'zakatHistoryData';
         const themeStorageKey = 'zakatThemeMode';
+        const entriesStorageKey = 'zakat_entries_v1';
+        const draftEntries = {};
+        let draftSummary = { totalEntries: 0, totalsByCurrency: {} };
         const elementCache = new Map();
         const formatterCache = new Map();
         let saveTimer = null;
@@ -4016,6 +4394,204 @@
                 saveData();
                 saveTimer = null;
             }, delayMs);
+        }
+
+        function sanitizeAmount(rawValue) {
+            const normalized = String(rawValue ?? '').replace(/[,\s]/g, '').trim();
+            if (!normalized) return 0;
+            const parsed = Number.parseFloat(normalized);
+            return Number.isFinite(parsed) ? parsed : 0;
+        }
+
+        function getAmountInputFieldKey(inputEl) {
+            if (!(inputEl instanceof HTMLInputElement)) return '';
+            if (inputEl.dataset.draftKey) return inputEl.dataset.draftKey;
+            if (inputEl.id) return inputEl.id;
+            const row = inputEl.closest('.core-extra-row, .extra-asset-row');
+            if (!row) return '';
+            if (!row.dataset.draftRowId) row.dataset.draftRowId = makeEntryId();
+            return `${row.dataset.field || 'row'}_${row.dataset.draftRowId}`;
+        }
+
+        function getCurrencyForAmountInput(inputEl) {
+            if (!(inputEl instanceof HTMLInputElement)) return byId('currency')?.value || 'BDT';
+            const row = inputEl.closest('.core-extra-row, .extra-asset-row');
+            if (row) {
+                const rowCurrency = row.querySelector('.core-extra-currency, .extra-asset-currency');
+                return rowCurrency?.value || byId('currency')?.value || 'BDT';
+            }
+            const group = inputEl.closest('.form-group');
+            const currencyHidden = group?.querySelector('.money-input input[type="hidden"]');
+            return currencyHidden?.value || byId('currency')?.value || 'BDT';
+        }
+
+        function isAmountInput(inputEl) {
+            if (!(inputEl instanceof HTMLInputElement)) return false;
+            if (inputEl.classList.contains('core-extra-amount') || inputEl.classList.contains('extra-asset-amount')) return true;
+            if (inputEl.id && /Amt$/i.test(inputEl.id)) return true;
+            return false;
+        }
+
+        function setDraftForInput(inputEl) {
+            const key = getAmountInputFieldKey(inputEl);
+            if (!key) return;
+            draftEntries[key] = sanitizeAmount(inputEl.value);
+        }
+
+        function recomputeDraftSummary() {
+            const persisted = loadEntries();
+            const totalsByCurrency = {};
+            persisted.forEach((entry) => {
+                const currency = String(entry.currency || 'BDT');
+                const amount = sanitizeAmount(entry.amount);
+                totalsByCurrency[currency] = (totalsByCurrency[currency] || 0) + amount;
+            });
+
+            Object.keys(draftEntries).forEach((key) => {
+                const amount = sanitizeAmount(draftEntries[key]);
+                if (!amount) return;
+                const input = document.querySelector(`[data-draft-key="${key}"]`) || byId(key);
+                const currency = getCurrencyForAmountInput(input) || 'BDT';
+                totalsByCurrency[currency] = (totalsByCurrency[currency] || 0) + amount;
+            });
+
+            draftSummary = {
+                totalEntries: persisted.length + Object.keys(draftEntries).length,
+                totalsByCurrency
+            };
+        }
+
+        function recalculateTotals() {
+            recalcFast();
+            recomputeDraftSummary();
+            scheduleSaveData();
+        }
+
+        function resolveDraftAmountForCoreField(field, preferredInput = null) {
+            if (preferredInput instanceof HTMLInputElement && isAmountInput(preferredInput)) {
+                return sanitizeAmount(preferredInput.value);
+            }
+            const fieldToInput = {
+                cashBank: 'cashBankTotalAmt',
+                stocks: 'investmentsAmt',
+                gold: 'goldAmt',
+                silver: 'silverAmt',
+                business: 'businessAmt',
+                receivables: 'receivablesAmt'
+            };
+            const inputId = fieldToInput[field];
+            const inputEl = inputId ? byId(inputId) : null;
+            return sanitizeAmount(inputEl?.value || 0);
+        }
+
+        function getAddButtonForAmountInput(inputEl) {
+            const group = inputEl.closest('.form-group');
+            let button = group?.querySelector('.add-core-entry');
+            if (button) return button;
+
+             const inputId = inputEl.id || '';
+            if (inputId === 'cashAmt' || inputId === 'bankAmt' || inputId === 'cashBankTotalAmt') {
+                button = document.querySelector('#assetsCashGroup .add-core-entry[data-core-field="cashBank"]');
+                if (button) return button;
+            }
+
+            const coreRow = inputEl.closest('.core-extra-row');
+            if (coreRow?.dataset.field) {
+                button = document.querySelector(`.add-core-entry[data-core-field="${coreRow.dataset.field}"]`);
+                if (button) return button;
+            }
+
+            const optional = inputEl.closest('.optional-content');
+            if (optional) {
+                button = optional.querySelector('#addAssetRowBtn');
+                if (button) return button;
+            }
+            return null;
+        }
+
+        function makeEntryId() {
+            return `${Date.now()}_${Math.random().toString(16).slice(2, 10)}`;
+        }
+
+        function loadEntries() {
+            try {
+                const raw = localStorage.getItem(entriesStorageKey);
+                if (!raw) return [];
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (_error) {
+                return [];
+            }
+        }
+
+        function saveEntries(entries) {
+            localStorage.setItem(entriesStorageKey, JSON.stringify(entries));
+            updateEntriesBadge();
+        }
+
+        function addEntry({ category, amount, currency, note = '', meta = {} }) {
+            const entries = loadEntries();
+            const numericAmount = parseFloat(amount) || 0;
+            const entry = {
+                id: makeEntryId(),
+                createdAt: new Date().toISOString(),
+                category: String(category || 'Other'),
+                amount: Number.isFinite(numericAmount) ? numericAmount : 0,
+                currency: String(currency || 'BDT'),
+                note: String(note || ''),
+                meta: meta && typeof meta === 'object' ? meta : {}
+            };
+            entries.push(entry);
+            saveEntries(entries);
+            return entry;
+        }
+
+        function updateEntry(entryId, patch = {}) {
+            const entries = loadEntries();
+            const index = entries.findIndex((item) => item.id === entryId);
+            if (index < 0) return;
+            const next = { ...entries[index], ...patch };
+            if (patch.amount !== undefined) {
+                const numericAmount = parseFloat(patch.amount) || 0;
+                next.amount = Number.isFinite(numericAmount) ? numericAmount : 0;
+            }
+            entries[index] = next;
+            saveEntries(entries);
+        }
+
+        function removeEntry(entryId) {
+            const entries = loadEntries();
+            const filtered = entries.filter((item) => item.id !== entryId);
+            if (filtered.length === entries.length) return;
+            saveEntries(filtered);
+        }
+
+        function updateEntriesBadge() {
+            const badge = byId('entriesCountBadge');
+            if (!badge) return;
+            badge.textContent = String(loadEntries().length);
+        }
+
+        function showToast(message) {
+            const toast = byId('appToast');
+            if (!toast) return;
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 1300);
+        }
+
+        function coreFieldToCategory(field) {
+            const map = {
+                cashBank: 'Cash',
+                stocks: 'Investments',
+                gold: 'Gold Cash',
+                silver: 'Silver',
+                business: 'Business Inventory',
+                receivables: 'Money Owed To You'
+            };
+            return map[field] || 'Other';
         }
 
         function applyTheme(themeMode) {
@@ -4281,13 +4857,15 @@
             });
         }
 
-        function addExtraAssetRow(entry = {}) {
+        function addExtraAssetRow(entry = {}, options = {}) {
             const list = document.getElementById('extraAssetsList');
             if (!list) return;
             const defaultCurrency = document.getElementById('currency')?.value || 'BDT';
+            const trackEntry = options.trackEntry === true;
 
             const row = document.createElement('div');
             row.className = 'extra-asset-row';
+            row.dataset.draftRowId = makeEntryId();
             row.innerHTML = `
                 <select class="select-input form-input extra-asset-type">
                     <option value="Cash">Cash</option>
@@ -4307,28 +4885,72 @@
                 </div>
                 <button type="button" class="mini-btn remove-asset-row">Remove</button>
             `;
+            const amountInput = row.querySelector('.extra-asset-amount');
+            if (amountInput) amountInput.dataset.draftKey = `extra_${row.dataset.draftRowId}`;
 
             row.querySelector('.extra-asset-type').value = entry.type || 'Other';
+            if (entry.entryId) row.dataset.entryId = entry.entryId;
+
+            const syncEntry = () => {
+                const entryId = row.dataset.entryId;
+                if (!entryId) return;
+                const amount = parseFloat(row.querySelector('.extra-asset-amount')?.value || '0') || 0;
+                const category = row.querySelector('.extra-asset-type')?.value || 'Other';
+                const currency = row.querySelector('.extra-asset-currency')?.value || defaultCurrency;
+                updateEntry(entryId, {
+                    category,
+                    amount,
+                    currency,
+                    note: '',
+                    meta: { source: 'additional-entry' }
+                });
+            };
+
             row.querySelectorAll('input, select').forEach((el) => {
-                el.addEventListener('input', calculateZakat);
-                el.addEventListener('change', calculateZakat);
+                el.addEventListener('input', () => {
+                    if (el instanceof HTMLInputElement && isAmountInput(el)) setDraftForInput(el);
+                    syncEntry();
+                    calculateZakat();
+                });
+                el.addEventListener('change', () => {
+                    if (el instanceof HTMLInputElement && isAmountInput(el)) setDraftForInput(el);
+                    syncEntry();
+                    calculateZakat();
+                });
             });
             row.querySelector('.remove-asset-row').addEventListener('click', () => {
+                if (row.dataset.entryId) removeEntry(row.dataset.entryId);
                 row.remove();
                 calculateZakat();
             });
             list.appendChild(row);
             initThousandSeparatedInputs(row);
+            if (amountInput) setDraftForInput(amountInput);
+
+            if (trackEntry && !row.dataset.entryId) {
+                const created = addEntry({
+                    category: row.querySelector('.extra-asset-type')?.value || 'Other',
+                    amount: row.querySelector('.extra-asset-amount')?.value || '0',
+                    currency: row.querySelector('.extra-asset-currency')?.value || defaultCurrency,
+                    note: '',
+                    meta: { source: 'additional-entry' }
+                });
+                row.dataset.entryId = created.id;
+                showToast('Entry added');
+            }
         }
 
-        function addCoreExtraRow(field, entry = {}) {
+        function addCoreExtraRow(field, entry = {}, options = {}) {
             const list = byId(`${field}ExtraList`);
             if (!list) return;
             const defaultCurrency = byId('currency')?.value || 'BDT';
+            const trackEntry = options.trackEntry === true;
 
             const row = document.createElement('div');
             row.className = 'core-extra-row';
             row.dataset.field = field;
+            row.dataset.draftRowId = makeEntryId();
+            if (entry.entryId) row.dataset.entryId = entry.entryId;
             row.innerHTML = `
                 <input type="number" class="form-input core-extra-amount" step="0.01" placeholder="Amount" value="${entry.amount || 0}">
                 <div class="money-input">
@@ -4337,17 +4959,55 @@
                 </div>
                 <button type="button" class="mini-btn remove-core-row">Remove</button>
             `;
+            const amountInput = row.querySelector('.core-extra-amount');
+            if (amountInput) amountInput.dataset.draftKey = `core_${field}_${row.dataset.draftRowId}`;
+
+            const syncEntry = () => {
+                const entryId = row.dataset.entryId;
+                if (!entryId) return;
+                const amount = parseFloat(row.querySelector('.core-extra-amount')?.value || '0') || 0;
+                const currency = row.querySelector('.core-extra-currency')?.value || defaultCurrency;
+                updateEntry(entryId, {
+                    category: coreFieldToCategory(field),
+                    amount,
+                    currency,
+                    note: '',
+                    meta: { source: 'core-entry', field }
+                });
+            };
 
             row.querySelectorAll('input').forEach((el) => {
-                el.addEventListener('input', calculateZakat);
-                el.addEventListener('change', calculateZakat);
+                el.addEventListener('input', () => {
+                    if (el instanceof HTMLInputElement && isAmountInput(el)) setDraftForInput(el);
+                    syncEntry();
+                    calculateZakat();
+                });
+                el.addEventListener('change', () => {
+                    if (el instanceof HTMLInputElement && isAmountInput(el)) setDraftForInput(el);
+                    syncEntry();
+                    calculateZakat();
+                });
             });
             row.querySelector('.remove-core-row').addEventListener('click', () => {
+                if (row.dataset.entryId) removeEntry(row.dataset.entryId);
                 row.remove();
                 calculateZakat();
             });
             list.appendChild(row);
             initThousandSeparatedInputs(row);
+            if (amountInput) setDraftForInput(amountInput);
+
+            if (trackEntry && !row.dataset.entryId) {
+                const created = addEntry({
+                    category: coreFieldToCategory(field),
+                    amount: row.querySelector('.core-extra-amount')?.value || '0',
+                    currency: row.querySelector('.core-extra-currency')?.value || defaultCurrency,
+                    note: '',
+                    meta: { source: 'core-entry', field }
+                });
+                row.dataset.entryId = created.id;
+                showToast('Entry added');
+            }
         }
 
         function serializeCoreExtraEntries() {
@@ -4359,7 +5019,8 @@
                     rows.push({
                         label: row.querySelector('.core-extra-label')?.value || '',
                         amount: row.querySelector('.core-extra-amount')?.value || '0',
-                        currency: row.querySelector('.core-extra-currency')?.value || 'BDT'
+                        currency: row.querySelector('.core-extra-currency')?.value || 'BDT',
+                        entryId: row.dataset.entryId || ''
                     });
                 });
                 data[field] = rows;
@@ -4608,7 +5269,8 @@
                 rows.push({
                     type: row.querySelector('.extra-asset-type')?.value || 'Other',
                     amount: row.querySelector('.extra-asset-amount')?.value || '0',
-                    currency: row.querySelector('.extra-asset-currency')?.value || 'BDT'
+                    currency: row.querySelector('.extra-asset-currency')?.value || 'BDT',
+                    entryId: row.dataset.entryId || ''
                 });
             });
             return rows;
@@ -4905,8 +5567,7 @@
         }
 
         function calculateZakat() {
-            recalcFast();
-            scheduleSaveData();
+            recalculateTotals();
         }
 
         function saveData() {
@@ -5112,7 +5773,7 @@
             setText('invoiceNisabThreshold', document.getElementById('nisabThreshold')?.textContent || '-');
             setText('invoiceZakatAmount', document.getElementById('zakatAmount')?.textContent || '-');
 
-            const statusRaw = (document.getElementById('nisabStatus')?.textContent || '').replace(/[⚠️✅]/g, '').trim();
+            const statusRaw = (document.getElementById('nisabStatus')?.textContent || '').replace(/[\u26A0\uFE0F\u2705]/g, '').trim();
             setText('invoiceNisabStatus', statusRaw || '-');
 
             document.body.classList.add('invoice-print');
@@ -5120,6 +5781,429 @@
             setTimeout(() => {
                 document.body.classList.remove('invoice-print');
             }, 250);
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function buildReportDataFromState() {
+            const currency = byId('currency')?.value || 'BDT';
+            const symbol = currencySymbols[currency] || '';
+            const formatter = getCurrencyFormatter(currency);
+            const usdToBdt = sanitizeAmount(byId('usdToBdt')?.value || 0);
+            const toBdt = (amount, cur) => {
+                const val = sanitizeAmount(amount);
+                const c = String(cur || 'BDT').toUpperCase();
+                if (c === 'BDT') return val;
+                return usdToBdt > 0 ? val * usdToBdt : 0;
+            };
+            const bdtToDisplay = (amountBdt) => (currency === 'BDT' ? amountBdt : (usdToBdt > 0 ? amountBdt / usdToBdt : 0));
+            const formatDisplay = (amountBdt) => `${symbol}${formatter.format(bdtToDisplay(amountBdt))}`;
+            const formatBdt = (amountBdt) => `BDT ${getCurrencyFormatter('BDT').format(amountBdt)}`;
+            const nisabType = (byId('nisabType')?.value || 'silver').toLowerCase();
+            const nisabMethodText = nisabType === 'gold' ? 'Gold (87.48g)' : 'Silver (612.36g)';
+
+            const entriesStore = loadEntries();
+            const now = new Date();
+            const nowText = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'medium' }).format(now);
+
+            const pushRow = (rows, payload) => {
+                const amount = sanitizeAmount(payload.amount);
+                if (!(amount > 0)) return;
+                const currencyCode = String(payload.currency || 'BDT').toUpperCase();
+                const convertedBdt = toBdt(amount, currencyCode);
+                rows.push({
+                    category: payload.category || 'Other',
+                    label: payload.label || '',
+                    amount,
+                    currency: currencyCode,
+                    convertedBdt,
+                    timestamp: payload.timestamp || '-'
+                });
+            };
+
+            const assetRows = [];
+            const debtRows = [];
+
+            const splitCash = sanitizeAmount(byId('cashAmt')?.value || 0);
+            const splitBank = sanitizeAmount(byId('bankAmt')?.value || 0);
+            const useSplitCashBank = splitCash > 0 || splitBank > 0;
+            if (useSplitCashBank) {
+                pushRow(assetRows, { category: 'Cash', label: byId('cashNote')?.value || '', amount: splitCash, currency: byId('cashCur')?.value || 'BDT' });
+                pushRow(assetRows, { category: 'Bank', label: byId('bankNote')?.value || '', amount: splitBank, currency: byId('bankCur')?.value || 'BDT' });
+            } else {
+                pushRow(assetRows, { category: 'Cash + Bank', label: byId('cashBankTotalNote')?.value || '', amount: byId('cashBankTotalAmt')?.value || 0, currency: byId('cashBankTotalCur')?.value || 'BDT' });
+            }
+
+            pushRow(assetRows, { category: 'Gold Cash', label: byId('goldNote')?.value || '', amount: byId('goldAmt')?.value || 0, currency: byId('goldCur')?.value || 'BDT' });
+            pushRow(assetRows, { category: 'Silver', label: byId('silverNote')?.value || '', amount: byId('silverAmt')?.value || 0, currency: byId('silverCur')?.value || 'BDT' });
+            pushRow(assetRows, { category: 'Investments', label: byId('investmentsNote')?.value || '', amount: byId('investmentsAmt')?.value || 0, currency: byId('investmentsCur')?.value || 'BDT' });
+            pushRow(assetRows, { category: 'Digital Assets', label: byId('digitalAssetsNote')?.value || '', amount: byId('digitalAssetsAmt')?.value || 0, currency: byId('digitalAssetsCur')?.value || 'BDT' });
+            pushRow(assetRows, { category: 'Business Inventory', label: byId('businessNote')?.value || '', amount: byId('businessAmt')?.value || 0, currency: byId('businessCur')?.value || 'BDT' });
+            pushRow(assetRows, { category: 'Money Owed To You', label: byId('receivablesNote')?.value || '', amount: byId('receivablesAmt')?.value || 0, currency: byId('receivablesCur')?.value || 'BDT' });
+
+            document.querySelectorAll('.core-extra-row').forEach((row) => {
+                pushRow(assetRows, {
+                    category: coreFieldToCategory(row.dataset.field || ''),
+                    label: 'Additional entry',
+                    amount: row.querySelector('.core-extra-amount')?.value || 0,
+                    currency: row.querySelector('.core-extra-currency')?.value || 'BDT'
+                });
+            });
+
+            document.querySelectorAll('.extra-asset-row').forEach((row) => {
+                pushRow(assetRows, {
+                    category: row.querySelector('.extra-asset-type')?.value || 'Other',
+                    label: 'Additional asset',
+                    amount: row.querySelector('.extra-asset-amount')?.value || 0,
+                    currency: row.querySelector('.extra-asset-currency')?.value || 'BDT'
+                });
+            });
+
+            pushRow(debtRows, {
+                category: 'Liabilities',
+                label: 'Short-term debts',
+                amount: byId('debtsAmt')?.value || 0,
+                currency: byId('debtsCur')?.value || 'BDT'
+            });
+
+            entriesStore.forEach((entry) => {
+                const categoryText = String(entry.category || 'Other');
+                const isDebt = /debt|liabil/i.test(categoryText);
+                const target = isDebt ? debtRows : assetRows;
+                pushRow(target, {
+                    category: categoryText,
+                    label: entry.note || '',
+                    amount: entry.amount || 0,
+                    currency: entry.currency || 'BDT',
+                    timestamp: entry.createdAt ? new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(entry.createdAt)) : '-'
+                });
+            });
+
+            const totalAssetsBdt = assetRows.reduce((sum, row) => sum + row.convertedBdt, 0);
+            const totalLiabilitiesBdt = debtRows.reduce((sum, row) => sum + row.convertedBdt, 0);
+            const zakatableWealthBdt = totalAssetsBdt - totalLiabilitiesBdt;
+            const goldPrice = sanitizeAmount(byId('goldPrice')?.value || 0);
+            const silverPrice = sanitizeAmount(byId('silverPrice')?.value || 0);
+            const nisabValueRaw = nisabType === 'gold' ? (87.48 * goldPrice) : (612.36 * silverPrice);
+            const nisabThresholdBdt = currency === 'BDT' ? nisabValueRaw : (nisabValueRaw * usdToBdt);
+            const zakatDueBdt = zakatableWealthBdt >= nisabThresholdBdt ? zakatableWealthBdt * 0.025 : 0;
+
+            const assetCategoryTotalsBdt = {};
+            assetRows.forEach((row) => {
+                assetCategoryTotalsBdt[row.category] = (assetCategoryTotalsBdt[row.category] || 0) + row.convertedBdt;
+            });
+
+            const debtCategoryTotalsBdt = {};
+            debtRows.forEach((row) => {
+                debtCategoryTotalsBdt[row.category] = (debtCategoryTotalsBdt[row.category] || 0) + row.convertedBdt;
+            });
+
+            const sortedAssetCats = Object.entries(assetCategoryTotalsBdt).sort((a, b) => b[1] - a[1]);
+            const biggestAsset = sortedAssetCats[0] || ['None', 0];
+            const biggestAssetPct = totalAssetsBdt > 0 ? ((biggestAsset[1] / totalAssetsBdt) * 100) : 0;
+            const top3 = [...assetRows].sort((a, b) => b.convertedBdt - a.convertedBdt).slice(0, 3);
+            const liabilityRatio = totalAssetsBdt > 0 ? totalLiabilitiesBdt / totalAssetsBdt : 0;
+            const nisabMultiple = nisabThresholdBdt > 0 ? zakatableWealthBdt / nisabThresholdBdt : 0;
+            const historyRows = getZakatHistory().sort((a, b) => a.year - b.year);
+
+            return {
+                generatedAt: nowText,
+                selectedCurrency: currency,
+                nisabMethod: nisabMethodText,
+                kpis: {
+                    totalAssets: formatDisplay(totalAssetsBdt),
+                    totalLiabilities: formatDisplay(totalLiabilitiesBdt),
+                    netWealth: formatDisplay(zakatableWealthBdt),
+                    nisabThreshold: formatDisplay(nisabThresholdBdt),
+                    zakatDue: formatDisplay(zakatDueBdt)
+                },
+                totalsRaw: {
+                    totalAssetsBdt,
+                    totalLiabilitiesBdt,
+                    zakatableWealthBdt,
+                    nisabThresholdBdt,
+                    zakatDueBdt
+                },
+                tables: {
+                    assets: assetRows,
+                    debts: debtRows
+                },
+                insights: {
+                    biggestAssetText: `${biggestAsset[0]} (${biggestAssetPct.toFixed(1)}% of total assets)`,
+                    top3Entries: top3.map((row) => `${row.category}: ${formatDisplay(row.convertedBdt)}`),
+                    liabilityRatioText: `${(liabilityRatio * 100).toFixed(1)}%`,
+                    nisabMultipleText: `${nisabMultiple.toFixed(2)}x nisab`
+                },
+                charts: {
+                    pie: {
+                        labels: sortedAssetCats.map(([label]) => label),
+                        values: sortedAssetCats.map(([, value]) => bdtToDisplay(value))
+                    },
+                    bar: {
+                        labels: Array.from(new Set([...Object.keys(assetCategoryTotalsBdt), ...Object.keys(debtCategoryTotalsBdt)])).slice(0, 8),
+                        assetValues: [],
+                        debtValues: []
+                    },
+                    line: {
+                        labels: historyRows.map((row) => String(row.year)),
+                        values: historyRows.map((row) => bdtToDisplay(row.amountBdt))
+                    }
+                },
+                helpers: {
+                    formatDisplay,
+                    formatBdt
+                }
+            };
+        }
+
+        function renderReportHTML(data) {
+            const reportRoot = byId('pdfReport');
+            if (!reportRoot) return;
+
+            data.charts.bar.labels.forEach((label) => {
+                const assetSumBdt = data.tables.assets
+                    .filter((row) => row.category === label)
+                    .reduce((sum, row) => sum + row.convertedBdt, 0);
+                const debtSumBdt = data.tables.debts
+                    .filter((row) => row.category === label)
+                    .reduce((sum, row) => sum + row.convertedBdt, 0);
+                data.charts.bar.assetValues.push(data.selectedCurrency === 'BDT' ? assetSumBdt : (sanitizeAmount(byId('usdToBdt')?.value || 0) > 0 ? assetSumBdt / sanitizeAmount(byId('usdToBdt')?.value || 0) : 0));
+                data.charts.bar.debtValues.push(data.selectedCurrency === 'BDT' ? debtSumBdt : (sanitizeAmount(byId('usdToBdt')?.value || 0) > 0 ? debtSumBdt / sanitizeAmount(byId('usdToBdt')?.value || 0) : 0));
+            });
+
+            const renderRows = (rows) => {
+                if (!rows.length) {
+                    return `<tr><td colspan="7"><span class="pdf-empty-note">No entries found.</span></td></tr>`;
+                }
+                return rows.map((row) => `
+                    <tr>
+                        <td>${escapeHtml(row.timestamp || '-')}</td>
+                        <td>${escapeHtml(row.category)}</td>
+                        <td>${escapeHtml(row.label || '-')}</td>
+                        <td><strong>${escapeHtml(new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(row.amount))}</strong></td>
+                        <td>${escapeHtml(row.currency)}</td>
+                        <td>${escapeHtml(data.helpers.formatBdt(row.convertedBdt))}</td>
+                        <td>${escapeHtml(data.helpers.formatDisplay(row.convertedBdt))}</td>
+                    </tr>
+                `).join('');
+            };
+
+            const top3Text = data.insights.top3Entries.length
+                ? data.insights.top3Entries.map((item) => `<li>${escapeHtml(item)}</li>`).join('')
+                : '<li>No entries available.</li>';
+
+            reportRoot.innerHTML = `
+                <section class="pdf-report-title">
+                    <h1>Zakat Report</h1>
+                    <div class="pdf-report-meta">Generated: ${escapeHtml(data.generatedAt)}</div>
+                    <div class="pdf-report-meta">Selected Currency: ${escapeHtml(data.selectedCurrency)} | Nisab Method: ${escapeHtml(data.nisabMethod)}</div>
+                </section>
+
+                <section class="pdf-kpi-grid">
+                    <article class="pdf-kpi-card"><div class="pdf-kpi-label">Total Assets</div><div class="pdf-kpi-value">${escapeHtml(data.kpis.totalAssets)}</div></article>
+                    <article class="pdf-kpi-card"><div class="pdf-kpi-label">Total Liabilities</div><div class="pdf-kpi-value">${escapeHtml(data.kpis.totalLiabilities)}</div></article>
+                    <article class="pdf-kpi-card"><div class="pdf-kpi-label">Net Zakatable Wealth</div><div class="pdf-kpi-value">${escapeHtml(data.kpis.netWealth)}</div></article>
+                    <article class="pdf-kpi-card"><div class="pdf-kpi-label">Nisab Threshold</div><div class="pdf-kpi-value">${escapeHtml(data.kpis.nisabThreshold)}</div></article>
+                    <article class="pdf-kpi-card"><div class="pdf-kpi-label">Zakat Due</div><div class="pdf-kpi-value">${escapeHtml(data.kpis.zakatDue)}</div></article>
+                </section>
+
+                <section class="pdf-report-section">
+                    <h2>Insights</h2>
+                    <ul class="pdf-insights-list">
+                        <li><strong>Biggest asset category:</strong> ${escapeHtml(data.insights.biggestAssetText)}</li>
+                        <li><strong>Top 3 entries by value:</strong><ul>${top3Text}</ul></li>
+                        <li><strong>Liability ratio:</strong> ${escapeHtml(data.insights.liabilityRatioText)}</li>
+                        <li><strong>Net wealth vs nisab:</strong> ${escapeHtml(data.insights.nisabMultipleText)}</li>
+                    </ul>
+                </section>
+
+                <section class="pdf-report-section">
+                    <h2>Charts</h2>
+                    <div class="pdf-chart-grid">
+                        <article class="pdf-chart-card">
+                            <h3 class="pdf-chart-title">Asset Category Share</h3>
+                            <canvas id="pdfChartPie" class="pdf-chart-canvas"></canvas>
+                        </article>
+                        <article class="pdf-chart-card">
+                            <h3 class="pdf-chart-title">Assets vs Liabilities by Category</h3>
+                            <canvas id="pdfChartBar" class="pdf-chart-canvas"></canvas>
+                        </article>
+                    </div>
+                    <div class="pdf-chart-grid" style="grid-template-columns: 1fr;">
+                        <article class="pdf-chart-card">
+                            <h3 class="pdf-chart-title">Zakat Due Over Time</h3>
+                            ${data.charts.line.labels.length ? '<canvas id="pdfChartLine" class="pdf-chart-canvas"></canvas>' : '<div class="pdf-empty-note">No history data available.</div>'}
+                        </article>
+                    </div>
+                </section>
+
+                <section class="pdf-report-section">
+                    <h2>Assets Breakdown</h2>
+                    <div class="pdf-table-wrap">
+                        <table class="pdf-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th><th>Category</th><th>Label / Note</th><th>Amount</th><th>Currency</th><th>Converted (BDT)</th><th>Converted (${escapeHtml(data.selectedCurrency)})</th>
+                                </tr>
+                            </thead>
+                            <tbody>${renderRows(data.tables.assets)}</tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="pdf-report-section">
+                    <h2>Debts Breakdown</h2>
+                    <div class="pdf-table-wrap">
+                        <table class="pdf-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th><th>Category</th><th>Label / Note</th><th>Amount</th><th>Currency</th><th>Converted (BDT)</th><th>Converted (${escapeHtml(data.selectedCurrency)})</th>
+                                </tr>
+                            </thead>
+                            <tbody>${renderRows(data.tables.debts)}</tbody>
+                        </table>
+                    </div>
+                </section>
+            `;
+        }
+
+        async function renderReportCharts(data) {
+            if (!window.Chart) return;
+            const charts = [];
+            const commonOpts = { responsive: true, maintainAspectRatio: false, animation: false };
+
+            const pieCanvas = byId('pdfChartPie');
+            if (pieCanvas && data.charts.pie.labels.length) {
+                charts.push(new Chart(pieCanvas.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.charts.pie.labels,
+                        datasets: [{ data: data.charts.pie.values, backgroundColor: ['#d4af37', '#22c55e', '#3b82f6', '#f97316', '#8b5cf6', '#0ea5e9', '#eab308', '#14b8a6'] }]
+                    },
+                    options: { ...commonOpts, plugins: { legend: { position: 'bottom' } } }
+                }));
+            }
+
+            const barCanvas = byId('pdfChartBar');
+            if (barCanvas && data.charts.bar.labels.length) {
+                charts.push(new Chart(barCanvas.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: data.charts.bar.labels,
+                        datasets: [
+                            { label: 'Assets', data: data.charts.bar.assetValues, backgroundColor: 'rgba(34, 197, 94, 0.75)' },
+                            { label: 'Liabilities', data: data.charts.bar.debtValues, backgroundColor: 'rgba(239, 106, 95, 0.75)' }
+                        ]
+                    },
+                    options: { ...commonOpts, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+                }));
+            }
+
+            const lineCanvas = byId('pdfChartLine');
+            if (lineCanvas && data.charts.line.labels.length) {
+                charts.push(new Chart(lineCanvas.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: data.charts.line.labels,
+                        datasets: [{ label: `Zakat Due (${data.selectedCurrency})`, data: data.charts.line.values, borderColor: '#d4af37', backgroundColor: 'rgba(212, 175, 55, 0.2)', tension: 0.25, fill: true }]
+                    },
+                    options: { ...commonOpts, plugins: { legend: { position: 'bottom' } }, scales: { y: { beginAtZero: true } } }
+                }));
+            }
+
+            await new Promise((resolve) => setTimeout(resolve, 120));
+
+            charts.forEach((chart) => {
+                const canvas = chart.canvas;
+                const image = document.createElement('img');
+                image.src = canvas.toDataURL('image/png', 1);
+                image.className = 'pdf-chart-image';
+                canvas.replaceWith(image);
+                chart.destroy();
+            });
+        }
+
+        async function generatePDFfromReport() {
+            const reportRoot = byId('pdfReport');
+            if (!reportRoot || !window.html2canvas || !window.jspdf?.jsPDF) {
+                throw new Error('PDF libraries not available.');
+            }
+
+            reportRoot.classList.add('is-active');
+            await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
+            const canvas = await window.html2canvas(reportRoot, {
+                scale: 2.5,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                windowWidth: reportRoot.scrollWidth,
+                windowHeight: reportRoot.scrollHeight,
+                scrollX: 0,
+                scrollY: 0
+            });
+
+            reportRoot.classList.remove('is-active');
+
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+            const pageWidth = 210;
+            const pageHeight = 297;
+            const margin = 10;
+            const contentWidth = pageWidth - (margin * 2);
+            const contentHeight = pageHeight - (margin * 2);
+
+            const pageHeightPx = Math.floor((contentHeight * canvas.width) / contentWidth);
+            const totalPages = Math.ceil(canvas.height / pageHeightPx);
+
+            for (let pageIndex = 0; pageIndex < totalPages; pageIndex += 1) {
+                if (pageIndex > 0) pdf.addPage();
+
+                const sliceCanvas = document.createElement('canvas');
+                sliceCanvas.width = canvas.width;
+                sliceCanvas.height = Math.min(pageHeightPx, canvas.height - (pageIndex * pageHeightPx));
+                const ctx = sliceCanvas.getContext('2d');
+                ctx.drawImage(
+                    canvas,
+                    0,
+                    pageIndex * pageHeightPx,
+                    canvas.width,
+                    sliceCanvas.height,
+                    0,
+                    0,
+                    canvas.width,
+                    sliceCanvas.height
+                );
+
+                const imgData = sliceCanvas.toDataURL('image/png', 1);
+                const renderedHeight = (sliceCanvas.height * contentWidth) / sliceCanvas.width;
+                pdf.addImage(imgData, 'PNG', margin, margin, contentWidth, renderedHeight, undefined, 'FAST');
+                pdf.setFontSize(10);
+                pdf.setTextColor(100);
+                pdf.text(`Page ${pageIndex + 1} / ${totalPages}`, pageWidth - margin, pageHeight - 4, { align: 'right' });
+            }
+
+            const datePart = new Date().toISOString().slice(0, 10);
+            pdf.save(`zakat-report-${datePart}.pdf`);
+        }
+
+        async function exportPDFReport() {
+            try {
+                const data = buildReportDataFromState();
+                renderReportHTML(data);
+                await renderReportCharts(data);
+                await generatePDFfromReport();
+                showToast('PDF report exported');
+            } catch (error) {
+                console.error(error);
+                alert('Could not generate PDF report. Please try again.');
+            }
         }
 
         function hasEnteredFinancialData() {
@@ -5176,7 +6260,7 @@
                 const phaseEl = resultBtn.querySelector('.moon-phase');
                 const calculated = hasEnteredFinancialData();
                 resultBtn.classList.toggle('calculated', calculated);
-                if (phaseEl) phaseEl.textContent = calculated ? '🌕' : '🌓';
+                if (phaseEl) phaseEl.textContent = calculated ? String.fromCodePoint(0x1F315) : String.fromCodePoint(0x1F314);
             }
         }
 
@@ -5305,6 +6389,43 @@
             });
         }
 
+        function setupAmountInputBehavior() {
+            const calculator = byId('calculator');
+            if (!calculator) return;
+
+            const onAmountDraftChange = (event) => {
+                const target = event.target;
+                if (!(target instanceof HTMLInputElement)) return;
+                if (!isAmountInput(target)) return;
+                setDraftForInput(target);
+                if (target.id && calcInputIds.has(target.id)) return;
+                recalculateTotals();
+            };
+
+            calculator.addEventListener('input', onAmountDraftChange);
+            calculator.addEventListener('change', onAmountDraftChange);
+
+            calculator.addEventListener('keydown', (event) => {
+                const target = event.target;
+                if (!(target instanceof HTMLInputElement)) return;
+                if (!isAmountInput(target)) return;
+                if (event.key !== 'Enter') return;
+                event.preventDefault();
+
+                setDraftForInput(target);
+                const addBtn = getAddButtonForAmountInput(target);
+                if (!addBtn) {
+                    recalculateTotals();
+                    return;
+                }
+                addBtn.click();
+            });
+
+            calculator.querySelectorAll('input[id$="Amt"], .core-extra-amount, .extra-asset-amount').forEach((inputEl) => {
+                if (inputEl instanceof HTMLInputElement) setDraftForInput(inputEl);
+            });
+        }
+
         function launchResultConfetti() {
             const layer = byId('resultConfettiLayer');
             if (!layer || prefersReducedMotion) return;
@@ -5370,6 +6491,7 @@
             quickStepButtons = Array.from(document.querySelectorAll('.quick-step'));
             quickStepSections = ['assetsCard', 'debtsCard', 'resultsCard'];
             initThousandSeparatedInputs();
+            updateEntriesBadge();
 
             const splitBtn = byId('splitCashBankBtn');
             const splitPanel = byId('splitCashBankPanel');
@@ -5414,6 +6536,7 @@
                 calculator.addEventListener('input', onCalcInput);
                 calculator.addEventListener('change', onCalcInput);
             }
+            setupAmountInputBehavior();
 
             document.addEventListener('click', (event) => {
                 const btn = event.target.closest('.currency-mini[data-currency-for]');
@@ -5430,6 +6553,15 @@
                     if (!hidden) return;
                     hidden.value = hidden.value === 'USD' ? 'BDT' : 'USD';
                     coreBtn.textContent = hidden.value;
+                    if (row?.dataset.entryId) {
+                        updateEntry(row.dataset.entryId, {
+                            category: coreFieldToCategory(row.dataset.field || ''),
+                            amount: row.querySelector('.core-extra-amount')?.value || '0',
+                            currency: hidden.value,
+                            note: '',
+                            meta: { source: 'core-entry', field: row.dataset.field || '' }
+                        });
+                    }
                     calculateZakat();
                     return;
                 }
@@ -5441,6 +6573,15 @@
                 if (!hidden) return;
                 hidden.value = hidden.value === 'USD' ? 'BDT' : 'USD';
                 extraBtn.textContent = hidden.value;
+                if (row?.dataset.entryId) {
+                    updateEntry(row.dataset.entryId, {
+                        category: row.querySelector('.extra-asset-type')?.value || 'Other',
+                        amount: row.querySelector('.extra-asset-amount')?.value || '0',
+                        currency: hidden.value,
+                        note: '',
+                        meta: { source: 'additional-entry' }
+                    });
+                }
                 calculateZakat();
             });
 
@@ -5457,12 +6598,20 @@
             });
 
             const addAssetBtn = byId('addAssetRowBtn');
-            if (addAssetBtn) addAssetBtn.addEventListener('click', () => addExtraAssetRow({ type: 'Other', amount: 0, currency: byId('currency')?.value || 'BDT' }));
+            if (addAssetBtn) {
+                addAssetBtn.addEventListener('click', () => {
+                    const draftAmount = sanitizeAmount(byId('digitalAssetsAmt')?.value || 0);
+                    const draftCurrency = byId('digitalAssetsCur')?.value || byId('currency')?.value || 'BDT';
+                    addExtraAssetRow({ type: 'Digital Assets', amount: draftAmount, currency: draftCurrency }, { trackEntry: true });
+                });
+            }
             document.querySelectorAll('.add-core-entry[data-core-field]').forEach((btn) => {
                 btn.addEventListener('click', () => {
                     const field = btn.getAttribute('data-core-field');
                     if (!field) return;
-                    addCoreExtraRow(field, { label: '', amount: 0, currency: byId('currency')?.value || 'BDT' });
+                    const relatedAmountInput = btn.closest('.form-group')?.querySelector('input[id$=\"Amt\"]');
+                    const draftAmount = resolveDraftAmountForCoreField(field, relatedAmountInput || null);
+                    addCoreExtraRow(field, { label: '', amount: draftAmount, currency: byId('currency')?.value || 'BDT' }, { trackEntry: true });
                     calculateZakat();
                 });
             });
@@ -5501,6 +6650,19 @@
             updateQuickStartProgress();
             autoFetchLiveMetalPricesIfEmpty();
         });
+
+        window.addEventListener('storage', (event) => {
+            if (event.key === entriesStorageKey) {
+                updateEntriesBadge();
+            }
+        });
     </script>
 </body>
 </html>
+
+
+
+
+
+
+

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zakat FAQ</title>
+  <style>
+    :root {
+      --dark-bg: #050a16;
+      --darker-bg: #03070f;
+      --card-bg: rgba(15, 23, 42, 0.58);
+      --glass-bg: rgba(30, 41, 59, 0.45);
+      --border-color: rgba(148, 163, 184, 0.18);
+      --gold: #d4af37;
+      --gold-light: #f4d47b;
+      --text-primary: #eaf0fc;
+      --text-secondary: #a8b7cd;
+      --teal-accent: #24c6b7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: var(--text-primary);
+      background:
+        radial-gradient(1200px 500px at 10% 0%, rgba(33, 59, 108, 0.24), transparent 60%),
+        radial-gradient(1000px 420px at 90% 0%, rgba(212, 175, 55, 0.14), transparent 62%),
+        linear-gradient(180deg, #040913 0%, var(--dark-bg) 55%, #030812 100%);
+      line-height: 1.6;
+      padding: 1rem;
+    }
+
+    body[data-theme="emerald-night"] {
+      --dark-bg: #04120f;
+      --darker-bg: #020b09;
+      --gold: #1fa97a;
+      --gold-light: #8fe3c9;
+      --text-primary: #eaf7f3;
+      --text-secondary: #a7b9c7;
+      --teal-accent: #59d6b0;
+    }
+
+    body[data-theme="royal-indigo"] {
+      --dark-bg: #070b1f;
+      --darker-bg: #040713;
+      --gold: #6c7cff;
+      --gold-light: #b8c2ff;
+      --text-primary: #edf0ff;
+      --text-secondary: #9fb0c7;
+      --teal-accent: #8ea0ff;
+    }
+
+    body[data-theme="teal-dawn"] {
+      --dark-bg: #06131a;
+      --darker-bg: #030d12;
+      --gold: #14b8a6;
+      --gold-light: #7ee8dd;
+      --text-primary: #ecf8f8;
+      --text-secondary: #a8bac6;
+      --teal-accent: #38d3c4;
+    }
+
+    .wrap {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: grid;
+      gap: 1rem;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1rem;
+      background: rgba(15, 23, 42, 0.76);
+      backdrop-filter: blur(10px);
+    }
+
+    .brand h1 {
+      font-size: clamp(1.2rem, 3.8vw, 2rem);
+      color: var(--gold-light);
+      margin-bottom: 0.2rem;
+    }
+
+    .brand p {
+      font-size: 0.92rem;
+      color: var(--text-secondary);
+    }
+
+    .actions {
+      display: flex;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 1px solid var(--border-color);
+      background: rgba(15, 23, 42, 0.86);
+      color: var(--text-primary);
+      text-decoration: none;
+      border-radius: 10px;
+      padding: 0.48rem 0.8rem;
+      font-weight: 700;
+      font-size: 0.86rem;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover { border-color: rgba(212, 175, 55, 0.5); }
+
+    .hero {
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      padding: 1rem;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .hero h2 {
+      font-size: clamp(1.2rem, 3.4vw, 1.8rem);
+      color: var(--gold-light);
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      max-width: 900px;
+    }
+
+    .search-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+    }
+
+    .search {
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background: rgba(9, 17, 30, 0.9);
+      color: var(--text-primary);
+      min-height: 46px;
+      padding: 0 0.9rem;
+      font-size: 0.95rem;
+      width: 100%;
+    }
+
+    .search::placeholder { color: #8ea2be; }
+
+    .tabs {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      background: rgba(15, 23, 42, 0.64);
+      color: var(--text-secondary);
+      border-radius: 999px;
+      padding: 0.32rem 0.7rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 34px;
+    }
+
+    .tab.active {
+      color: var(--text-primary);
+      border-color: rgba(212, 175, 55, 0.5);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18);
+      background: rgba(212, 175, 55, 0.13);
+    }
+
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    .faq-category {
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .faq-category-head {
+      padding: 0.85rem 1rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      background: linear-gradient(180deg, rgba(20, 35, 60, 0.64), rgba(15, 23, 42, 0.45));
+    }
+
+    .faq-category-head h3 {
+      color: var(--gold-light);
+      font-size: 1.02rem;
+      letter-spacing: 0.01em;
+    }
+
+    .faq-list { padding: 0.3rem; }
+
+    .faq-item {
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: rgba(11, 18, 32, 0.35);
+      margin: 0.35rem;
+      overflow: hidden;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .faq-item.open {
+      border-color: rgba(212, 175, 55, 0.45);
+      background: rgba(19, 29, 48, 0.72);
+      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.12);
+    }
+
+    .faq-q {
+      width: 100%;
+      text-align: left;
+      border: 0;
+      background: transparent;
+      color: var(--text-primary);
+      font-weight: 700;
+      font-size: 0.92rem;
+      padding: 0.75rem 0.85rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 0.7rem;
+      align-items: center;
+    }
+
+    .faq-q span:last-child {
+      color: var(--gold-light);
+      font-size: 1rem;
+      line-height: 1;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .faq-a-wrap {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 300ms ease;
+    }
+
+    .faq-a {
+      padding: 0 0.85rem 0.8rem;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+    }
+
+    .faq-a p { margin-bottom: 0.55rem; }
+
+    .source {
+      display: block;
+      color: #90a2bd;
+      font-size: 0.76rem;
+      margin-top: 0.22rem;
+      line-height: 1.45;
+    }
+
+    .source b {
+      color: #b0bfd4;
+      font-weight: 700;
+    }
+
+    .privacy {
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+    }
+
+    .privacy h3 {
+      color: var(--gold-light);
+      margin-bottom: 0.55rem;
+      font-size: 1.05rem;
+    }
+
+    .privacy ul {
+      list-style: none;
+      display: grid;
+      gap: 0.35rem;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .privacy li::before {
+      content: "•";
+      color: var(--teal-accent);
+      margin-right: 0.4rem;
+    }
+
+    .no-results {
+      display: none;
+      border: 1px dashed rgba(148, 163, 184, 0.35);
+      border-radius: 12px;
+      padding: 1rem;
+      color: var(--text-secondary);
+      text-align: center;
+      font-size: 0.9rem;
+      background: rgba(10, 17, 28, 0.55);
+    }
+
+    @media (min-width: 960px) {
+      .faq-grid { grid-template-columns: 1fr 1fr; }
+      .search-row { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="topbar">
+      <div class="brand">
+        <h1>Zakat FAQ</h1>
+        <p>Authoritative guidance with mainstream scholarly references.</p>
+      </div>
+      <div class="actions">
+        <a class="btn" href="index.html#calculator">Calculator</a>
+        <a class="btn" href="entries.html">All Entries</a>
+      </div>
+    </section>
+
+    <section class="hero">
+      <h2>Frequently Asked Questions</h2>
+      <p>This page summarizes common Zakat rulings for education and estimation. Where schools differ, both mainstream positions are noted so you can follow your trusted scholar.</p>
+      <div class="search-row">
+        <input id="faqSearch" class="search" type="text" placeholder="Search question, answer, source, or category..." aria-label="Search FAQ">
+        <div id="categoryTabs" class="tabs" aria-label="FAQ categories"></div>
+      </div>
+    </section>
+
+    <div id="noResults" class="no-results">No matching FAQ found. Try a different keyword.</div>
+    <section id="faqGrid" class="faq-grid" aria-live="polite"></section>
+
+    <section class="privacy" id="faq-privacy-note">
+      <h3>Privacy & Disclaimer</h3>
+      <ul>
+        <li>Your calculator and entry data are stored locally in your browser (localStorage).</li>
+        <li>No automatic server upload is required for core calculation use.</li>
+        <li>Results are estimation tools for education and planning.</li>
+        <li>For personal rulings, consult a qualified scholar or recognized fatwa body.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    const CATEGORY_EMOJI = {
+      'General Zakat Questions': String.fromCodePoint(0x1F9ED),
+      'Assets & Wealth': String.fromCodePoint(0x1F4B0),
+      'Debts & Liabilities': String.fromCodePoint(0x1F4C9),
+      'Business & Investment Cases': String.fromCodePoint(0x1F4CA),
+      'Distribution Questions': String.fromCodePoint(0x1F932),
+      'Special Cases': String.fromCodePoint(0x1F9E9)
+    };
+
+    const FAQ_DATA = [
+      {
+        category: 'General Zakat Questions',
+        items: [
+          { id: 'faq-what-is-zakat', q: 'What is Zakat?', a: 'Zakat is an obligatory charity on qualifying wealth. It purifies wealth and supports eligible recipients defined in the Shariah.', s: ['Qur\'an 9:103', 'Qur\'an 9:60', 'Sahih al-Bukhari (Book of Zakat)'] },
+          { id: 'faq-who-must-pay-zakat', q: 'Who must pay Zakat?', a: 'A Muslim who owns net zakatable wealth at or above nisab for a full lunar year (hawl) generally pays Zakat.', s: ['Mainstream fiqh manuals (Hanafi, Shafi\'i, Maliki, Hanbali)', 'Islamic Relief Zakat guidance'] },
+          { id: 'faq-what-is-nisab', q: 'What is Nisab?', a: 'Nisab is the minimum wealth threshold that triggers Zakat eligibility.', s: ['Sahih references on monetary nisab basis', 'Contemporary zakat standards and calculators'] },
+          { id: 'faq-what-is-hawl', q: 'What is Hawl?', a: 'Hawl is one lunar year of ownership for zakatable wealth categories that require passage of time.', s: ['Classical fiqh position', 'SeekersGuidance operational explanation'] },
+          { id: 'faq-why-silver-nisab-recommended', q: 'Why is silver nisab often recommended?', a: 'Silver nisab is lower than gold in modern markets, so more people meet eligibility and the poor may benefit more. Some scholars still allow gold basis depending on context.', s: ['IslamQA discussion on nisab basis', 'SeekersGuidance comparisons', 'Charity calculator standards'] },
+          { id: 'faq-when-zakat-due', q: 'When is Zakat due?', a: 'Zakat is due when your zakat date arrives after a completed hawl and your net wealth is at/above nisab.', s: ['Mainstream fiqh practice', 'Dar al-Ifta practical rulings'] },
+          { id: 'faq-choose-zakat-date', q: 'Can I choose my Zakat date?', a: 'Yes. Many scholars permit choosing a consistent annual date for easier compliance and reminders.', s: ['Mainstream operational guidance', 'SeekersGuidance practical advice'] },
+          { id: 'faq-pay-early', q: 'Can I pay Zakat early?', a: 'Many scholars allow advance payment before due date if done with clear intention and accounting.', s: ['Fiqh council and contemporary fatwa guidance'] },
+          { id: 'faq-delay-payment', q: 'Can I delay Zakat payment?', a: 'Once due, payment should not be delayed without a valid need. Timely payment is the safer position.', s: ['General fiqh rule on immediate obligation after due'] }
+        ]
+      },
+      {
+        category: 'Assets & Wealth',
+        items: [
+          { id: 'faq-cash-zakat', q: 'Is Zakat due on cash?', a: 'Yes, cash holdings are zakatable when combined net wealth reaches nisab.', s: ['Qur\'an 2:267 (general spending from lawful earnings)', 'Mainstream fiqh application to monetary wealth'] },
+          { id: 'faq-bank-savings-zakat', q: 'Is Zakat due on bank savings?', a: 'Yes, bank balances are generally treated as cash equivalents for Zakat.', s: ['Contemporary fiqh councils and mainstream calculators'] },
+          { id: 'faq-foreign-currency-zakat', q: 'Is Zakat due on foreign currency?', a: 'Yes. Convert to your base currency at current rate and include in net wealth.', s: ['Contemporary zakat methodology'] },
+          { id: 'faq-gold-jewelry-vs-investment', q: 'Gold: jewelry vs investment?', a: 'Investment gold is zakatable. Personal jewelry is a known madhhab difference: some include it, others exempt normal personal use.', s: ['Hanafi-inclusive view references', 'Other madhhab exemptions for normal use', 'Dar al-Ifta/SeekersGuidance discussions'] },
+          { id: 'faq-silver-zakat', q: 'Is silver zakatable?', a: 'Yes, silver holdings are zakatable as monetary/precious metal wealth.', s: ['Hadith on silver zakat', 'Classical fiqh consensus on silver basis'] },
+          { id: 'faq-stocks-trading-longterm', q: 'Stocks: trading vs long-term?', a: 'Trading shares are usually treated like trade inventory. Long-term shares often use underlying zakatable assets or dividends/cash approach depending on data.', s: ['International Islamic Fiqh Academy resolutions', 'AAOIFI guidance (finance practice)', 'AMJA/SeekersGuidance applied rulings'] },
+          { id: 'faq-crypto-zakat', q: 'Is Zakat due on crypto?', a: 'Mainstream contemporary view treats crypto as a zakatable asset when owned and valued at zakat date.', s: ['AMJA guidance', 'Contemporary fatwa institutions (varied but mainstream inclusion)'] },
+          { id: 'faq-business-inventory-zakat', q: 'Is business inventory zakatable?', a: 'Yes. Trade inventory is generally valued at market/sellable value on zakat date.', s: ['Classical fiqh on urud al-tijarah', 'Contemporary zakat standards'] },
+          { id: 'faq-retirement-accounts-zakat', q: 'Are retirement accounts zakatable?', a: 'Usually zakat applies on the accessible/owned portion. Restricted or penalized portions are treated by scholarly detail.', s: ['Contemporary fatwa councils', 'SeekersGuidance detailed cases'] },
+          { id: 'faq-money-owed-to-me', q: 'Is money owed to me zakatable?', a: 'Strong receivables are typically included; weak/unlikely receivables may be deferred until collection per fiqh detail.', s: ['Classical debt-zakat discussions', 'Islamic Relief practical guidance'] },
+          { id: 'faq-rental-income-zakat', q: 'Rental income: what is zakatable?', a: 'Rental cash savings are zakatable. The property itself is not zakatable unless held for resale.', s: ['Mainstream fiqh distinction: income vs non-trade fixed asset'] },
+          { id: 'faq-property-zakat', q: 'Is property zakatable?', a: 'Property held for resale is usually zakatable; personal residence is not.', s: ['Classical trade-goods principle', 'Contemporary property guidance'] },
+          { id: 'faq-personal-house-zakat', q: 'Is my personal house zakatable?', a: 'No, a primary personal-use house is generally exempt.', s: ['Mainstream fiqh across schools'] },
+          { id: 'faq-car-zakat', q: 'Is my personal car zakatable?', a: 'No, personal-use vehicles are generally exempt unless for trade.', s: ['Mainstream fiqh on personal use assets'] },
+          { id: 'faq-digital-assets-zakat', q: 'Are digital assets (tokenized holdings, wallets, etc.) zakatable?', a: 'If they represent owned value or tradable wealth, they are generally included by analogy with money/investments.', s: ['Contemporary finance fiqh application', 'AMJA/fiqh council analyses'] }
+        ]
+      },
+      {
+        category: 'Debts & Liabilities',
+        items: [
+          { id: 'faq-deduct-debts', q: 'Can I deduct debts?', a: 'Short-term payable debts are commonly deducted before calculating net zakatable wealth.', s: ['Dar al-Ifta practical rulings', 'Mainstream calculator methodology'] },
+          { id: 'faq-longterm-mortgage', q: 'Can I deduct a long-term mortgage fully?', a: 'Common contemporary practice deducts only near-term due installments, not the full long-term principal.', s: ['Contemporary fatwa guidance', 'Islamic finance standards'] },
+          { id: 'faq-installments', q: 'Can I deduct installments?', a: 'Usually the installment amount currently due in the immediate period can be deducted.', s: ['Mainstream contemporary fiqh position'] },
+          { id: 'faq-business-loans', q: 'How about business loans?', a: 'Payables that are currently due may be deducted; treatment of long maturity debt depends on method selected.', s: ['Fiqh council contemporary resolutions'] },
+          { id: 'faq-credit-cards', q: 'Credit card balances?', a: 'Outstanding payable balances due now are generally deductible from zakatable base.', s: ['Contemporary fatwa institutions'] },
+          { id: 'faq-student-loans', q: 'Student loans?', a: 'Usually only due installments are deducted; long-term deferred portions are treated separately.', s: ['Mainstream modern fiqh guidance'] }
+        ]
+      },
+      {
+        category: 'Business & Investment Cases',
+        items: [
+          { id: 'faq-business-profits', q: 'Zakat on business profits?', a: 'Retained cash/profit that remains in zakatable pool is included at zakat date.', s: ['Trade goods and cash-based fiqh method'] },
+          { id: 'faq-company-shares', q: 'Zakat on company shares?', a: 'Approaches vary: market value method, or underlying zakatable-assets method when data is available.', s: ['International Islamic Fiqh Academy', 'AAOIFI guidance'] },
+          { id: 'faq-partnership', q: 'Zakat on partnership businesses?', a: 'Each partner generally pays on their ownership share of net zakatable assets.', s: ['Classical partnership principles', 'Contemporary applied fiqh'] },
+          { id: 'faq-dividends', q: 'Zakat on dividends?', a: 'Dividends saved and held until zakat date are typically included as cash.', s: ['Mainstream applied fiqh'] },
+          { id: 'faq-startup-valuation', q: 'Zakat on startup valuation?', a: 'Paper valuation is not always directly zakatable; owned liquid/tradable assets and realizable value are central. Complex cases should use scholar/accountant review.', s: ['AAOIFI-style prudential approach', 'Contemporary fatwa caution on speculative valuation'] },
+          { id: 'faq-inventory-vs-fixed-assets', q: 'Inventory vs fixed assets?', a: 'Inventory for sale is zakatable. Fixed productive assets (machinery, office equipment) are generally not, while generated income is.', s: ['Classical trade-goods distinction', 'Modern business zakat standards'] }
+        ]
+      },
+      {
+        category: 'Distribution Questions',
+        items: [
+          { id: 'faq-who-can-receive', q: 'Who can receive Zakat?', a: 'Zakat recipients are limited to the eight categories in Qur\'an 9:60.', s: ['Qur\'an 9:60'] },
+          { id: 'faq-family-receive', q: 'Can family receive Zakat?', a: 'Eligible poor relatives may receive Zakat, except those you are already obligated to support directly in many rulings.', s: ['Mainstream fiqh across schools'] },
+          { id: 'faq-parents', q: 'Can parents receive my Zakat?', a: 'Generally no, if they are your direct ascendants for whom maintenance is obligatory. Detailed exceptions require scholar review.', s: ['Mainstream fiqh position'] },
+          { id: 'faq-children', q: 'Can children receive my Zakat?', a: 'Generally no for direct descendants you must maintain.', s: ['Mainstream fiqh position'] },
+          { id: 'faq-spouse', q: 'Can spouse receive Zakat?', a: 'There is juristic detail; many scholars permit husband-to-wife in need, while wife-to-husband may differ by school and circumstance.', s: ['Madhhab-specific discussions', 'Contemporary fatwa resources'] },
+          { id: 'faq-non-muslims', q: 'Can non-Muslims receive Zakat?', a: 'Mainstream position restricts standard Zakat to categories interpreted within Muslim recipients; other charity can be given widely.', s: ['Qur\'an 9:60 mainstream interpretation', 'Contemporary institution guidance'] },
+          { id: 'faq-masjid', q: 'Can Zakat be used for masjid construction?', a: 'Mainstream position: ordinary masjid construction is usually not from Zakat funds unless under specific fi sabilillah interpretations approved by scholars.', s: ['Qur\'an 9:60', 'Dar al-Ifta and fiqh council discussions'] },
+          { id: 'faq-charity-organizations', q: 'Can I give through charity organizations?', a: 'Yes, if the organization distributes to valid Zakat recipients with proper governance.', s: ['Operational zakat organization standards'] },
+          { id: 'faq-students-refugees-debt', q: 'Students, refugees, and debt relief?', a: 'They may qualify if they fall under recognized recipient categories such as poor/needy/debtors.', s: ['Qur\'an 9:60', 'Contemporary humanitarian Zakat guidance'] }
+        ]
+      },
+      {
+        category: 'Special Cases',
+        items: [
+          { id: 'faq-children-wealth', q: 'Zakat on children\'s wealth?', a: 'Many scholars require zakat on qualifying wealth owned by minors, paid by guardian from their funds.', s: ['Classical fiqh majority discussions'] },
+          { id: 'faq-mentally-incapable', q: 'Zakat on wealth of mentally incapable person?', a: 'Mainstream discussions often treat qualifying wealth as zakatable, administered by guardian with fiqh detail.', s: ['Classical fiqh references'] },
+          { id: 'faq-inflation', q: 'Zakat during inflation?', a: 'Zakat is still calculated on actual ownership at zakat date. Inflation may make periodic reassessment and timely payment more important.', s: ['Contemporary scholarly guidance'] },
+          { id: 'faq-fluctuating-assets', q: 'Zakat on fluctuating assets?', a: 'Use market value on your zakat date for tradable assets. Consistent date improves fairness and repeatability.', s: ['Mainstream calculator method'] },
+          { id: 'faq-below-nisab-midyear', q: 'If wealth drops below nisab mid-year?', a: 'This has madhhab detail. Many practical methods restart or reassess hawl depending on continuity; follow your selected fiqh approach.', s: ['Madhhab-specific rulings', 'Scholar consultation advised'] },
+          { id: 'faq-partial-year-ownership', q: 'Partial year ownership?', a: 'Assets newly added during year are commonly included on zakat date in practical unified-date methods, with differences in strict tracking approaches.', s: ['Contemporary practical guidance', 'Classical hawl discussions'] },
+          { id: 'faq-lost-stolen-wealth', q: 'Lost or stolen wealth?', a: 'If ownership/control is effectively gone, treatment differs by recoverability. Recoveries may be treated when received.', s: ['Classical fiqh on inaccessible wealth'] },
+          { id: 'faq-inheritance', q: 'Inheritance and Zakat?', a: 'Inherited wealth is added to your zakatable pool after ownership transfer; hawl handling can follow your juristic method.', s: ['Mainstream fiqh inheritance + hawl principles'] }
+        ]
+      }
+    ];
+
+    const byId = (id) => document.getElementById(id);
+    const faqGrid = byId('faqGrid');
+    const faqSearch = byId('faqSearch');
+    const categoryTabs = byId('categoryTabs');
+    const noResults = byId('noResults');
+
+    let activeCategory = 'All';
+
+    function applySavedTheme() {
+      const savedTheme = localStorage.getItem('zakatThemeMode') || 'midnight-gold';
+      document.body.setAttribute('data-theme', savedTheme);
+    }
+
+    function makeTabs() {
+      const cats = ['All', ...FAQ_DATA.map((x) => x.category)];
+      categoryTabs.innerHTML = '';
+      cats.forEach((cat) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tab' + (cat === activeCategory ? ' active' : '');
+        const emoji = CATEGORY_EMOJI[cat] ? (CATEGORY_EMOJI[cat] + ' ') : '';
+        btn.textContent = emoji + cat;
+        btn.addEventListener('click', () => {
+          activeCategory = cat;
+          makeTabs();
+          renderFaq();
+        });
+        categoryTabs.appendChild(btn);
+      });
+    }
+
+    function slugify(text) {
+      return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function toggleItem(itemEl, forceOpen = null) {
+      const btn = itemEl.querySelector('.faq-q');
+      const wrap = itemEl.querySelector('.faq-a-wrap');
+      const icon = itemEl.querySelector('.faq-q span:last-child');
+      const isOpen = itemEl.classList.contains('open');
+      const shouldOpen = forceOpen === null ? !isOpen : forceOpen;
+
+      itemEl.classList.toggle('open', shouldOpen);
+      btn.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+      wrap.style.maxHeight = shouldOpen ? wrap.scrollHeight + 'px' : '0px';
+      icon.textContent = shouldOpen ? '-' : '+';
+
+      if (shouldOpen) {
+        const id = itemEl.id || ('faq-' + slugify(btn.textContent));
+        if (history.replaceState) history.replaceState(null, '', '#' + id);
+      }
+    }
+
+    function renderFaq() {
+      const query = faqSearch.value.trim().toLowerCase();
+      faqGrid.innerHTML = '';
+      let renderedItems = 0;
+
+      FAQ_DATA
+        .filter((cat) => activeCategory === 'All' || cat.category === activeCategory)
+        .forEach((cat) => {
+          const filteredItems = cat.items.filter((item) => {
+            const haystack = [item.category || cat.category, item.q, item.a, ...(item.s || [])].join(' ').toLowerCase();
+            return !query || haystack.includes(query);
+          });
+
+          if (!filteredItems.length) return;
+
+          const card = document.createElement('article');
+          card.className = 'faq-category';
+          card.dataset.category = cat.category;
+
+          const head = document.createElement('div');
+          head.className = 'faq-category-head';
+          const categoryEmoji = CATEGORY_EMOJI[cat.category] ? (CATEGORY_EMOJI[cat.category] + ' ') : '';
+          head.innerHTML = '<h3>' + categoryEmoji + cat.category + '</h3>';
+
+          const list = document.createElement('div');
+          list.className = 'faq-list';
+
+          filteredItems.forEach((item) => {
+            renderedItems += 1;
+            const row = document.createElement('div');
+            row.className = 'faq-item';
+            row.id = item.id;
+
+            const btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'faq-q';
+            btn.setAttribute('aria-expanded', 'false');
+            btn.setAttribute('aria-controls', item.id + '-answer');
+            btn.innerHTML = '<span>' + item.q + '</span><span>+</span>';
+
+            const answerWrap = document.createElement('div');
+            answerWrap.className = 'faq-a-wrap';
+            answerWrap.id = item.id + '-answer';
+
+            const sourceHtml = (item.s || []).map((src) => '<span class="source"><b>Source:</b> ' + src + '</span>').join('');
+            answerWrap.innerHTML = '<div class="faq-a"><p>' + item.a + '</p>' + sourceHtml + '</div>';
+
+            btn.addEventListener('click', () => toggleItem(row));
+            row.appendChild(btn);
+            row.appendChild(answerWrap);
+            list.appendChild(row);
+          });
+
+          card.appendChild(head);
+          card.appendChild(list);
+          faqGrid.appendChild(card);
+        });
+
+      noResults.style.display = renderedItems ? 'none' : 'block';
+      handleDeepLink();
+    }
+
+    function handleDeepLink() {
+      const hash = window.location.hash;
+      if (!hash || !hash.startsWith('#faq-')) return;
+      const target = document.querySelector(hash);
+      if (!target) return;
+      const categoryCard = target.closest('.faq-category');
+      if (!categoryCard) return;
+      if (target.classList.contains('faq-item')) {
+        toggleItem(target, true);
+      }
+      setTimeout(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 80);
+    }
+
+    faqSearch.addEventListener('input', renderFaq);
+    window.addEventListener('hashchange', handleDeepLink);
+
+    applySavedTheme();
+    makeTabs();
+    renderFaq();
+  </script>
+</body>
+</html>
+
+
+
