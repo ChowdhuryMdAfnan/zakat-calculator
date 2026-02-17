@@ -3131,25 +3131,45 @@
             }
 
             .top-nav-controls {
-                width: 100%;
+                position: fixed;
+                left: 0.6rem;
+                right: 0.6rem;
+                top: calc(env(safe-area-inset-top) + 56px);
+                width: auto;
+                display: flex;
                 justify-content: flex-start;
                 flex-direction: column;
-                gap: 0.45rem;
-                display: flex;
-                max-height: 0;
+                gap: 0.55rem;
+                padding: 0.7rem;
+                border-radius: 14px;
+                border: 1px solid rgba(148, 163, 184, 0.22);
+                background: linear-gradient(180deg, rgba(6, 13, 27, 0.96) 0%, rgba(8, 16, 32, 0.94) 100%);
+                backdrop-filter: blur(14px);
+                box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+                z-index: 1205;
+                max-height: 80vh;
                 opacity: 0;
-                overflow: hidden;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                overscroll-behavior: contain;
                 pointer-events: none;
                 transform: translateY(-8px);
-                transition: max-height 0.28s ease, opacity 0.22s ease, transform 0.28s ease;
+                transition: opacity 0.22s ease, transform 0.28s ease;
             }
 
+            .top-nav.mobile-open::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(2, 8, 18, 0.45);
+                backdrop-filter: blur(1.5px);
+                z-index: 1204;
+            }
             .top-nav.mobile-open .top-nav-controls {
-                max-height: 340px;
                 opacity: 1;
                 pointer-events: auto;
                 transform: translateY(0);
-                padding-top: 0.45rem;
             }
 
             .top-nav-links {
@@ -3178,17 +3198,23 @@
                 width: 100%;
                 margin: 0;
                 justify-content: center;
+                order: 1;
+            }
+
+            .top-nav-links {
+                order: 2;
             }
 
             .entries-nav-btn {
                 width: 100%;
                 justify-content: center;
+                order: 3;
             }
 
             .top-nav-theme {
                 min-width: 146px;
-                width: auto;
-                height: 36px;
+                width: 100%;
+                height: 38px;
             }
 
             .nav-spacer {
@@ -3196,7 +3222,7 @@
             }
 
             .top-nav.mobile-open + .nav-spacer {
-                height: 250px;
+                height: 74px;
             }
 
             #landing,
@@ -3446,7 +3472,7 @@
             }
 
             .top-nav.mobile-open + .nav-spacer {
-                height: 298px;
+                height: 82px;
             }
 
             .top-nav-logo {
@@ -6659,6 +6685,12 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
