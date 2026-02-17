@@ -11,6 +11,18 @@
             box-sizing: border-box;
         }
 
+        /* Hide default number input spinners across browsers */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
         :root {
             --dark-bg: #050a16;
             --darker-bg: #03070f;
@@ -1141,9 +1153,30 @@
         }
 
         #assetsCard .form-grid {
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 1.35rem;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.2rem;
             align-items: start;
+        }
+
+        .asset-field-row {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) clamp(130px, 26%, 190px);
+            gap: 0.6rem;
+            align-items: center;
+        }
+
+        .asset-note-input {
+            min-height: 52px;
+            border-radius: 12px;
+            padding: 0 0.8rem;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            border-color: rgba(148, 163, 184, 0.2);
+            background: rgba(10, 18, 32, 0.72);
+        }
+
+        .asset-note-input::placeholder {
+            color: rgba(148, 163, 184, 0.72);
         }
 
         #assetsCard .money-input {
@@ -1159,7 +1192,7 @@
             border: 1px solid color-mix(in srgb, var(--gold) 44%, rgba(148, 163, 184, 0.2));
             box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
             font-size: 1.1rem;
-            padding-right: 5.8rem;
+            padding-right: 5.2rem;
         }
 
         #assetsCard .money-input .form-input:focus {
@@ -2966,6 +2999,11 @@
                 gap: 1rem;
             }
 
+            .asset-field-row {
+                grid-template-columns: 1fr;
+                gap: 0.52rem;
+            }
+
             .assets-topbar {
                 top: 8px;
                 margin-bottom: 0.95rem;
@@ -3027,7 +3065,7 @@
             }
 
             #assetsCard .currency-mini {
-                min-width: 58px;
+                min-width: 52px;
                 height: 32px;
                 font-size: 0.8rem;
                 right: 7px;
@@ -3570,28 +3608,37 @@
             <div class="form-grid">
                 <div class="form-group asset-group" id="assetsCashGroup">
                     <label class="form-label">Cash & Bank (Total)</label>
-                    <div class="money-input">
-                        <input type="number" id="cashBankTotalAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="cashBankTotalCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="cashBankTotalCur">BDT</button>
+                    <div class="asset-field-row">
+                        <div class="money-input">
+                            <input type="number" id="cashBankTotalAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                            <input type="hidden" id="cashBankTotalCur" value="BDT">
+                            <button type="button" class="currency-mini" data-currency-for="cashBankTotalCur">BDT</button>
+                        </div>
+                        <input type="text" id="cashBankTotalNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
                     <button type="button" class="split-link" id="splitCashBankBtn">Split details</button>
                     <div class="split-panel" id="splitCashBankPanel">
                         <div class="split-grid">
                             <div class="form-group">
                                 <label class="form-label">Cash at Home</label>
-                                <div class="money-input">
-                                    <input type="number" id="cashAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                                    <input type="hidden" id="cashCur" value="BDT">
-                                    <button type="button" class="currency-mini" data-currency-for="cashCur">BDT</button>
+                                <div class="asset-field-row">
+                                    <div class="money-input">
+                                        <input type="number" id="cashAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                                        <input type="hidden" id="cashCur" value="BDT">
+                                        <button type="button" class="currency-mini" data-currency-for="cashCur">BDT</button>
+                                    </div>
+                                    <input type="text" id="cashNote" class="form-input asset-note-input" placeholder="Note (optional)">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Bank Balance</label>
-                                <div class="money-input">
-                                    <input type="number" id="bankAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                                    <input type="hidden" id="bankCur" value="BDT">
-                                    <button type="button" class="currency-mini" data-currency-for="bankCur">BDT</button>
+                                <div class="asset-field-row">
+                                    <div class="money-input">
+                                        <input type="number" id="bankAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                                        <input type="hidden" id="bankCur" value="BDT">
+                                        <button type="button" class="currency-mini" data-currency-for="bankCur">BDT</button>
+                                    </div>
+                                    <input type="text" id="bankNote" class="form-input asset-note-input" placeholder="Note (optional)">
                                 </div>
                             </div>
                         </div>
@@ -3602,10 +3649,13 @@
 
                 <div class="form-group asset-group" id="assetsInvestmentsGroup">
                     <label class="form-label">Stocks & Investments</label>
-                    <div class="money-input">
-                        <input type="number" id="investmentsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="investmentsCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="investmentsCur">BDT</button>
+                    <div class="asset-field-row">
+                        <div class="money-input">
+                            <input type="number" id="investmentsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                            <input type="hidden" id="investmentsCur" value="BDT">
+                            <button type="button" class="currency-mini" data-currency-for="investmentsCur">BDT</button>
+                        </div>
+                        <input type="text" id="investmentsNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
                     <button type="button" class="split-link add-core-entry" data-core-field="stocks">+ Add entry</button>
                     <div class="core-entry-list" id="stocksExtraList"></div>
@@ -3613,10 +3663,13 @@
 
                 <div class="form-group asset-group" id="assetsMetalsGroup">
                     <label class="form-label">Gold (Cash Value)</label>
-                    <div class="money-input">
-                        <input type="number" id="goldAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="goldCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="goldCur">BDT</button>
+                    <div class="asset-field-row">
+                        <div class="money-input">
+                            <input type="number" id="goldAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                            <input type="hidden" id="goldCur" value="BDT">
+                            <button type="button" class="currency-mini" data-currency-for="goldCur">BDT</button>
+                        </div>
+                        <input type="text" id="goldNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
                     <button type="button" class="split-link add-core-entry" data-core-field="gold">+ Add entry</button>
                     <div class="core-entry-list" id="goldExtraList"></div>
@@ -3624,10 +3677,13 @@
 
                 <div class="form-group">
                     <label class="form-label">Silver (Cash Value)</label>
-                    <div class="money-input">
-                        <input type="number" id="silverAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="silverCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="silverCur">BDT</button>
+                    <div class="asset-field-row">
+                        <div class="money-input">
+                            <input type="number" id="silverAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                            <input type="hidden" id="silverCur" value="BDT">
+                            <button type="button" class="currency-mini" data-currency-for="silverCur">BDT</button>
+                        </div>
+                        <input type="text" id="silverNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
                     <button type="button" class="split-link add-core-entry" data-core-field="silver">+ Add entry</button>
                     <div class="core-entry-list" id="silverExtraList"></div>
@@ -3635,10 +3691,13 @@
 
                 <div class="form-group asset-group" id="assetsBusinessGroup">
                     <label class="form-label">Business Inventory</label>
-                    <div class="money-input">
-                        <input type="number" id="businessAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="businessCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="businessCur">BDT</button>
+                    <div class="asset-field-row">
+                        <div class="money-input">
+                            <input type="number" id="businessAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                            <input type="hidden" id="businessCur" value="BDT">
+                            <button type="button" class="currency-mini" data-currency-for="businessCur">BDT</button>
+                        </div>
+                        <input type="text" id="businessNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
                     <button type="button" class="split-link add-core-entry" data-core-field="business">+ Add entry</button>
                     <div class="core-entry-list" id="businessExtraList"></div>
@@ -3646,10 +3705,13 @@
 
                 <div class="form-group">
                     <label class="form-label">Money Owed to You</label>
-                    <div class="money-input">
-                        <input type="number" id="receivablesAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="receivablesCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="receivablesCur">BDT</button>
+                    <div class="asset-field-row">
+                        <div class="money-input">
+                            <input type="number" id="receivablesAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                            <input type="hidden" id="receivablesCur" value="BDT">
+                            <button type="button" class="currency-mini" data-currency-for="receivablesCur">BDT</button>
+                        </div>
+                        <input type="text" id="receivablesNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
                     <button type="button" class="split-link add-core-entry" data-core-field="receivables">+ Add entry</button>
                     <div class="core-entry-list" id="receivablesExtraList"></div>
@@ -3662,10 +3724,13 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label">Digital Assets</label>
-                            <div class="money-input">
-                                <input type="number" id="digitalAssetsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                                <input type="hidden" id="digitalAssetsCur" value="BDT">
-                                <button type="button" class="currency-mini" data-currency-for="digitalAssetsCur">BDT</button>
+                            <div class="asset-field-row">
+                                <div class="money-input">
+                                    <input type="number" id="digitalAssetsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
+                                    <input type="hidden" id="digitalAssetsCur" value="BDT">
+                                    <button type="button" class="currency-mini" data-currency-for="digitalAssetsCur">BDT</button>
+                                </div>
+                                <input type="text" id="digitalAssetsNote" class="form-input asset-note-input" placeholder="Note (optional)">
                             </div>
                         </div>
                     </div>
@@ -3865,6 +3930,74 @@
                 elementCache.set(id, document.getElementById(id));
             }
             return elementCache.get(id);
+        }
+
+        // Normalize parseFloat across the app so values like "1,234.56" are read as numbers.
+        const nativeParseFloat = window.parseFloat.bind(window);
+        window.parseFloat = (value) => nativeParseFloat(String(value ?? '').replace(/,/g, ''));
+
+        const thousandInputBound = new WeakSet();
+
+        function sanitizeNumericInputText(rawValue) {
+            const safe = String(rawValue ?? '').replace(/,/g, '').trim();
+            if (!safe) return '';
+
+            const isNegative = safe.startsWith('-');
+            const unsigned = isNegative ? safe.slice(1) : safe;
+            const hasDot = unsigned.includes('.');
+            const parts = unsigned.split('.');
+            const intPartRaw = (parts.shift() || '').replace(/\D/g, '');
+            const decPartRaw = parts.join('').replace(/\D/g, '');
+            const intPart = intPartRaw || '0';
+            const decimalPart = hasDot ? `.${decPartRaw}` : '';
+            return `${isNegative ? '-' : ''}${intPart}${decimalPart}`;
+        }
+
+        function formatNumericWithThousands(rawValue) {
+            const safe = String(rawValue ?? '');
+            if (!safe) return '';
+
+            const isNegative = safe.startsWith('-');
+            const unsigned = isNegative ? safe.slice(1) : safe;
+            const [intPartRaw = '0', decPartRaw] = unsigned.split('.');
+            const intPart = intPartRaw.replace(/^0+(?=\d)/, '') || '0';
+            const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            const decimalPart = decPartRaw !== undefined ? `.${decPartRaw}` : '';
+            return `${isNegative ? '-' : ''}${formattedInt}${decimalPart}`;
+        }
+
+        function bindThousandFormatter(input) {
+            if (!(input instanceof HTMLInputElement)) return;
+            if (input.dataset.noThousands === 'true') return;
+            if (input.id === 'historyYear') return;
+            if (thousandInputBound.has(input)) {
+                const sanitizedExisting = sanitizeNumericInputText(input.value);
+                input.value = sanitizedExisting ? formatNumericWithThousands(sanitizedExisting) : '';
+                return;
+            }
+
+            input.dataset.thousandEnabled = 'true';
+            input.type = 'text';
+            input.inputMode = 'decimal';
+            input.autocomplete = 'off';
+
+            const applyFormat = () => {
+                const sanitized = sanitizeNumericInputText(input.value);
+                if (!sanitized) {
+                    input.value = '';
+                    return;
+                }
+                input.value = formatNumericWithThousands(sanitized);
+            };
+
+            input.addEventListener('input', applyFormat);
+            input.addEventListener('blur', applyFormat);
+            applyFormat();
+            thousandInputBound.add(input);
+        }
+
+        function initThousandSeparatedInputs(root = document) {
+            root.querySelectorAll('input[type="number"], input[data-thousand-enabled="true"]').forEach((input) => bindThousandFormatter(input));
         }
 
         function getCurrencyFormatter(currency) {
@@ -4185,6 +4318,7 @@
                 calculateZakat();
             });
             list.appendChild(row);
+            initThousandSeparatedInputs(row);
         }
 
         function addCoreExtraRow(field, entry = {}) {
@@ -4213,6 +4347,7 @@
                 calculateZakat();
             });
             list.appendChild(row);
+            initThousandSeparatedInputs(row);
         }
 
         function serializeCoreExtraEntries() {
@@ -4789,22 +4924,31 @@
                 lastZakatPaid: byId('lastZakatPaid').value,
                 cashBankTotalAmt: byId('cashBankTotalAmt').value,
                 cashBankTotalCur: byId('cashBankTotalCur').value,
+                cashBankTotalNote: byId('cashBankTotalNote')?.value || '',
                 cashAmt: byId('cashAmt').value,
                 cashCur: byId('cashCur').value,
+                cashNote: byId('cashNote')?.value || '',
                 bankAmt: byId('bankAmt').value,
                 bankCur: byId('bankCur').value,
+                bankNote: byId('bankNote')?.value || '',
                 goldAmt: byId('goldAmt').value,
                 goldCur: byId('goldCur').value,
+                goldNote: byId('goldNote')?.value || '',
                 silverAmt: byId('silverAmt').value,
                 silverCur: byId('silverCur').value,
+                silverNote: byId('silverNote')?.value || '',
                 investmentsAmt: byId('investmentsAmt').value,
                 investmentsCur: byId('investmentsCur').value,
+                investmentsNote: byId('investmentsNote')?.value || '',
                 digitalAssetsAmt: byId('digitalAssetsAmt').value,
                 digitalAssetsCur: byId('digitalAssetsCur').value,
+                digitalAssetsNote: byId('digitalAssetsNote')?.value || '',
                 businessAmt: byId('businessAmt').value,
                 businessCur: byId('businessCur').value,
+                businessNote: byId('businessNote')?.value || '',
                 receivablesAmt: byId('receivablesAmt').value,
                 receivablesCur: byId('receivablesCur').value,
+                receivablesNote: byId('receivablesNote')?.value || '',
                 debtsAmt: byId('debtsAmt').value,
                 debtsCur: byId('debtsCur').value,
                 coreExtraEntries: serializeCoreExtraEntries(),
@@ -5225,6 +5369,7 @@
         window.addEventListener('load', () => {
             quickStepButtons = Array.from(document.querySelectorAll('.quick-step'));
             quickStepSections = ['assetsCard', 'debtsCard', 'resultsCard'];
+            initThousandSeparatedInputs();
 
             const splitBtn = byId('splitCashBankBtn');
             const splitPanel = byId('splitCashBankPanel');
@@ -5307,6 +5452,9 @@
             if (livePricesBtn) livePricesBtn.addEventListener('click', fetchLiveMetalPrices);
             const backToTopBtn = byId('backToTop');
             if (backToTopBtn) backToTopBtn.addEventListener('click', scrollToTop);
+            document.querySelectorAll('.asset-note-input').forEach((noteInput) => {
+                noteInput.addEventListener('input', () => scheduleSaveData(150));
+            });
 
             const addAssetBtn = byId('addAssetRowBtn');
             if (addAssetBtn) addAssetBtn.addEventListener('click', () => addExtraAssetRow({ type: 'Other', amount: 0, currency: byId('currency')?.value || 'BDT' }));
@@ -5343,6 +5491,7 @@
             setupResultsTabs();
             applyTheme(byId('themeMode')?.value || localStorage.getItem(themeStorageKey) || 'midnight-gold');
             loadData();
+            initThousandSeparatedInputs();
             const historyYearEl = byId('historyYear');
             if (historyYearEl && !historyYearEl.value) historyYearEl.value = String(new Date().getFullYear());
             renderZakatHistory();
