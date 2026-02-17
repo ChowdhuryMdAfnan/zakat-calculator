@@ -6452,141 +6452,6 @@
             });
         }
 
-        function setupMobileSafeAddEntry() {
-            const calculator = byId('calculator');
-            if (!calculator) return;
-
-            if (!byId('addEntryInlineErrorStyle')) {
-                const style = document.createElement('style');
-                style.id = 'addEntryInlineErrorStyle';
-                style.textContent = '.add-entry-inline-error{display:block;margin-top:.35rem;color:#ffb4ab;font-size:.76rem;line-height:1.3;}';
-                document.head.appendChild(style);
-            }
-
-            const ensureErrorEl = (btn) => {
-                if (!(btn instanceof HTMLElement)) return null;
-                const host = btn.parentElement;
-                if (!host) return null;
-                let err = host.querySelector('.add-entry-inline-error');
-                if (!err) {
-                    err = document.createElement('span');
-                    err.className = 'add-entry-inline-error';
-                    err.hidden = true;
-                    host.appendChild(err);
-                }
-                return err;
-            };
-
-            const showError = (btn, message) => {
-                const err = ensureErrorEl(btn);
-                if (!err) return;
-                err.textContent = message;
-                err.hidden = false;
-            };
-
-            const clearError = (btn) => {
-                const err = ensureErrorEl(btn);
-                if (!err) return;
-                err.textContent = '';
-                err.hidden = true;
-            };
-
-            const commitInput = (inputEl) => {
-                if (!(inputEl instanceof HTMLInputElement)) return;
-                inputEl.dispatchEvent(new Event('input', { bubbles: true }));
-                inputEl.dispatchEvent(new Event('change', { bubbles: true }));
-                try { inputEl.blur(); } catch (_) {}
-            };
-
-            const coreMap = {
-                cashBank: { amountId: 'cashBankTotalAmt', currencyId: 'cashBankTotalCur', noteId: 'cashBankTotalNote' },
-                stocks: { amountId: 'investmentsAmt', currencyId: 'investmentsCur', noteId: 'investmentsNote' },
-                gold: { amountId: 'goldAmt', currencyId: 'goldCur', noteId: 'goldNote' },
-                silver: { amountId: 'silverAmt', currencyId: 'silverCur', noteId: 'silverNote' },
-                business: { amountId: 'businessAmt', currencyId: 'businessCur', noteId: 'businessNote' },
-                receivables: { amountId: 'receivablesAmt', currencyId: 'receivablesCur', noteId: 'receivablesNote' }
-            };
-
-            calculator.addEventListener('click', (event) => {
-                const target = event.target;
-                if (!(target instanceof Element)) return;
-
-                const coreBtn = target.closest('.add-core-entry[data-core-field]');
-                if (coreBtn) {
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-
-                    const field = coreBtn.getAttribute('data-core-field') || '';
-                    const map = coreMap[field] || {};
-                    const group = coreBtn.closest('.form-group');
-
-                    const amountInput = (map.amountId ? byId(map.amountId) : null) || group?.querySelector('.asset-field-row .money-input .form-input');
-                    const currencyInput = (map.currencyId ? byId(map.currencyId) : null) || group?.querySelector('.asset-field-row .money-input input[type="hidden"]');
-                    const noteInput = (map.noteId ? byId(map.noteId) : null) || group?.querySelector('.asset-note-input');
-
-                    commitInput(amountInput);
-                    const rawInputValue = amountInput?.value || '';
-                    const parsedNumber = sanitizeAmount(rawInputValue);
-                    const currency = currencyInput?.value || byId('currency')?.value || 'BDT';
-                    const note = String(noteInput?.value || '').trim();
-
-                    console.log('[Add Entry Debug]', {
-                        fieldName: coreFieldToCategory(field),
-                        rawInputValue,
-                        parsedNumber,
-                        currency,
-                        note
-                    });
-
-                    if (!parsedNumber || parsedNumber <= 0) {
-                        showError(coreBtn, 'Enter an amount first');
-                        return;
-                    }
-
-                    clearError(coreBtn);
-                    addCoreExtraRow(
-                        field,
-                        { label: '', amount: parsedNumber, currency },
-                        { trackEntry: true, note, meta: { sourceField: field } }
-                    );
-                    calculateZakat();
-                    return;
-                }
-
-                const addAssetBtn = target.closest('#addAssetRowBtn');
-                if (addAssetBtn) {
-                    event.preventDefault();
-                    event.stopImmediatePropagation();
-
-                    const amountInput = byId('digitalAssetsAmt');
-                    const currencyInput = byId('digitalAssetsCur');
-                    const noteInput = byId('digitalAssetsNote');
-
-                    commitInput(amountInput);
-                    const rawInputValue = amountInput?.value || '';
-                    const parsedNumber = sanitizeAmount(rawInputValue);
-                    const currency = currencyInput?.value || byId('currency')?.value || 'BDT';
-                    const note = String(noteInput?.value || '').trim();
-
-                    console.log('[Add Entry Debug]', {
-                        fieldName: 'Digital Assets',
-                        rawInputValue,
-                        parsedNumber,
-                        currency,
-                        note
-                    });
-
-                    if (!parsedNumber || parsedNumber <= 0) {
-                        showError(addAssetBtn, 'Enter an amount first');
-                        return;
-                    }
-
-                    clearError(addAssetBtn);
-                    addExtraAssetRow({ type: 'Digital Assets', amount: parsedNumber, currency }, { trackEntry: true });
-                    calculateZakat();
-                }
-            }, true);
-        }
         function launchResultConfetti() {
             const layer = byId('resultConfettiLayer');
             if (!layer || prefersReducedMotion) return;
@@ -6698,7 +6563,6 @@
                 calculator.addEventListener('change', onCalcInput);
             }
             setupAmountInputBehavior();
-            setupMobileSafeAddEntry();
 
             document.addEventListener('click', (event) => {
                 const btn = event.target.closest('.currency-mini[data-currency-for]');
@@ -6821,8 +6685,6 @@
     </script>
 </body>
 </html>
-
-
 
 
 
