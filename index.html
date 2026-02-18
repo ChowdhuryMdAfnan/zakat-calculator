@@ -1797,6 +1797,9 @@
             grid-template-areas: "amount currency remove";
             gap: 0.65rem;
             align-items: center;
+            margin-left: 14px;
+            opacity: 0.92;
+            animation: nestedEntryFadeIn 220ms ease-out;
         }
 
         .core-extra-row .core-extra-amount {
@@ -1805,9 +1808,13 @@
         }
 
         .core-extra-row .form-input {
-            min-height: 48px;
-            border-radius: 12px;
+            min-height: 38px;
+            height: 38px;
+            border-radius: 10px;
             width: 100%;
+            font-size: 0.9rem;
+            border-color: rgba(148, 163, 184, 0.22);
+            box-shadow: none;
         }
 
         .core-extra-row .money-input {
@@ -1823,27 +1830,96 @@
             position: static;
             transform: none;
             width: auto;
-            min-width: 72px;
+            min-width: 60px;
             justify-content: center;
         }
 
         .core-extra-row .mini-btn {
             grid-area: remove;
             white-space: nowrap;
+            min-width: 34px;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            font-size: 0.95rem;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         #assetsCard .core-extra-row .currency-mini {
             top: auto;
             right: auto;
             transform: none;
-            min-width: 72px;
-            height: 40px;
-            border-radius: 12px;
+            min-width: 58px;
+            height: 32px;
+            border-radius: 999px;
+            font-size: 0.76rem;
+            letter-spacing: 0.04em;
+            background: rgba(145, 164, 220, 0.18);
+            border: 1px solid rgba(145, 164, 220, 0.3);
+            color: rgba(231, 238, 255, 0.92);
+            box-shadow: none;
         }
 
         #assetsCard .core-extra-row .currency-mini:hover,
         #assetsCard .core-extra-row .currency-mini:focus-visible {
             transform: none;
+            box-shadow: 0 0 0 1px rgba(145, 164, 220, 0.28);
+        }
+
+        .core-extra-row .core-extra-amount::placeholder {
+            font-size: 0.84rem;
+        }
+
+        .extra-asset-row {
+            margin-left: 14px;
+            opacity: 0.92;
+            animation: nestedEntryFadeIn 220ms ease-out;
+        }
+
+        .extra-asset-row .form-input {
+            min-height: 38px;
+            height: 38px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            box-shadow: none;
+            border-color: rgba(148, 163, 184, 0.22);
+        }
+
+        .extra-asset-row .extra-asset-currency-btn {
+            min-width: 58px;
+            height: 32px;
+            font-size: 0.76rem;
+            border-radius: 999px;
+            background: rgba(145, 164, 220, 0.18);
+            border: 1px solid rgba(145, 164, 220, 0.3);
+            color: rgba(231, 238, 255, 0.92);
+            box-shadow: none;
+        }
+
+        .extra-asset-row .remove-asset-row {
+            min-width: 34px;
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            font-size: 0.95rem;
+            border-radius: 9px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes nestedEntryFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 0.92;
+                transform: translateY(0);
+            }
         }
 
         .mini-btn {
@@ -4011,33 +4087,6 @@
                         </div>
                         <input type="text" id="cashBankTotalNote" class="form-input asset-note-input" placeholder="Note (optional)">
                     </div>
-                    <button type="button" class="split-link" id="splitCashBankBtn">Split details</button>
-                    <div class="split-panel" id="splitCashBankPanel">
-                        <div class="split-grid">
-                            <div class="form-group">
-                                <label class="form-label">Cash at Home</label>
-                                <div class="asset-field-row">
-                                    <div class="money-input">
-                                        <input type="number" id="cashAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                                        <input type="hidden" id="cashCur" value="BDT">
-                                        <button type="button" class="currency-mini" data-currency-for="cashCur">BDT</button>
-                                    </div>
-                                    <input type="text" id="cashNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">Bank Balance</label>
-                                <div class="asset-field-row">
-                                    <div class="money-input">
-                                        <input type="number" id="bankAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                                        <input type="hidden" id="bankCur" value="BDT">
-                                        <button type="button" class="currency-mini" data-currency-for="bankCur">BDT</button>
-                                    </div>
-                                    <input type="text" id="bankNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <button type="button" class="split-link add-core-entry" data-core-field="cashBank">+ Add entry</button>
                     <div class="core-entry-list" id="cashBankExtraList"></div>
                 </div>
@@ -4929,7 +4978,7 @@
                     <input type="hidden" class="extra-asset-currency" value="${entry.currency || defaultCurrency}">
                     <button type="button" class="currency-mini extra-asset-currency-btn">${entry.currency || defaultCurrency}</button>
                 </div>
-                <button type="button" class="mini-btn remove-asset-row">Remove</button>
+                <button type="button" class="mini-btn remove-asset-row" aria-label="Remove entry" title="Remove entry">✕</button>
             `;
             const amountInput = row.querySelector('.extra-asset-amount');
             if (amountInput) amountInput.dataset.draftKey = `extra_${row.dataset.draftRowId}`;
@@ -5005,7 +5054,7 @@
                     <input type="hidden" class="core-extra-currency" value="${entry.currency || defaultCurrency}">
                     <button type="button" class="currency-mini core-extra-currency-btn">${entry.currency || defaultCurrency}</button>
                 </div>
-                <button type="button" class="mini-btn remove-core-row">Remove</button>
+                <button type="button" class="mini-btn remove-core-row" aria-label="Remove entry" title="Remove entry">✕</button>
             `;
             const amountInput = row.querySelector('.core-extra-amount');
             if (amountInput) amountInput.dataset.draftKey = `core_${field}_${row.dataset.draftRowId}`;
@@ -5531,7 +5580,8 @@
                 }
                 const parts = hijriFormatter.formatToParts(now);
                 const monthPart = parts.find((p) => p.type === 'month')?.value || '';
-                hijriEl.textContent = hijriFormatter.format(now) + ' AH';
+                const hijriText = hijriFormatter.format(now);
+                hijriEl.textContent = /\bAH\b/i.test(hijriText) ? hijriText : `${hijriText} AH`;
 
                 const isRamadan = monthPart.toLowerCase().includes('ramadan');
                 document.body.classList.toggle('ramadan-mode', isRamadan);
@@ -5634,13 +5684,8 @@
             };
             const bdtToDisplay = (amountBdt) => (currency === 'BDT' ? amountBdt : (usdToBdt > 0 ? (amountBdt / usdToBdt) : 0));
 
-            const splitCash = read('cashAmt');
-            const splitBank = read('bankAmt');
-            const useSplitCashBank = splitCash > 0 || splitBank > 0;
-            const cashBdt = useSplitCashBank
-                ? toBdt(splitCash, byId('cashCur').value)
-                : toBdt(read('cashBankTotalAmt'), byId('cashBankTotalCur').value);
-            const bankBdt = useSplitCashBank ? toBdt(splitBank, byId('bankCur').value) : 0;
+            const cashBdt = toBdt(read('cashBankTotalAmt'), byId('cashBankTotalCur').value);
+            const bankBdt = 0;
             const goldBdt = toBdt(read('goldAmt'), byId('goldCur').value);
             const silverBdt = toBdt(read('silverAmt'), byId('silverCur').value);
             const investmentsBdt = toBdt(read('investmentsAmt'), byId('investmentsCur').value);
@@ -5837,11 +5882,11 @@
                 cashBankTotalAmt: byId('cashBankTotalAmt').value,
                 cashBankTotalCur: byId('cashBankTotalCur').value,
                 cashBankTotalNote: byId('cashBankTotalNote')?.value || '',
-                cashAmt: byId('cashAmt').value,
-                cashCur: byId('cashCur').value,
+                cashAmt: byId('cashAmt')?.value || '0',
+                cashCur: byId('cashCur')?.value || 'BDT',
                 cashNote: byId('cashNote')?.value || '',
-                bankAmt: byId('bankAmt').value,
-                bankCur: byId('bankCur').value,
+                bankAmt: byId('bankAmt')?.value || '0',
+                bankCur: byId('bankCur')?.value || 'BDT',
                 bankNote: byId('bankNote')?.value || '',
                 goldAmt: byId('goldAmt').value,
                 goldCur: byId('goldCur').value,
@@ -6855,7 +6900,8 @@
                 addAssetBtn.addEventListener('click', () => {
                     const draftAmount = sanitizeAmount(byId('digitalAssetsAmt')?.value || 0);
                     const draftCurrency = byId('digitalAssetsCur')?.value || byId('currency')?.value || 'BDT';
-                    addExtraAssetRow({ type: 'Digital Assets', amount: draftAmount, currency: draftCurrency }, { trackEntry: true });
+                    const draftNote = String(byId('digitalAssetsNote')?.value || '').trim();
+                    addExtraAssetRow({ type: 'Digital Assets', amount: draftAmount, currency: draftCurrency, note: draftNote }, { trackEntry: true });
                 });
             }
             document.querySelectorAll('.add-core-entry[data-core-field]').forEach((btn) => {
