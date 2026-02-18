@@ -3853,6 +3853,7 @@
             </div>
             <div class="header-actions">
                 <button type="button" id="exportInvoiceBtn" class="mini-btn">Export Invoice PDF</button>
+                <button type="button" id="resetCalcBtn" class="mini-btn">Reset</button>
             </div>
             <div class="quick-start" id="quickStartBar" aria-label="Quick start">
                 <button type="button" class="quick-step active" data-target="assetsCard"><span class="moon-phase" aria-hidden="true">&#x1F311;</span><span>Assets</span></button>
@@ -5169,49 +5170,194 @@
             }
         }
 
+                async function fetchTextWithProxyFallback(url) {
+            const cleaned = String(url || '').trim();
+            if (!cleaned) return '';
+
+            const noProtocol = cleaned.replace(/^https?:\/\//i, '');
+            const candidates = [
+                cleaned,
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(cleaned)}`,
+                `https://r.jina.ai/http://${noProtocol}`,
+                `https://r.jina.ai/http://www.${noProtocol.replace(/^www\./i, '')}`,
+                `https://cors.isomorphic-git.org/${cleaned}`
+            ];
+
+            for (const candidate of candidates) {
+                try {
+                    const res = await fetch(candidate, { cache: 'no-store' });
+                    if (!res.ok) continue;
+                    const text = await res.text();
+                    if (typeof text === 'string' && text.length > 120) {
+                        return text;
+                    }
+                } catch (_) {
+                    // Try next source/proxy candidate.
+                }
+            }
+            return '';
+        }
+
+        function parseBdtPerGramFromGoldrate(html, metal) {
+            if (!html) return null;
+            const text = String(html).replace(/,/g, '');
+
+            // BAJUS patterns first (commonly 22 carat values in BDT per gram)
+            const bajusGoldPatterns = [
+                /24\s*carat\s*gold[^0-9]{0,80}(?:per\s*gram)?[^0-9]{0,30}([0-9]+(?:\.[0-9]+)?)/i,
+                /22\s*carat\s*gold[^0-9]{0,80}(?:per\s*gram)?[^0-9]{0,30}([0-9]+(?:\.[0-9]+)?)/i,
+                /gold[^0-9]{0,80}(?:bdt|tk|taka)\s*([0-9]+(?:\.[0-9]+)?)/i
+            ];
+            const bajusSilverPatterns = [
+                /999\s*silver[^0-9]{0,80}(?:per\s*gram)?[^0-9]{0,30}([0-9]+(?:\.[0-9]+)?)/i,
+                /22\s*carat\s*silver[^0-9]{0,80}(?:per\s*gram)?[^0-9]{0,30}([0-9]+(?:\.[0-9]+)?)/i,
+                /silver[^0-9]{0,80}(?:bdt|tk|taka)\s*([0-9]+(?:\.[0-9]+)?)/i
+            ];
+
+            // Goldrate fallback patterns
+            const goldratePatterns = metal === 'gold'
+                ? [
+                    /24k\s*gold\s*\/\s*g\s*bdt\s*([0-9]+(?:\.[0-9]+)?)/i,
+                    /today\s*24k\s*gold\s*price\s*per\s*gram\s*in\s*bangladesh[^0-9]{0,50}([0-9]+(?:\.[0-9]+)?)/i,
+                    /24k\s*gold[^0-9]{0,40}(?:bdt|tk|taka)\s*([0-9]+(?:\.[0-9]+)?)/i
+                ]
+                : [
+                    /999\s*silver\s*\/\s*g\s*bdt\s*([0-9]+(?:\.[0-9]+)?)/i,
+                    /today\s*999\s*silver\s*price\s*per\s*gram\s*in\s*bangladesh[^0-9]{0,50}([0-9]+(?:\.[0-9]+)?)/i,
+                    /999\s*silver[^0-9]{0,40}(?:bdt|tk|taka)\s*([0-9]+(?:\.[0-9]+)?)/i
+                ];
+
+            const patterns = metal === 'gold'
+                ? [...bajusGoldPatterns, ...goldratePatterns]
+                : [...bajusSilverPatterns, ...goldratePatterns];
+
+            for (const pattern of patterns) {
+                const match = text.match(pattern);
+                const value = match ? Number(match[1]) : NaN;
+                if (Number.isFinite(value) && value > 0) {
+                    return value;
+                }
+            }
+            return null;
+        }
+
+                async function fetchBangladeshGoldSilverBdtPerGram() {
+            const sourceUrls = [
+                'https://www.bajus.org/gold-price',
+                'https://bajus.org/gold-price',
+                'https://www.goldrate.com/bd/bangladesh-gold-price',
+                'https://www.goldrate.com/gold-price/bangladesh/',
+                'https://www.goldrate.com/bd/bangladesh-silver-price',
+                'https://www.goldrate.com/silver-price/bangladesh/'
+            ];
+
+            const uniqueUrls = Array.from(new Set(sourceUrls));
+            let goldBdt = null;
+            let silverBdt = null;
+            let source = '';
+
+            for (const url of uniqueUrls) {
+                if (goldBdt && silverBdt) break;
+                const html = await fetchTextWithProxyFallback(url);
+                if (!html) continue;
+
+                if (!goldBdt) {
+                    const candidate = parseBdtPerGramFromGoldrate(html, 'gold');
+                    if (Number.isFinite(candidate) && candidate > 0) {
+                        goldBdt = candidate;
+                        source = source || (url.includes('bajus.org') ? 'BAJUS' : 'Fallback source');
+                    }
+                }
+
+                if (!silverBdt) {
+                    const candidate = parseBdtPerGramFromGoldrate(html, 'silver');
+                    if (Number.isFinite(candidate) && candidate > 0) {
+                        silverBdt = candidate;
+                        source = source || (url.includes('bajus.org') ? 'BAJUS' : 'Fallback source');
+                    }
+                }
+            }
+
+            return {
+                goldBdtPerGram: goldBdt,
+                silverBdtPerGram: silverBdt,
+                source: source || 'Fallback source'
+            };
+        }
+
         async function fetchLiveMetalPrices() {
             const statusEl = byId('livePriceStatus');
             const btn = byId('fetchLivePricesBtn');
-            if (statusEl) statusEl.textContent = 'Fetching live prices...';
+            if (statusEl) statusEl.textContent = 'Fetching BAJUS Bangladesh prices...';
             if (btn) btn.disabled = true;
 
             try {
-                const [goldRes, silverRes] = await Promise.all([
-                    fetch('https://api.gold-api.com/price/XAU'),
-                    fetch('https://api.gold-api.com/price/XAG')
-                ]);
-                if (!goldRes.ok || !silverRes.ok) {
-                    throw new Error('Unable to fetch live prices');
+                const rate = parseFloat(byId('usdToBdt')?.value) || 0;
+                if (!(rate > 0)) {
+                    throw new Error('USD to BDT rate is required');
                 }
 
-                const [goldData, silverData] = await Promise.all([goldRes.json(), silverRes.json()]);
-                const ozToGram = 31.1034768;
-                const goldUsdPerGram = (Number(goldData?.price) || 0) / ozToGram;
-                const silverUsdPerGram = (Number(silverData?.price) || 0) / ozToGram;
-
-                if (!(goldUsdPerGram > 0) || !(silverUsdPerGram > 0)) {
-                    throw new Error('Invalid live price response');
-                }
-
+                let goldUpdated = false;
+                let silverUpdated = false;
                 const goldInput = byId('goldPrice');
                 const silverInput = byId('silverPrice');
-                if (goldInput) goldInput.dataset.baseUsd = String(goldUsdPerGram);
-                if (silverInput) silverInput.dataset.baseUsd = String(silverUsdPerGram);
+
+                const bdPrices = await fetchBangladeshGoldSilverBdtPerGram();
+                if (Number.isFinite(bdPrices.goldBdtPerGram) && bdPrices.goldBdtPerGram > 0 && goldInput) {
+                    goldInput.dataset.baseUsd = String(bdPrices.goldBdtPerGram / rate);
+                    goldUpdated = true;
+                }
+                if (Number.isFinite(bdPrices.silverBdtPerGram) && bdPrices.silverBdtPerGram > 0 && silverInput) {
+                    silverInput.dataset.baseUsd = String(bdPrices.silverBdtPerGram / rate);
+                    silverUpdated = true;
+                }
+
+                if (!goldUpdated || !silverUpdated) {
+                    try {
+                        const requests = [];
+                        if (!goldUpdated) requests.push(fetch('https://api.gold-api.com/price/XAU').then((r) => r.ok ? r.json() : null));
+                        if (!silverUpdated) requests.push(fetch('https://api.gold-api.com/price/XAG').then((r) => r.ok ? r.json() : null));
+                        const responses = await Promise.all(requests);
+                        const ozToGram = 31.1034768;
+
+                        let idx = 0;
+                        if (!goldUpdated) {
+                            const d = responses[idx++];
+                            const v = (Number(d?.price) || 0) / ozToGram;
+                            if (v > 0 && goldInput) {
+                                goldInput.dataset.baseUsd = String(v);
+                                goldUpdated = true;
+                            }
+                        }
+                        if (!silverUpdated) {
+                            const d = responses[idx++];
+                            const v = (Number(d?.price) || 0) / ozToGram;
+                            if (v > 0 && silverInput) {
+                                silverInput.dataset.baseUsd = String(v);
+                                silverUpdated = true;
+                            }
+                        }
+                    } catch (_) {
+                        // Ignore secondary fallback failure.
+                    }
+                }
+
+                if (!goldUpdated && !silverUpdated) {
+                    throw new Error('No metal prices updated');
+                }
 
                 const displayCurrency = byId('currency')?.value || 'BDT';
                 renderMetalPricesFromBaseUsd(displayCurrency);
                 updateMetalPriceLabels();
                 calculateZakat();
 
-                const updatedAt = goldData?.updatedAt || silverData?.updatedAt || '';
-                let updatedText = 'Live prices updated';
-                if (updatedAt) {
-                    const dt = new Date(updatedAt);
-                    if (!Number.isNaN(dt.getTime())) {
-                        updatedText += ` (${new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(dt)})`;
-                    }
-                }
-                if (statusEl) statusEl.textContent = updatedText;
+                const now = new Date();
+                const ts = new Intl.DateTimeFormat('en-GB', { dateStyle: 'medium', timeStyle: 'short' }).format(now);
+                const parts = [];
+                if (goldUpdated) parts.push('Gold');
+                if (silverUpdated) parts.push('Silver');
+                const sourceLabel = bdPrices.source || 'source';
+                if (statusEl) statusEl.textContent = `Updated ${parts.join(' & ')} from ${sourceLabel} - ${ts}`;
             } catch (error) {
                 if (statusEl) statusEl.textContent = 'Live price fetch failed. Enter values manually.';
             } finally {
@@ -5594,6 +5740,64 @@
 
         function calculateZakat() {
             recalculateTotals();
+        }
+
+
+        function getEmptyCoreExtraEntries() {
+            return {
+                cashBank: [],
+                stocks: [],
+                gold: [],
+                silver: [],
+                business: [],
+                receivables: []
+            };
+        }
+
+        function resetCalculatorInputs() {
+            const shouldReset = window.confirm('Reset all calculator inputs to default values?');
+            if (!shouldReset) return;
+
+            const keepTheme = byId('themeMode')?.value || localStorage.getItem(themeStorageKey) || 'midnight-gold';
+            localStorage.removeItem('zakatCalculatorData');
+            localStorage.removeItem(entriesStorageKey);
+
+            Object.keys(draftEntries).forEach((key) => { delete draftEntries[key]; });
+
+            document.querySelectorAll('#calculator input, #calculator select, #calculator textarea').forEach((el) => {
+                if (!(el instanceof HTMLElement)) return;
+                if (!('id' in el) || !el.id) return;
+                if (el.id === 'themeMode') return;
+
+                if (el instanceof HTMLInputElement) {
+                    if (el.type === 'hidden') {
+                        el.value = el.defaultValue || '';
+                    } else if (el.type === 'date') {
+                        el.value = el.id === 'lastZakatPaid' ? new Date().toISOString().slice(0, 10) : (el.defaultValue || '');
+                    } else {
+                        el.value = el.defaultValue || (el.type === 'number' ? '0' : '');
+                    }
+                } else if (el instanceof HTMLSelectElement) {
+                    const defaultOption = Array.from(el.options).find((opt) => opt.defaultSelected) || el.options[0];
+                    if (defaultOption) el.value = defaultOption.value;
+                } else if (el instanceof HTMLTextAreaElement) {
+                    el.value = el.defaultValue || '';
+                }
+            });
+
+            if (byId('themeMode')) byId('themeMode').value = keepTheme;
+            if (byId('topThemeMode')) byId('topThemeMode').value = keepTheme;
+            applyTheme(keepTheme);
+
+            restoreCoreExtraEntries(getEmptyCoreExtraEntries());
+            restoreExtraAssets([]);
+            setSplitPanelOpen(false);
+            updateCurrencyMiniButtons();
+            initThousandSeparatedInputs();
+            calculateZakat();
+            scheduleSaveData(0);
+            updateEntriesBadge();
+            showToast('Calculator and entries reset');
         }
 
         function saveData() {
@@ -6615,6 +6819,8 @@
             if (ctaBtn) ctaBtn.addEventListener('click', scrollToCalculator);
             const exportBtn = byId('exportInvoiceBtn');
             if (exportBtn) exportBtn.addEventListener('click', exportInvoicePdf);
+            const resetBtn = byId('resetCalcBtn');
+            if (resetBtn) resetBtn.addEventListener('click', resetCalculatorInputs);
             const livePricesBtn = byId('fetchLivePricesBtn');
             if (livePricesBtn) livePricesBtn.addEventListener('click', fetchLiveMetalPrices);
             const backToTopBtn = byId('backToTop');
@@ -6685,6 +6891,15 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 

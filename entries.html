@@ -475,6 +475,7 @@
       <div class="top-actions">
         <span class="pill" id="entriesCountPill">0 Entries</span>
         <button type="button" class="btn" id="exportPdfReportBtn">Export PDF Report</button>
+        <button type="button" class="btn" id="exportCsvBtn">Download CSV</button>
         <a href="faq.html" class="btn">FAQ</a>
         <a href="index.html#calculator" class="btn">Go to Calculator</a>
       </div>
@@ -944,6 +945,76 @@
       }
     }
 
+    function csvEscape(value) {
+      const text = String(value ?? '');
+      if (!/[",\n]/.test(text)) return text;
+      return `"${text.replace(/"/g, '""')}"`;
+    }
+
+    function exportEntriesCsv() {
+      const rows = state.filtered.length ? state.filtered : state.entries;
+      if (!rows.length) {
+        alert('No entries found to export.');
+        return;
+      }
+
+      const calcState = getCalcState();
+      const selectedCurrency = String(calcState.currency || 'BDT').toUpperCase();
+      const usdToBdt = sanitizeAmount(calcState.usdToBdt || 0);
+
+      const toBdt = (amount, currency) => {
+        const val = sanitizeAmount(amount);
+        const cur = String(currency || 'BDT').toUpperCase();
+        if (cur === 'BDT') return val;
+        return usdToBdt > 0 ? val * usdToBdt : 0;
+      };
+
+      const bdtToSelected = (amountBdt) => {
+        if (selectedCurrency === 'BDT') return amountBdt;
+        return usdToBdt > 0 ? amountBdt / usdToBdt : 0;
+      };
+
+      const header = [
+        'Date',
+        'Category',
+        'Amount',
+        'Currency',
+        'Note',
+        'Converted (BDT)',
+        `Converted (${selectedCurrency})`
+      ];
+
+      const lines = [header.join(',')];
+      rows.forEach((entry) => {
+        const amount = sanitizeAmount(entry.amount);
+        const currency = String(entry.currency || 'BDT').toUpperCase();
+        const convertedBdt = toBdt(amount, currency);
+        const convertedSelected = bdtToSelected(convertedBdt);
+
+        lines.push([
+          csvEscape(formatDate(entry.createdAt)),
+          csvEscape(entry.category || 'Other'),
+          csvEscape(formatAmount(amount)),
+          csvEscape(currency),
+          csvEscape(entry.note || ''),
+          csvEscape(formatAmount(convertedBdt)),
+          csvEscape(formatAmount(convertedSelected))
+        ].join(','));
+      });
+
+      const bom = '\uFEFF'; // Excel-friendly UTF-8 BOM
+      const csvBlob = new Blob([bom + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(csvBlob);
+      const link = document.createElement('a');
+      const fileDate = new Date().toISOString().slice(0, 10);
+      link.href = url;
+      link.download = `zakat-entries-${fileDate}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
     function getFilterValues() {
       return {
         search: (document.getElementById('searchInput').value || '').trim().toLowerCase(),
@@ -1120,6 +1191,8 @@
       });
       const exportBtn = document.getElementById('exportPdfReportBtn');
       if (exportBtn) exportBtn.addEventListener('click', exportPDFReport);
+      const exportCsvBtn = document.getElementById('exportCsvBtn');
+      if (exportCsvBtn) exportCsvBtn.addEventListener('click', exportEntriesCsv);
 
       document.getElementById('entriesTableBody').addEventListener('click', (event) => {
         const btn = event.target.closest('button[data-action]');
