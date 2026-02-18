@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Ôªø<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -3741,7 +3741,7 @@
 
             <div class="verse-container">
                 <p class="verse-text">"Take from their wealth a charity by which you purify them and cause them increase."</p>
-                <p class="verse-reference">ó Qur'an 9:103</p>
+                <p class="verse-reference">‚Äî Qur'an 9:103</p>
             </div>
 
             <div class="cta-buttons">
@@ -3944,14 +3944,14 @@
                         <div class="amount-currency">
                             <select id="zakatHijriMonth" class="select-input form-input">
                                 <option value="">Month</option>
-                                <option>Mu?arram</option>
+                                <option>Muharram</option>
                                 <option>Safar</option>
                                 <option>Rabi al-Awwal</option>
                                 <option>Rabi al-Thani</option>
                                 <option>Jumada al-Ula</option>
                                 <option>Jumada al-Akhirah</option>
                                 <option>Rajab</option>
-                                <option>Shaíban</option>
+                                <option>Sha'ban</option>
                                 <option>Ramadan</option>
                                 <option>Shawwal</option>
                                 <option>Dhu al-Qadah</option>
@@ -3976,7 +3976,7 @@
                 </div>
             </div>
             <div class="info-box">
-                <p><strong>Market rates:</strong> Click ìFetch Live 24K Gold &amp; 999 Silverî or enter your own values.</p>
+                <p><strong>Market rates:</strong> Click ‚ÄúFetch Live 24K Gold &amp; 999 Silver‚Äù or enter your own values.</p>
             </div>
             </div>
         </details>
@@ -4621,6 +4621,23 @@
             return map[field] || 'Other';
         }
 
+        function getCoreFieldNote(field, triggerBtn = null) {
+            const noteIdMap = {
+                cashBank: 'cashBankTotalNote',
+                stocks: 'investmentsNote',
+                gold: 'goldNote',
+                silver: 'silverNote',
+                business: 'businessNote',
+                receivables: 'receivablesNote'
+            };
+            const mappedId = noteIdMap[field];
+            const mappedEl = mappedId ? byId(mappedId) : null;
+            if (mappedEl) return String(mappedEl.value || '').trim();
+
+            const groupNote = triggerBtn?.closest('.form-group')?.querySelector('.asset-note-input');
+            return String(groupNote?.value || '').trim();
+        }
+
         function applyTheme(themeMode) {
             const allowed = new Set(['midnight-gold', 'emerald-night', 'royal-indigo', 'teal-dawn']);
             const mode = allowed.has(themeMode) ? themeMode : 'midnight-gold';
@@ -4889,10 +4906,12 @@
             if (!list) return;
             const defaultCurrency = document.getElementById('currency')?.value || 'BDT';
             const trackEntry = options.trackEntry === true;
+            const rowNote = String(entry.note || '').trim();
 
             const row = document.createElement('div');
             row.className = 'extra-asset-row';
             row.dataset.draftRowId = makeEntryId();
+            row.dataset.note = rowNote;
             row.innerHTML = `
                 <select class="select-input form-input extra-asset-type">
                     <option value="Cash">Cash</option>
@@ -4928,7 +4947,7 @@
                     category,
                     amount,
                     currency,
-                    note: '',
+                    note: row.dataset.note || '',
                     meta: { source: 'additional-entry' }
                 });
             };
@@ -4959,7 +4978,7 @@
                     category: row.querySelector('.extra-asset-type')?.value || 'Other',
                     amount: row.querySelector('.extra-asset-amount')?.value || '0',
                     currency: row.querySelector('.extra-asset-currency')?.value || defaultCurrency,
-                    note: '',
+                    note: row.dataset.note || '',
                     meta: { source: 'additional-entry' }
                 });
                 row.dataset.entryId = created.id;
@@ -4972,11 +4991,13 @@
             if (!list) return;
             const defaultCurrency = byId('currency')?.value || 'BDT';
             const trackEntry = options.trackEntry === true;
+            const rowNote = String(entry.note || '').trim();
 
             const row = document.createElement('div');
             row.className = 'core-extra-row';
             row.dataset.field = field;
             row.dataset.draftRowId = makeEntryId();
+            row.dataset.note = rowNote;
             if (entry.entryId) row.dataset.entryId = entry.entryId;
             row.innerHTML = `
                 <input type="number" class="form-input core-extra-amount" step="0.01" placeholder="Amount" value="${entry.amount || 0}">
@@ -4998,7 +5019,7 @@
                     category: coreFieldToCategory(field),
                     amount,
                     currency,
-                    note: '',
+                    note: row.dataset.note || '',
                     meta: { source: 'core-entry', field }
                 });
             };
@@ -5029,7 +5050,7 @@
                     category: coreFieldToCategory(field),
                     amount: row.querySelector('.core-extra-amount')?.value || '0',
                     currency: row.querySelector('.core-extra-currency')?.value || defaultCurrency,
-                    note: '',
+                    note: row.dataset.note || '',
                     meta: { source: 'core-entry', field }
                 });
                 row.dataset.entryId = created.id;
@@ -6788,7 +6809,7 @@
                             category: coreFieldToCategory(row.dataset.field || ''),
                             amount: row.querySelector('.core-extra-amount')?.value || '0',
                             currency: hidden.value,
-                            note: '',
+                            note: row.dataset.note || '',
                             meta: { source: 'core-entry', field: row.dataset.field || '' }
                         });
                     }
@@ -6808,7 +6829,7 @@
                         category: row.querySelector('.extra-asset-type')?.value || 'Other',
                         amount: row.querySelector('.extra-asset-amount')?.value || '0',
                         currency: hidden.value,
-                        note: '',
+                        note: row.dataset.note || '',
                         meta: { source: 'additional-entry' }
                     });
                 }
@@ -6841,9 +6862,10 @@
                 btn.addEventListener('click', () => {
                     const field = btn.getAttribute('data-core-field');
                     if (!field) return;
-                    const relatedAmountInput = btn.closest('.form-group')?.querySelector('input[id$=\"Amt\"]');
+                    const relatedAmountInput = btn.closest('.form-group')?.querySelector('input[id$="Amt"]');
                     const draftAmount = resolveDraftAmountForCoreField(field, relatedAmountInput || null);
-                    addCoreExtraRow(field, { label: '', amount: draftAmount, currency: byId('currency')?.value || 'BDT' }, { trackEntry: true });
+                    const note = getCoreFieldNote(field, btn);
+                    addCoreExtraRow(field, { label: '', amount: draftAmount, currency: byId('currency')?.value || 'BDT', note }, { trackEntry: true });
                     calculateZakat();
                 });
             });
@@ -6891,6 +6913,12 @@
     </script>
 </body>
 </html>
+
+
+
+
+
+
 
 
 
