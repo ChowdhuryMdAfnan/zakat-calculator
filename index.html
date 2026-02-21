@@ -193,6 +193,7 @@
             position: relative;
             gap: 0.55rem;
             flex-wrap: nowrap;
+            justify-content: center;
             overflow-x: auto;
             scrollbar-width: none;
             padding: 0.18rem;
@@ -483,7 +484,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 2rem;
+            padding: 2rem clamp(24px, 5vw, 80px);
             overflow: hidden;
             z-index: 1;
         }
@@ -552,9 +553,9 @@
         .moon {
             position: absolute;
             top: 10%;
-            right: 10%;
-            width: 500px;
-            height: 500px;
+            right: -9%;
+            width: 620px;
+            height: 620px;
             border-radius: 50%;
             background: radial-gradient(circle at 30% 30%,
                 rgba(255, 255, 255, 0.14) 0%,
@@ -562,9 +563,10 @@
                 rgba(255, 255, 255, 0.06) 70%,
                 transparent 100%);
             filter: blur(1px);
-            animation: moonDrift 60s ease-in-out infinite;
+            animation: moonDrift 14s ease-in-out infinite;
             z-index: -1;
             will-change: transform;
+            opacity: 0.34;
         }
 
         .moon::before {
@@ -580,6 +582,21 @@
                 rgba(255, 255, 255, 0.08),
                 transparent 60%);
             filter: blur(2px);
+        }
+
+        .moon::after {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(244, 212, 123, 0.16) 0%, rgba(244, 212, 123, 0.08) 34%, rgba(244, 212, 123, 0) 74%);
+            filter: blur(10px);
+            opacity: 0.4;
+            z-index: -1;
         }
 
         .moon-crater {
@@ -598,21 +615,47 @@
                 transform: translate(var(--moon-px, 0px), var(--moon-py, 0px)) rotate(0deg);
             }
             25% {
-                transform: translate(calc(var(--moon-px, 0px) - 20px), calc(var(--moon-py, 0px) - 30px)) rotate(5deg);
+                transform: translate(calc(var(--moon-px, 0px) - 8px), calc(var(--moon-py, 0px) - 10px)) rotate(2deg);
             }
             50% {
-                transform: translate(calc(var(--moon-px, 0px) - 10px), calc(var(--moon-py, 0px) - 50px)) rotate(10deg);
+                transform: translate(calc(var(--moon-px, 0px) - 4px), calc(var(--moon-py, 0px) - 14px)) rotate(3deg);
             }
             75% {
-                transform: translate(calc(var(--moon-px, 0px) + 20px), calc(var(--moon-py, 0px) - 30px)) rotate(5deg);
+                transform: translate(calc(var(--moon-px, 0px) + 8px), calc(var(--moon-py, 0px) - 9px)) rotate(2deg);
             }
         }
 
         .hero-content {
-            max-width: 900px;
             text-align: center;
             z-index: 2;
             animation: fadeUp 1s ease-out;
+            width: 100%;
+        }
+
+        .hero-wrapper {
+            width: 100%;
+            max-width: min(1600px, 90vw);
+            margin: 0 auto;
+            padding: 0 clamp(24px, 5vw, 80px);
+        }
+
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        .hero-main {
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(28px, 2.4vw, 36px);
+        }
+
+        .hero-side {
+            min-width: 0;
         }
 
         @keyframes fadeUp {
@@ -627,50 +670,64 @@
         }
 
         .hero-title {
-            font-size: clamp(4rem, 12vw, 8rem);
+            font-size: clamp(64px, 8vw, 120px);
             font-weight: 700;
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+            background-size: 220% 220%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
+            margin-bottom: 0;
+            letter-spacing: -0.035em;
             text-shadow: 0 0 40px rgba(212, 175, 55, 0.3);
+            animation: heroTitleIn 760ms cubic-bezier(0.22, 1, 0.36, 1) both, heroTitleShimmer 8s ease-in-out infinite;
         }
 
         .hero-subtitle {
-            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-size: clamp(18px, 2.2vw, 24px);
             color: var(--text-secondary);
-            margin-bottom: 3rem;
+            opacity: 0.85;
+            margin-bottom: 0;
             font-weight: 300;
+            line-height: 1.65;
         }
 
         .verse-container {
-            background: linear-gradient(180deg, rgba(32, 44, 66, 0.46) 0%, rgba(20, 30, 48, 0.5) 100%);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: linear-gradient(180deg, rgba(28, 41, 62, 0.44) 0%, rgba(17, 27, 44, 0.46) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 18px;
-            padding: 2rem;
-            margin-bottom: 3rem;
+            padding: clamp(28px, 3.2vw, 32px);
+            margin-bottom: 0;
             max-width: 700px;
             margin-left: auto;
             margin-right: auto;
             position: relative;
             overflow: hidden;
             box-shadow:
-                inset 0 1px 0 rgba(255, 255, 255, 0.06),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08),
                 inset 0 0 36px rgba(212, 175, 55, 0.08),
-                0 12px 30px rgba(0, 0, 0, 0.25);
+                0 16px 36px rgba(0, 0, 0, 0.3);
+            animation: heroFadeUp 720ms cubic-bezier(0.22, 1, 0.36, 1) 120ms both;
         }
 
         .verse-container::before {
             content: "";
             position: absolute;
-            left: 10%;
-            right: 10%;
-            top: 0;
-            height: 1px;
+            left: 16%;
+            right: 16%;
+            top: 12px;
+            height: 2px;
             background: linear-gradient(90deg, rgba(212, 175, 55, 0), rgba(244, 212, 123, 0.9), rgba(212, 175, 55, 0));
+            opacity: 0.55;
+        }
+
+        .verse-text::before {
+            content: "\263E";
+            display: block;
+            margin: 0 auto 0.55rem;
+            font-size: 0.95rem;
+            color: color-mix(in srgb, var(--gold-light) 82%, white 18%);
             opacity: 0.8;
         }
 
@@ -695,6 +752,21 @@
             100% { left: 130%; opacity: 0; }
         }
 
+        @keyframes heroTitleShimmer {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes heroTitleIn {
+            from { opacity: 0; transform: translateY(18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes heroFadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         .verse-text {
             font-size: 1.1rem;
             font-style: italic;
@@ -711,10 +783,10 @@
 
         .cta-buttons {
             display: flex;
-            gap: 1.5rem;
+            gap: 1rem;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 2.2rem;
+            margin-bottom: 0;
         }
 
         .hero-preview-card {
@@ -813,33 +885,33 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
             color: var(--darker-bg);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 26px rgba(212, 175, 55, 0.28), 0 0 20px rgba(16, 185, 129, 0.22);
         }
 
         .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 10px 24px rgba(212, 175, 55, 0.28);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 34px rgba(212, 175, 55, 0.32), 0 0 28px rgba(16, 185, 129, 0.24);
         }
 
         .btn-secondary {
             background: var(--glass-bg);
             color: var(--text-primary);
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(148, 163, 184, 0.22);
             backdrop-filter: blur(10px);
         }
 
         .btn-secondary:hover {
             background: rgba(30, 41, 59, 0.6);
-            border-color: rgba(20, 184, 166, 0.55);
-            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.14);
-            transform: translateY(-1px);
+            border-color: rgba(148, 163, 184, 0.35);
+            box-shadow: 0 8px 20px rgba(20, 184, 166, 0.1);
+            transform: translateY(-2px);
         }
 
         .why-zakat {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 1.5rem;
-            max-width: 900px;
+            max-width: 100%;
             margin: 0 auto;
         }
 
@@ -851,13 +923,18 @@
             padding: 2rem;
             text-align: center;
             transition: all 0.3s ease;
+            animation: heroFadeUp 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
         .why-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px);
             border-color: var(--gold);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
+
+        .hero-side .why-card:nth-child(1) { animation-delay: 120ms; }
+        .hero-side .why-card:nth-child(2) { animation-delay: 220ms; }
+        .hero-side .why-card:nth-child(3) { animation-delay: 320ms; }
 
         .why-icon {
             font-size: 3rem;
@@ -899,6 +976,61 @@
             color: var(--text-secondary);
             margin-bottom: 2.9rem;
             font-size: 1.1rem;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-layout {
+                grid-template-columns: 55% 45%;
+                gap: clamp(80px, 8vw, 128px);
+            }
+
+            .hero-main {
+                text-align: left;
+                align-items: flex-start;
+            }
+
+            .hero-main .verse-container,
+            .hero-main .hero-preview-card {
+                margin-left: 0;
+                margin-right: 0;
+            }
+
+            .hero-main .cta-buttons {
+                justify-content: flex-start;
+            }
+
+            .hero-side .why-zakat {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .hero-side .why-card {
+                text-align: left;
+                padding: 1.4rem;
+            }
+
+            .hero-side .why-card:nth-child(2) {
+                transform: translateX(20px);
+            }
+
+            .hero-side .why-card:nth-child(3) {
+                transform: translateX(-20px);
+            }
+
+            .hero-side .why-card:nth-child(2):hover {
+                transform: translateX(20px) translateY(-6px);
+            }
+
+            .hero-side .why-card:nth-child(3):hover {
+                transform: translateX(-20px) translateY(-6px);
+            }
+        }
+
+        @media (max-width: 1023px) {
+            .hero-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
         }
 
 
@@ -1028,14 +1160,79 @@
         }
 
         .calculator-header {
-            text-align: center;
-            margin-bottom: 2.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .calc-header-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            background: rgba(12, 22, 38, 0.5);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .calc-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            min-width: 0;
+        }
+
+        .calc-header-title {
+            font-size: clamp(1.2rem, 1.5vw, 1.5rem);
+            font-weight: 800;
+            letter-spacing: 0.01em;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .calc-date-badges {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            flex-wrap: wrap;
+        }
+
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            min-height: 30px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            background: rgba(10, 18, 32, 0.66);
+            color: var(--text-secondary);
+            font-size: 0.76rem;
+            padding: 0.22rem 0.62rem;
+            white-space: nowrap;
+        }
+
+        .date-badge strong {
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .mini-ramadan {
+            display: none;
+        }
+
+        body.ramadan-mode .mini-ramadan {
+            display: inline-flex;
+            border-color: rgba(212, 175, 55, 0.45);
+            color: #f4d47b;
+            background: rgba(212, 175, 55, 0.14);
         }
 
         .calc-shell {
             display: grid;
-            grid-template-columns: 155px minmax(0, 1fr);
-            gap: 0.9rem;
+            grid-template-columns: 120px minmax(640px, 1fr) minmax(320px, 360px);
+            gap: 1rem;
             align-items: start;
         }
 
@@ -1045,7 +1242,7 @@
             align-self: start;
             display: grid;
             gap: 0.55rem;
-            padding: 0.7rem;
+            padding: 0.55rem;
             border-radius: 18px;
             background: rgba(15, 23, 42, 0.28);
             border: 1px solid rgba(148, 163, 184, 0.08);
@@ -1059,7 +1256,7 @@
             border-radius: 12px;
             padding: 0.5rem 0.65rem;
             text-align: left;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -1085,17 +1282,209 @@
             box-shadow: none;
         }
 
+        .calc-summary {
+            position: sticky;
+            top: 90px;
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.14);
+            background: rgba(12, 22, 38, 0.52);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+        }
+
+        .calc-summary > summary {
+            list-style: none;
+            cursor: default;
+            padding: 0.85rem 0.95rem 0.72rem;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+        }
+
+        .calc-summary > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .calc-summary-title {
+            font-size: 0.95rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            color: color-mix(in srgb, var(--gold-light) 85%, #fff 15%);
+        }
+
+        .calc-summary-content {
+            padding: 0.85rem 0.95rem 0.95rem;
+            display: grid;
+            gap: 0.72rem;
+        }
+
+        .summary-kpi {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 0.7rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+            padding-bottom: 0.45rem;
+        }
+
+        .summary-kpi strong {
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .summary-kpi.big {
+            align-items: center;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 12px;
+            padding: 0.6rem 0.7rem;
+            background: linear-gradient(180deg, rgba(60, 48, 20, 0.38), rgba(42, 32, 12, 0.3));
+        }
+
+        .summary-kpi.big strong {
+            font-size: 1.2rem;
+            color: #ffefb6;
+            text-shadow: 0 0 14px rgba(212, 175, 55, 0.24);
+        }
+
+        .summary-eligible {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 28px;
+            border-radius: 999px;
+            padding: 0.1rem 0.55rem;
+            font-size: 0.72rem;
+            font-weight: 700;
+            border: 1px solid rgba(148, 163, 184, 0.24);
+            color: var(--text-secondary);
+            background: rgba(12, 22, 38, 0.6);
+        }
+
+        .summary-eligible.ok {
+            border-color: rgba(16, 185, 129, 0.42);
+            color: #86efac;
+            background: rgba(16, 185, 129, 0.14);
+        }
+
+        .summary-eligible.no {
+            border-color: rgba(251, 191, 36, 0.42);
+            color: #fde68a;
+            background: rgba(251, 191, 36, 0.14);
+        }
+
+        .summary-breakdown {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .summary-breakdown-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.45rem 0.6rem;
+            align-items: center;
+        }
+
+        .summary-breakdown-row span {
+            font-size: 0.74rem;
+            color: var(--text-secondary);
+        }
+
+        .summary-breakdown-row strong {
+            font-size: 0.78rem;
+            color: var(--text-primary);
+        }
+
+        .summary-bar {
+            grid-column: 1 / -1;
+            height: 5px;
+            border-radius: 999px;
+            background: rgba(148, 163, 184, 0.18);
+            overflow: hidden;
+        }
+
+        .summary-bar > i {
+            display: block;
+            height: 100%;
+            width: 0%;
+            border-radius: inherit;
+            background: linear-gradient(90deg, rgba(20, 184, 166, 0.82), rgba(212, 175, 55, 0.82));
+            transition: width 220ms ease;
+        }
+
         /* Premium themed asset panel (applies across all theme modes via vars). */
         #assetsCard {
             background: rgba(15, 23, 42, 0.45);
             border: 1px solid rgba(148, 163, 184, 0.08);
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+            border-radius: 28px;
+            padding: 1.25rem;
+            max-width: 1040px;
+            margin-inline: auto;
         }
 
-        #assetsCard .calc-card-title {
-            font-size: 2.1rem;
-            color: color-mix(in srgb, var(--gold-light) 88%, #fff 12%);
+        .assets-wealth-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.8rem;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .assets-wealth-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-size: clamp(1.55rem, 2vw, 2rem);
+            font-weight: 800;
+            color: color-mix(in srgb, var(--gold-light) 88%, #fff 12%);
+        }
+
+        .assets-wealth-title .section-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            font-size: 1rem;
+        }
+
+        .assets-add-btn {
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            background: rgba(15, 23, 42, 0.8);
+            color: var(--text-primary);
+            border-radius: 999px;
+            padding: 0.55rem 1rem;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.22s ease;
+        }
+
+        .assets-add-btn:hover {
+            border-color: rgba(212, 175, 55, 0.65);
+            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .assets-fields-panel {
+            margin-top: 0.9rem;
+            border-radius: 20px;
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            background: rgba(12, 22, 38, 0.5);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            padding: 1rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .legacy-assets-hidden {
+            display: none !important;
+        }
+
+        .assets-entry-list-wrap {
+            margin-top: 0.2rem;
         }
 
         .assets-topbar {
@@ -1194,6 +1583,17 @@
             align-items: start;
         }
 
+        #assetsCard .assets-fields-panel .form-group > .form-label::before {
+            content: "Type";
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.7rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: rgba(148, 163, 184, 0.78);
+            font-weight: 600;
+        }
+
         .asset-field-row {
             display: grid;
             grid-template-columns: minmax(0, 1fr) clamp(130px, 26%, 190px);
@@ -1202,7 +1602,7 @@
         }
 
         .asset-note-input {
-            min-height: 52px;
+            min-height: 54px;
             border-radius: 12px;
             padding: 0 0.8rem;
             font-size: 0.82rem;
@@ -1222,7 +1622,7 @@
 
         #assetsCard .money-input .form-input {
             width: 100%;
-            min-height: 64px;
+            min-height: 54px;
             border-radius: 14px;
             background: rgba(4, 8, 14, 0.92);
             border: 1px solid color-mix(in srgb, var(--gold) 44%, rgba(148, 163, 184, 0.2));
@@ -1295,9 +1695,9 @@
         }
 
         .header-actions {
-            margin-top: 0.9rem;
+            margin-top: 0;
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             gap: 0.6rem;
             flex-wrap: wrap;
         }
@@ -3163,6 +3563,37 @@
             padding: 8px 0;
         }
 
+        @media (max-width: 1100px) {
+            .calc-shell {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .section-rail {
+                display: none;
+            }
+
+            .calc-summary {
+                position: static;
+                top: auto;
+            }
+
+            .calc-summary > summary {
+                cursor: pointer;
+            }
+
+            .calc-summary:not([open]) .calc-summary-content {
+                display: none;
+            }
+
+            .content-canvas {
+                padding: 0;
+                border: 0;
+                box-shadow: none;
+                background: transparent;
+            }
+        }
+
         @media (max-width: 900px) {
             .calc-shell {
                 grid-template-columns: 1fr;
@@ -3204,6 +3635,24 @@
             .top-nav-logo {
                 text-align: left;
                 font-size: 0.9rem;
+            }
+
+            .calc-header-bar {
+                padding: 0.75rem 0.8rem;
+                gap: 0.65rem;
+            }
+
+            .calc-header-left {
+                gap: 0.55rem;
+            }
+
+            .calc-date-badges {
+                gap: 0.35rem;
+            }
+
+            .date-badge {
+                font-size: 0.72rem;
+                min-height: 28px;
             }
 
             .top-nav-controls {
@@ -3447,6 +3896,21 @@
             #assetsCard .form-grid {
                 grid-template-columns: 1fr;
                 gap: 1rem;
+            }
+
+            #assetsCard {
+                padding: 1rem;
+                border-radius: 22px;
+            }
+
+            .assets-fields-panel {
+                padding: 0.85rem;
+                border-radius: 16px;
+                gap: 0.85rem;
+            }
+
+            .assets-wealth-header {
+                margin-bottom: 0.75rem;
             }
 
             .asset-field-row {
@@ -3770,12 +4234,9 @@
                 <nav class="top-nav-links">
                     <span class="top-link-indicator" aria-hidden="true"></span>
                     <button type="button" class="top-link active" data-nav-target="landing">Home</button>
-                    <button type="button" class="top-link" data-nav-target="how-it-works">How It Works</button>
+                    <a href="faq.html#how-zakat-calculated" class="top-link" aria-label="Open How It Works in FAQ">How It Works</a>
                     <button type="button" class="top-link" data-nav-target="calculator">Calculator</button>
-                    <button type="button" class="top-link" data-nav-target="assetsCard">Assets</button>
-                    <button type="button" class="top-link" data-nav-target="debtsCard">Debts</button>
                     <button type="button" class="top-link" data-nav-target="resultsCard">Results</button>
-                    <button type="button" class="top-link" data-nav-target="historyCard">History</button>
                     <a href="faq.html" class="top-link" aria-label="Open FAQ page">FAQ</a>
                 </nav>
                 <a href="entries.html" class="entries-nav-btn" id="allEntriesBtn" aria-label="Open all entries">
@@ -3811,104 +4272,43 @@
             <span class="floating-particle lantern" style="--x: 36%; --y: 68%; --dur: 20s; --delay: -7.4s;"></span>
         </div>
 
-        <div class="hero-content">
-            <h1 class="hero-title">Zakat</h1>
-            <p class="hero-subtitle">Purify your wealth. Strengthen your community.</p>
+        <div class="hero-content hero-wrapper">
+            <div class="hero-layout">
+                <div class="hero-main">
+                    <h1 class="hero-title">Zakat</h1>
+                    <p class="hero-subtitle">Purify your wealth. Strengthen your community.</p>
 
-            <div class="verse-container">
-                <p class="verse-text">"Take from their wealth a charity by which you purify them and cause them increase."</p>
-                <p class="verse-reference">— Qur'an 9:103</p>
-            </div>
-
-            <div class="cta-buttons">
-                <button id="calculateCtaBtn" class="btn btn-primary">Calculate Your Zakat</button>
-                <a href="#how-it-works" class="btn btn-secondary">Learn How It Works</a>
-            </div>
-
-            <div class="hero-preview-card" aria-label="App preview">
-                <div class="hero-preview-head">
-                    <span>Mini Calculator Preview</span>
-                    <span class="preview-pill">Offline</span>
-                </div>
-                <div class="hero-preview-grid">
-                    <div class="hero-preview-item">
-                        <span>Total Assets</span>
-                        <strong>BDT 1,230,000</strong>
+                    <div class="verse-container">
+                        <p class="verse-text">"Take from their wealth a charity by which you purify them and cause them increase."</p>
+                        <p class="verse-reference">— Qur'an 9:103</p>
                     </div>
-                    <div class="hero-preview-item">
-                        <span>Debts</span>
-                        <strong>BDT 180,000</strong>
+
+                    <div class="cta-buttons">
+                        <button id="calculateCtaBtn" class="btn btn-primary">Calculate Your Zakat</button>
+                        <a href="faq.html#how-zakat-calculated" class="btn btn-secondary">Learn How It Works</a>
                     </div>
-                    <div class="hero-preview-item">
-                        <span>Nisab (Silver)</span>
-                        <strong>BDT 188,726</strong>
+
+                </div>
+
+                <aside class="hero-side" aria-label="Why Zakat Matters">
+                    <div class="why-zakat">
+                        <div class="why-card">
+                            <div class="why-icon">&#x2728;</div>
+                            <h3 class="why-title">Purifies Wealth</h3>
+                            <p class="why-text">Brings barakah (blessing) to your earnings and possessions</p>
+                        </div>
+                        <div class="why-card">
+                            <div class="why-icon">&#x1F91D;</div>
+                            <h3 class="why-title">Supports the Needy</h3>
+                            <p class="why-text">Helps those in need and strengthens community bonds</p>
+                        </div>
+                        <div class="why-card">
+                            <div class="why-icon">&#x2696;&#xFE0F;</div>
+                            <h3 class="why-title">Social Balance</h3>
+                            <p class="why-text">Creates equity and fulfills our responsibility to society</p>
+                        </div>
                     </div>
-                    <div class="hero-preview-item">
-                        <span>Status</span>
-                        <strong>Above Nisab</strong>
-                    </div>
-                </div>
-                <div class="hero-preview-due">
-                    <span class="hero-preview-due-label">Estimated Zakat Due</span>
-                    <span class="hero-preview-due-value">BDT 26,250</span>
-                </div>
-            </div>
-
-            <div class="why-zakat">
-                <div class="why-card">
-                    <div class="why-icon">&#x2728;</div>
-                    <h3 class="why-title">Purifies Wealth</h3>
-                    <p class="why-text">Brings barakah (blessing) to your earnings and possessions</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-icon">&#x1F91D;</div>
-                    <h3 class="why-title">Supports the Needy</h3>
-                    <p class="why-text">Helps those in need and strengthens community bonds</p>
-                </div>
-                <div class="why-card">
-                    <div class="why-icon">&#x2696;&#xFE0F;</div>
-                    <h3 class="why-title">Social Balance</h3>
-                    <p class="why-text">Creates equity and fulfills our responsibility to society</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="how-it-works">
-        <h2 class="section-title">How Zakat is Calculated</h2>
-        <p class="section-subtitle">A simple four-step process</p>
-
-        <div class="steps-container">
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <h3 class="step-title">Add Your Assets</h3>
-                <p class="step-text">
-                    Include cash, bank savings, gold, silver, stocks, crypto, business inventory, and any wealth you've held for one lunar year.
-                </p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <h3 class="step-title">Subtract Debts</h3>
-                <p class="step-text">
-                    Deduct short-term debts that are due within the year. Long-term debts like mortgages are typically not deducted.
-                </p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <h3 class="step-title">Check Nisab</h3>
-                <p class="step-text">
-                    Compare your net wealth with the nisab threshold (value of 87.48g gold or 612.36g silver). Zakat is due if you're above this.
-                </p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <h3 class="step-title">Pay 2.5%</h3>
-                <p class="step-text">
-                    If your wealth exceeds nisab for one full lunar year, pay 2.5% of your total zakatable wealth to eligible recipients.
-                </p>
+                </aside>
             </div>
         </div>
     </section>
@@ -3917,26 +4317,19 @@
 
     <section id="calculator">
         <div class="calculator-header">
-            <h2 class="calculator-title">Zakat Calculator</h2>
-            <p class="calculator-subtitle">Enter your financial details below</p>
-            <p class="today-dates">
-                Today (Gregorian): <span id="todayGregorian">-</span> |
-                Today (Hijri): <span id="todayHijri">-</span>
-            </p>
-            <div class="ramadan-meta">
-                <span class="ramadan-crescent" aria-hidden="true"></span>
-                <span class="ramadan-badge" id="ramadanBadge">Ramadan Mubarak</span>
-            </div>
-            <div class="header-actions">
-                <button type="button" id="exportInvoiceBtn" class="mini-btn">Export Invoice PDF</button>
-                <button type="button" id="resetCalcBtn" class="mini-btn">Reset</button>
-            </div>
-            <div class="quick-start" id="quickStartBar" aria-label="Quick start">
-                <button type="button" class="quick-step active" data-target="assetsCard"><span class="moon-phase" aria-hidden="true">&#x1F311;</span><span>Assets</span></button>
-                <span class="quick-sep">&#x2192;</span>
-                <button type="button" class="quick-step" data-target="debtsCard"><span class="moon-phase" aria-hidden="true">&#x1F313;</span><span>Debts</span></button>
-                <span class="quick-sep">&#x2192;</span>
-                <button type="button" class="quick-step" data-target="resultsCard"><span class="moon-phase" aria-hidden="true">&#x1F314;</span><span>Result</span></button>
+            <div class="calc-header-bar">
+                <div class="calc-header-left">
+                    <h2 class="calc-header-title">Zakat Calculator</h2>
+                    <div class="calc-date-badges">
+                        <span class="date-badge">Gregorian: <strong id="todayGregorian">-</strong></span>
+                        <span class="date-badge">Hijri: <strong id="todayHijri">-</strong></span>
+                        <span class="date-badge mini-ramadan" id="ramadanBadge">Ramadan Mubarak</span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button type="button" id="exportInvoiceBtn" class="mini-btn">Export Invoice PDF</button>
+                    <button type="button" id="resetCalcBtn" class="mini-btn">Reset</button>
+                </div>
             </div>
         </div>
         <div class="calc-shell">
@@ -4058,138 +4451,55 @@
         </details>
 
         <div class="calc-card" id="assetsCard">
-            <h3 class="calc-card-title"><span class="section-icon">&#x1F48E;</span>Your Assets</h3>
-            <div class="assets-topbar" id="assetsTopbar">
-                <div class="assets-live-row">
-                    <span class="assets-live-label">Live Total Assets</span>
-                    <span class="assets-live-total" id="assetsLiveTotal">BDT 0.00</span>
-                </div>
-                <div class="assets-live-sub" id="assetsLiveTotalSub">USD 0.00</div>
-                <div class="asset-category-chips" aria-label="Asset categories">
-                    <button type="button" class="asset-chip" data-asset-jump="assetsCashGroup">Cash</button>
-                    <button type="button" class="asset-chip" data-asset-jump="assetsMetalsGroup">Metals</button>
-                    <button type="button" class="asset-chip" data-asset-jump="assetsInvestmentsGroup">Investments</button>
-                    <button type="button" class="asset-chip" data-asset-jump="assetsBusinessGroup">Business</button>
-                </div>
+            <div class="assets-wealth-header">
+                <div class="assets-wealth-title"><span class="section-icon">&#x1F4C8;</span>Assets (Wealth)</div>
+                <button type="button" id="addAssetRowBtn" class="assets-add-btn">+ Add Asset</button>
             </div>
             <div class="assets-entry-tools">
-                <p class="form-label">Core Assets</p>
+                <p class="form-label">Asset Entries</p>
                 <a class="view-all-entries-link" href="entries.html">View all entries</a>
             </div>
-            <div class="form-grid">
-                <div class="form-group asset-group" id="assetsCashGroup">
-                    <label class="form-label">Cash & Bank (Total)</label>
-                    <div class="asset-field-row">
-                        <div class="money-input">
-                            <input type="number" id="cashBankTotalAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                            <input type="hidden" id="cashBankTotalCur" value="BDT">
-                            <button type="button" class="currency-mini" data-currency-for="cashBankTotalCur">BDT</button>
-                        </div>
-                        <input type="text" id="cashBankTotalNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                    </div>
-                    <button type="button" class="split-link add-core-entry" data-core-field="cashBank">+ Add entry</button>
-                    <div class="core-entry-list" id="cashBankExtraList"></div>
+            <div class="assets-fields-panel">
+                <div class="assets-entry-list-wrap">
+                    <div id="extraAssetsList"></div>
                 </div>
+                <div class="legacy-assets-hidden" aria-hidden="true">
+                    <input type="number" id="cashBankTotalAmt" value="0">
+                    <input type="hidden" id="cashBankTotalCur" value="BDT">
+                    <input type="text" id="cashBankTotalNote" value="">
 
-                <div class="form-group asset-group" id="assetsInvestmentsGroup">
-                    <label class="form-label">Stocks & Investments</label>
-                    <div class="asset-field-row">
-                        <div class="money-input">
-                            <input type="number" id="investmentsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                            <input type="hidden" id="investmentsCur" value="BDT">
-                            <button type="button" class="currency-mini" data-currency-for="investmentsCur">BDT</button>
-                        </div>
-                        <input type="text" id="investmentsNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                    </div>
-                    <button type="button" class="split-link add-core-entry" data-core-field="stocks">+ Add entry</button>
-                    <div class="core-entry-list" id="stocksExtraList"></div>
-                </div>
+                    <input type="number" id="investmentsAmt" value="0">
+                    <input type="hidden" id="investmentsCur" value="BDT">
+                    <input type="text" id="investmentsNote" value="">
 
-                <div class="form-group asset-group" id="assetsMetalsGroup">
-                    <label class="form-label">Gold (Cash Value)</label>
-                    <div class="asset-field-row">
-                        <div class="money-input">
-                            <input type="number" id="goldAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                            <input type="hidden" id="goldCur" value="BDT">
-                            <button type="button" class="currency-mini" data-currency-for="goldCur">BDT</button>
-                        </div>
-                        <input type="text" id="goldNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                    </div>
-                    <button type="button" class="split-link add-core-entry" data-core-field="gold">+ Add entry</button>
-                    <div class="core-entry-list" id="goldExtraList"></div>
-                </div>
+                    <input type="number" id="goldAmt" value="0">
+                    <input type="hidden" id="goldCur" value="BDT">
+                    <input type="text" id="goldNote" value="">
 
-                <div class="form-group">
-                    <label class="form-label">Silver (Cash Value)</label>
-                    <div class="asset-field-row">
-                        <div class="money-input">
-                            <input type="number" id="silverAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                            <input type="hidden" id="silverCur" value="BDT">
-                            <button type="button" class="currency-mini" data-currency-for="silverCur">BDT</button>
-                        </div>
-                        <input type="text" id="silverNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                    </div>
-                    <button type="button" class="split-link add-core-entry" data-core-field="silver">+ Add entry</button>
-                    <div class="core-entry-list" id="silverExtraList"></div>
-                </div>
+                    <input type="number" id="silverAmt" value="0">
+                    <input type="hidden" id="silverCur" value="BDT">
+                    <input type="text" id="silverNote" value="">
 
-                <div class="form-group asset-group" id="assetsBusinessGroup">
-                    <label class="form-label">Business Inventory</label>
-                    <div class="asset-field-row">
-                        <div class="money-input">
-                            <input type="number" id="businessAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                            <input type="hidden" id="businessCur" value="BDT">
-                            <button type="button" class="currency-mini" data-currency-for="businessCur">BDT</button>
-                        </div>
-                        <input type="text" id="businessNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                    </div>
-                    <button type="button" class="split-link add-core-entry" data-core-field="business">+ Add entry</button>
-                    <div class="core-entry-list" id="businessExtraList"></div>
-                </div>
+                    <input type="number" id="businessAmt" value="0">
+                    <input type="hidden" id="businessCur" value="BDT">
+                    <input type="text" id="businessNote" value="">
 
-                <div class="form-group">
-                    <label class="form-label">Money Owed to You</label>
-                    <div class="asset-field-row">
-                        <div class="money-input">
-                            <input type="number" id="receivablesAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                            <input type="hidden" id="receivablesCur" value="BDT">
-                            <button type="button" class="currency-mini" data-currency-for="receivablesCur">BDT</button>
-                        </div>
-                        <input type="text" id="receivablesNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                    </div>
-                    <button type="button" class="split-link add-core-entry" data-core-field="receivables">+ Add entry</button>
-                    <div class="core-entry-list" id="receivablesExtraList"></div>
+                    <input type="number" id="receivablesAmt" value="0">
+                    <input type="hidden" id="receivablesCur" value="BDT">
+                    <input type="text" id="receivablesNote" value="">
+
+                    <input type="number" id="digitalAssetsAmt" value="0">
+                    <input type="hidden" id="digitalAssetsCur" value="BDT">
+                    <input type="text" id="digitalAssetsNote" value="">
+
+                    <div id="cashBankExtraList"></div>
+                    <div id="stocksExtraList"></div>
+                    <div id="goldExtraList"></div>
+                    <div id="silverExtraList"></div>
+                    <div id="businessExtraList"></div>
+                    <div id="receivablesExtraList"></div>
                 </div>
             </div>
-
-            <details class="optional-accordion">
-                <summary>Additional fields</summary>
-                <div class="optional-content">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label class="form-label">Digital Assets</label>
-                            <div class="asset-field-row">
-                                <div class="money-input">
-                                    <input type="number" id="digitalAssetsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                                    <input type="hidden" id="digitalAssetsCur" value="BDT">
-                                    <button type="button" class="currency-mini" data-currency-for="digitalAssetsCur">BDT</button>
-                                </div>
-                                <input type="text" id="digitalAssetsNote" class="form-input asset-note-input" placeholder="Note (optional)">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="extra-assets">
-                        <div class="extra-assets-header">
-                            <div class="extra-assets-title">Additional Asset Entries</div>
-                            <div class="extra-assets-actions">
-                                <button type="button" id="addAssetRowBtn" class="mini-btn">+ Add Entry</button>
-                                <a class="view-all-entries-link" href="entries.html">View all entries</a>
-                            </div>
-                        </div>
-                        <div id="extraAssetsList"></div>
-                    </div>
-                </div>
-            </details>
         </div>
 
         <div class="calc-card" id="debtsCard">
@@ -4320,6 +4630,29 @@
             </div>
         </details>
             </div>
+            <details class="calc-summary" id="stickySummaryCard" open>
+                <summary><span class="calc-summary-title">Breakdown / Summary</span></summary>
+                <div class="calc-summary-content">
+                    <div class="summary-kpi"><span>Total Assets</span><strong id="sumTotalAssets">-</strong></div>
+                    <div class="summary-kpi"><span>Total Liabilities</span><strong id="sumTotalLiabilities">-</strong></div>
+                    <div class="summary-kpi"><span>Net Zakatable Wealth</span><strong id="sumNetWealth">-</strong></div>
+                    <div class="summary-kpi"><span>Nisab Threshold</span><strong id="sumNisabThreshold">-</strong></div>
+                    <div class="summary-kpi"><span>Nisab Status</span><span class="summary-eligible" id="sumNisabStatus">-</span></div>
+                    <div class="summary-kpi big"><span>Zakat Due</span><strong id="sumZakatDue">-</strong></div>
+                    <div class="summary-kpi"><span>Alt Currency</span><strong id="sumZakatDueSecondary">-</strong></div>
+
+                    <div class="summary-breakdown">
+                        <div class="summary-breakdown-row"><span>Cash</span><strong id="sumCashVal">-</strong><div class="summary-bar"><i id="sumCashBar"></i></div></div>
+                        <div class="summary-breakdown-row"><span>Gold</span><strong id="sumGoldVal">-</strong><div class="summary-bar"><i id="sumGoldBar"></i></div></div>
+                        <div class="summary-breakdown-row"><span>Silver</span><strong id="sumSilverVal">-</strong><div class="summary-bar"><i id="sumSilverBar"></i></div></div>
+                        <div class="summary-breakdown-row"><span>Investments</span><strong id="sumInvestVal">-</strong><div class="summary-bar"><i id="sumInvestBar"></i></div></div>
+                        <div class="summary-breakdown-row"><span>Business</span><strong id="sumBusinessVal">-</strong><div class="summary-bar"><i id="sumBusinessBar"></i></div></div>
+                        <div class="summary-breakdown-row"><span>Owed To You</span><strong id="sumReceivablesVal">-</strong><div class="summary-bar"><i id="sumReceivablesBar"></i></div></div>
+                    </div>
+
+                    <a class="view-all-entries-link" href="entries.html">View all entries</a>
+                </div>
+            </details>
         </div>
     </section>
 
@@ -4986,6 +5319,22 @@
             row.querySelector('.extra-asset-type').value = entry.type || 'Other';
             if (entry.entryId) row.dataset.entryId = entry.entryId;
 
+            const ensureTrackedEntry = () => {
+                if (row.dataset.entryId) return true;
+                const amount = parseFloat(row.querySelector('.extra-asset-amount')?.value || '0') || 0;
+                if (amount <= 0) return false;
+                const created = addEntry({
+                    category: row.querySelector('.extra-asset-type')?.value || 'Other',
+                    amount,
+                    currency: row.querySelector('.extra-asset-currency')?.value || defaultCurrency,
+                    note: row.dataset.note || '',
+                    meta: { source: 'additional-entry' }
+                });
+                row.dataset.entryId = created.id;
+                showToast('Entry added');
+                return true;
+            };
+
             const syncEntry = () => {
                 const entryId = row.dataset.entryId;
                 if (!entryId) return;
@@ -5004,11 +5353,13 @@
             row.querySelectorAll('input, select').forEach((el) => {
                 el.addEventListener('input', () => {
                     if (el instanceof HTMLInputElement && isAmountInput(el)) setDraftForInput(el);
+                    ensureTrackedEntry();
                     syncEntry();
                     calculateZakat();
                 });
                 el.addEventListener('change', () => {
                     if (el instanceof HTMLInputElement && isAmountInput(el)) setDraftForInput(el);
+                    ensureTrackedEntry();
                     syncEntry();
                     calculateZakat();
                 });
@@ -5023,15 +5374,7 @@
             if (amountInput) setDraftForInput(amountInput);
 
             if (trackEntry && !row.dataset.entryId) {
-                const created = addEntry({
-                    category: row.querySelector('.extra-asset-type')?.value || 'Other',
-                    amount: row.querySelector('.extra-asset-amount')?.value || '0',
-                    currency: row.querySelector('.extra-asset-currency')?.value || defaultCurrency,
-                    note: row.dataset.note || '',
-                    meta: { source: 'additional-entry' }
-                });
-                row.dataset.entryId = created.id;
-                showToast('Entry added');
+                ensureTrackedEntry();
             }
         }
 
@@ -5744,6 +6087,42 @@
             animateNumber(byId('bdReceivables'), bdtToDisplay(receivablesTotalBdt), (v) => { byId('bdReceivables').textContent = symbol + formatter.format(v); });
             animateNumber(byId('bdExtraAssets'), bdtToDisplay(extraAssetsBdt), (v) => { byId('bdExtraAssets').textContent = symbol + formatter.format(v); });
             animateNumber(byId('bdDebts'), bdtToDisplay(debtsBdt), (v) => { byId('bdDebts').textContent = symbol + formatter.format(v); });
+
+            const setSummaryText = (id, value) => {
+                const el = byId(id);
+                if (!el) return;
+                el.textContent = value;
+            };
+            const summaryFmt = (bdtVal) => symbol + formatter.format(bdtToDisplay(bdtVal));
+            setSummaryText('sumTotalAssets', summaryFmt(totalAssetsBdt));
+            setSummaryText('sumTotalLiabilities', summaryFmt(totalLiabilitiesBdt));
+            setSummaryText('sumNetWealth', summaryFmt(zakatableWealthBdt));
+            setSummaryText('sumNisabThreshold', summaryFmt(nisabThresholdBdt));
+            setSummaryText('sumZakatDue', summaryFmt(zakatAmountBdt));
+            setSummaryText('sumZakatDueSecondary', currency === 'BDT'
+                ? ('USD ' + formatter.format(zakatAmountUsd))
+                : ('BDT ' + formatter.format(zakatAmountBdt)));
+
+            setSummaryText('sumCashVal', summaryFmt(cashBankBdt));
+            setSummaryText('sumGoldVal', summaryFmt(goldTotalBdt));
+            setSummaryText('sumSilverVal', summaryFmt(silverTotalBdt));
+            setSummaryText('sumInvestVal', summaryFmt(stocksBdt + digitalAssetsBdt));
+            setSummaryText('sumBusinessVal', summaryFmt(businessTotalBdt));
+            setSummaryText('sumReceivablesVal', summaryFmt(receivablesTotalBdt));
+
+            const setBar = (id, part, whole) => {
+                const bar = byId(id);
+                if (!bar) return;
+                const pct = whole > 0 ? Math.max(0, Math.min(100, (part / whole) * 100)) : 0;
+                bar.style.width = `${pct.toFixed(1)}%`;
+            };
+            setBar('sumCashBar', cashBankBdt, totalAssetsBdt);
+            setBar('sumGoldBar', goldTotalBdt, totalAssetsBdt);
+            setBar('sumSilverBar', silverTotalBdt, totalAssetsBdt);
+            setBar('sumInvestBar', stocksBdt + digitalAssetsBdt, totalAssetsBdt);
+            setBar('sumBusinessBar', businessTotalBdt, totalAssetsBdt);
+            setBar('sumReceivablesBar', receivablesTotalBdt, totalAssetsBdt);
+
             const assetsLiveTotalEl = byId('assetsLiveTotal');
             if (assetsLiveTotalEl) assetsLiveTotalEl.textContent = symbol + formatter.format(totalAssets);
             const assetsLiveTotalSubEl = byId('assetsLiveTotalSub');
@@ -5790,11 +6169,23 @@
                 statusEl.innerHTML = 'Below Nisab threshold';
                 statusEl.style.background = 'rgba(139, 97, 24, 0.4)';
                 statusEl.style.border = '1px solid rgba(255, 208, 106, 0.55)';
+                const summaryStatus = byId('sumNisabStatus');
+                if (summaryStatus) {
+                    summaryStatus.textContent = 'Not Eligible';
+                    summaryStatus.classList.remove('ok');
+                    summaryStatus.classList.add('no');
+                }
             } else {
                 if (heroStatusEl) heroStatusEl.textContent = 'Above Nisab. Your zakat is due for this cycle.';
                 statusEl.innerHTML = 'Above Nisab threshold';
                 statusEl.style.background = 'rgba(116, 87, 27, 0.38)';
                 statusEl.style.border = '1px solid rgba(244, 212, 123, 0.5)';
+                const summaryStatus = byId('sumNisabStatus');
+                if (summaryStatus) {
+                    summaryStatus.textContent = 'Eligible';
+                    summaryStatus.classList.remove('no');
+                    summaryStatus.classList.add('ok');
+                }
             }
             if (isEligible && !wasZakatEligible) {
                 launchResultConfetti();
@@ -6800,6 +7191,11 @@
 
             const calculator = byId('calculator');
             if (calculator) {
+                let inputRecalcTimer = null;
+                const debouncedRecalc = () => {
+                    if (inputRecalcTimer) clearTimeout(inputRecalcTimer);
+                    inputRecalcTimer = setTimeout(() => calculateZakat(), 80);
+                };
                 const onCalcInput = (event) => {
                     const target = event.target;
                     if (!(target instanceof HTMLElement)) return;
@@ -6827,7 +7223,7 @@
                         scheduleSaveData(0);
                         return;
                     }
-                    calculateZakat();
+                    debouncedRecalc();
                 };
                 calculator.addEventListener('input', onCalcInput);
                 calculator.addEventListener('change', onCalcInput);
@@ -6898,10 +7294,10 @@
             const addAssetBtn = byId('addAssetRowBtn');
             if (addAssetBtn) {
                 addAssetBtn.addEventListener('click', () => {
-                    const draftAmount = sanitizeAmount(byId('digitalAssetsAmt')?.value || 0);
-                    const draftCurrency = byId('digitalAssetsCur')?.value || byId('currency')?.value || 'BDT';
-                    const draftNote = String(byId('digitalAssetsNote')?.value || '').trim();
-                    addExtraAssetRow({ type: 'Digital Assets', amount: draftAmount, currency: draftCurrency, note: draftNote }, { trackEntry: true });
+                    const defaultCurrency = byId('currency')?.value || 'BDT';
+                    addExtraAssetRow({ type: 'Cash', amount: 0, currency: defaultCurrency, note: '' }, { trackEntry: false });
+                    const newRow = document.querySelector('#extraAssetsList .extra-asset-row:last-child .extra-asset-amount');
+                    if (newRow) newRow.focus();
                 });
             }
             document.querySelectorAll('.add-core-entry[data-core-field]').forEach((btn) => {

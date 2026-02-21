@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -141,6 +141,51 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 0.7rem;
+    }
+
+    .how-calc {
+      border: 1px solid var(--border-color);
+      border-radius: 18px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 1rem;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .how-calc h3 {
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      color: var(--gold-light);
+    }
+
+    .how-calc p {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    .how-calc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.7rem;
+    }
+
+    .how-calc-step {
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: 12px;
+      background: rgba(10, 18, 31, 0.7);
+      padding: 0.75rem 0.8rem;
+    }
+
+    .how-calc-step strong {
+      color: var(--text-primary);
+      display: block;
+      margin-bottom: 0.2rem;
+      font-size: 0.92rem;
+    }
+
+    .how-calc-step span {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
     }
 
     .search {
@@ -298,7 +343,7 @@
     }
 
     .privacy li::before {
-      content: "•";
+      content: "\2022";
       color: var(--teal-accent);
       margin-right: 0.4rem;
     }
@@ -317,6 +362,7 @@
     @media (min-width: 960px) {
       .faq-grid { grid-template-columns: 1fr 1fr; }
       .search-row { grid-template-columns: 1fr; }
+      .how-calc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -348,6 +394,28 @@
       <div class="search-row">
         <input id="faqSearch" class="search" type="text" placeholder="Search question, answer, source, or category..." aria-label="Search FAQ">
         <div id="categoryTabs" class="tabs" aria-label="FAQ categories"></div>
+      </div>
+    </section>
+    <section class="how-calc" id="how-zakat-calculated">
+      <h3>How Zakat is Calculated</h3>
+      <p>A simple four-step process.</p>
+      <div class="how-calc-grid">
+        <article class="how-calc-step">
+          <strong>1. Add your assets</strong>
+          <span>Include cash, bank balances, metals, investments, business inventory, receivables, and other zakatable holdings.</span>
+        </article>
+        <article class="how-calc-step">
+          <strong>2. Subtract short-term debts</strong>
+          <span>Deduct liabilities currently due. Long-term debt is generally not fully deducted.</span>
+        </article>
+        <article class="how-calc-step">
+          <strong>3. Compare with nisab</strong>
+          <span>Check whether your net zakatable wealth reaches the chosen nisab threshold.</span>
+        </article>
+        <article class="how-calc-step">
+          <strong>4. Pay 2.5%</strong>
+          <span>If above nisab after a full lunar year (hawl), Zakat due is 2.5% of net zakatable wealth.</span>
+        </article>
       </div>
     </section>
 
@@ -600,6 +668,8 @@
   </script>
 </body>
 </html>
+
+
 
 
 
