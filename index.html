@@ -926,6 +926,84 @@
             animation: heroFadeUp 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
         }
 
+        .feature-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 22px;
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            isolation: isolate;
+        }
+
+        .feature-card::before,
+        .feature-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+        }
+
+        .feature-card::before {
+            padding: 1px;
+            background: conic-gradient(
+                from 0deg,
+                rgba(212, 175, 55, 0.0) 0deg,
+                rgba(118, 227, 200, 0.38) 70deg,
+                rgba(244, 212, 123, 0.5) 150deg,
+                rgba(118, 227, 200, 0.25) 230deg,
+                rgba(212, 175, 55, 0.0) 360deg
+            );
+            -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            -webkit-mask-composite: xor;
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask-composite: exclude;
+            opacity: 0.42;
+            transform-origin: center;
+            animation: featureBorderSpin 8s linear infinite;
+        }
+
+        .feature-card::after {
+            inset: -10px;
+            background: radial-gradient(circle at 50% 50%, rgba(118, 227, 200, 0.15), rgba(118, 227, 200, 0.03) 55%, transparent 75%);
+            filter: blur(8px);
+            opacity: 0.25;
+        }
+
+        .feature-card:hover::before {
+            opacity: 0.62;
+            animation-duration: 6.2s;
+        }
+
+        .feature-card:hover::after {
+            opacity: 0.34;
+        }
+
+        @keyframes featureBorderSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @supports not ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {
+            .feature-card::before {
+                background: transparent;
+                padding: 0;
+                -webkit-mask: none;
+                mask: none;
+                border: 1px solid rgba(118, 227, 200, 0.42);
+                animation: featureFallbackPulse 7.5s ease-in-out infinite;
+            }
+        }
+
+        @keyframes featureFallbackPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(118, 227, 200, 0.15);
+            }
+            50% {
+                box-shadow: 0 0 12px 2px rgba(118, 227, 200, 0.22);
+            }
+        }
+
         .why-card:hover {
             transform: translateY(-6px);
             border-color: var(--gold);
@@ -1231,16 +1309,16 @@
 
         .calc-shell {
             display: grid;
-            grid-template-columns: 120px minmax(640px, 1fr) minmax(320px, 360px);
+            grid-template-columns: minmax(0, 1fr) minmax(320px, 360px);
             gap: 1rem;
             align-items: start;
         }
 
         .section-rail {
+            display: none;
             position: sticky;
             top: 84px;
             align-self: start;
-            display: grid;
             gap: 0.55rem;
             padding: 0.55rem;
             border-radius: 18px;
@@ -1280,6 +1358,7 @@
             background: transparent;
             border: 0;
             box-shadow: none;
+            min-width: 0;
         }
 
         .calc-summary {
@@ -4072,6 +4151,16 @@
                 scroll-behavior: auto !important;
             }
 
+            .feature-card::before {
+                animation: none !important;
+                opacity: 0.42 !important;
+            }
+
+            .feature-card::after {
+                opacity: 0.2 !important;
+                filter: blur(6px) !important;
+            }
+
             .reveal-on-scroll {
                 opacity: 1 !important;
                 transform: none !important;
@@ -4292,17 +4381,17 @@
 
                 <aside class="hero-side" aria-label="Why Zakat Matters">
                     <div class="why-zakat">
-                        <div class="why-card">
+                        <div class="why-card feature-card">
                             <div class="why-icon">&#x2728;</div>
                             <h3 class="why-title">Purifies Wealth</h3>
                             <p class="why-text">Brings barakah (blessing) to your earnings and possessions</p>
                         </div>
-                        <div class="why-card">
+                        <div class="why-card feature-card">
                             <div class="why-icon">&#x1F91D;</div>
                             <h3 class="why-title">Supports the Needy</h3>
                             <p class="why-text">Helps those in need and strengthens community bonds</p>
                         </div>
-                        <div class="why-card">
+                        <div class="why-card feature-card">
                             <div class="why-icon">&#x2696;&#xFE0F;</div>
                             <h3 class="why-title">Social Balance</h3>
                             <p class="why-text">Creates equity and fulfills our responsibility to society</p>
@@ -4333,13 +4422,6 @@
             </div>
         </div>
         <div class="calc-shell">
-            <aside class="section-rail" aria-label="Calculator sections">
-                <button type="button" class="rail-link active" data-rail-target="settingsCard">Settings</button>
-                <button type="button" class="rail-link" data-rail-target="assetsCard">Assets</button>
-                <button type="button" class="rail-link" data-rail-target="debtsCard">Debts</button>
-                <button type="button" class="rail-link" data-rail-target="resultsCard">Results</button>
-                <button type="button" class="rail-link" data-rail-target="historyCard">History</button>
-            </aside>
             <div class="content-canvas">
 
         <details class="calc-card settings-accordion" id="settingsCard">
@@ -4398,12 +4480,9 @@
                     <input type="number" id="silverPrice" class="form-input" value="" step="0.01" placeholder="Enter silver price per gram">
                 </div>
 
-                <div class="form-group settings-live-prices">
-                    <div class="highlight-callout">
-                        <button type="button" id="fetchLivePricesBtn" class="mini-btn">Fetch Live 24K Gold &amp; 999 Silver</button>
-                        <span id="livePriceStatus" class="settings-live-status"></span>
-                    </div>
-                </div>
+                            <div class="form-group settings-live-prices">
+                                <span id="livePriceStatus" class="settings-live-status"></span>
+                            </div>
             </div>
             <div class="hawl-card">
                 <div class="hawl-title">Zakat Date + Hawl Reminder</div>
@@ -4444,9 +4523,9 @@
                     <div class="hawl-row"><span>Status</span><span class="due-badge" id="dueStatusBadge">On track</span></div>
                 </div>
             </div>
-            <div class="info-box">
-                <p><strong>Market rates:</strong> Click “Fetch Live 24K Gold &amp; 999 Silver” or enter your own values.</p>
-            </div>
+                        <div class="info-box">
+                            <p><strong>Market rates:</strong> Enter your own current gold and silver prices manually.</p>
+                        </div>
             </div>
         </details>
 
@@ -5779,13 +5858,8 @@
         }
 
         function autoFetchLiveMetalPricesIfEmpty() {
-            const goldVal = parseFloat(byId('goldPrice')?.value || '');
-            const silverVal = parseFloat(byId('silverPrice')?.value || '');
-            const goldEmpty = !Number.isFinite(goldVal) || goldVal <= 0;
-            const silverEmpty = !Number.isFinite(silverVal) || silverVal <= 0;
-            if (goldEmpty && silverEmpty) {
-                fetchLiveMetalPrices();
-            }
+            // Manual-only mode: do not auto-fetch market prices.
+            return;
         }
 
         function syncDefaultCurrenciesToMain() {
@@ -6960,6 +7034,16 @@
             const topNavEl = document.querySelector('.top-nav');
             const mobileMenuBtn = byId('mobileMenuToggle');
             const isMobileNav = () => window.matchMedia('(max-width: 900px)').matches;
+            const scrollToTargetWithOffset = (target) => {
+                if (!target) return;
+                const navH = topNavEl?.offsetHeight || 64;
+                const extraGap = 10;
+                const targetY = window.scrollY + target.getBoundingClientRect().top - navH - extraGap;
+                window.scrollTo({
+                    top: Math.max(0, targetY),
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth'
+                });
+            };
 
             const closeMobileMenu = () => {
                 if (!topNavEl || !mobileMenuBtn) return;
@@ -6997,7 +7081,7 @@
                     if (!target) return;
                     topNavLinks.forEach((item) => item.classList.toggle('active', item === link));
                     updateTopNavIndicator();
-                    target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+                    scrollToTargetWithOffset(target);
                     if (isMobileNav()) closeMobileMenu();
                 });
             });
