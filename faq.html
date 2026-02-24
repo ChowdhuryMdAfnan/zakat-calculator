@@ -6,16 +6,16 @@
   <title>Zakat FAQ</title>
   <style>
     :root {
-      --dark-bg: #050a16;
-      --darker-bg: #03070f;
-      --card-bg: rgba(15, 23, 42, 0.58);
-      --glass-bg: rgba(30, 41, 59, 0.45);
-      --border-color: rgba(148, 163, 184, 0.18);
-      --gold: #d4af37;
-      --gold-light: #f4d47b;
-      --text-primary: #eaf0fc;
-      --text-secondary: #a8b7cd;
-      --teal-accent: #24c6b7;
+      --dark-bg: #070d20;
+      --darker-bg: #040914;
+      --card-bg: rgba(6, 14, 38, 0.82);
+      --glass-bg: rgba(6, 14, 38, 0.72);
+      --border-color: rgba(120, 170, 235, 0.22);
+      --gold: #b8d4ff;
+      --gold-light: #dceeff;
+      --text-primary: #dce8ff;
+      --text-secondary: #7898c0;
+      --teal-accent: #70b4f8;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,41 +25,42 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       color: var(--text-primary);
       background:
-        radial-gradient(1200px 500px at 10% 0%, rgba(33, 59, 108, 0.24), transparent 60%),
-        radial-gradient(1000px 420px at 90% 0%, rgba(212, 175, 55, 0.14), transparent 62%),
-        linear-gradient(180deg, #040913 0%, var(--dark-bg) 55%, #030812 100%);
+        radial-gradient(ellipse 140% 60% at 50% -5%, rgba(30, 65, 155, 0.40) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 50% at 85% 5%, rgba(50, 40, 140, 0.25) 0%, transparent 55%),
+        linear-gradient(175deg, #040914 0%, #060c1e 40%, #050b1c 70%, #040912 100%);
+      background-attachment: fixed;
       line-height: 1.6;
       padding: 1rem;
     }
 
     body[data-theme="emerald-night"] {
-      --dark-bg: #04120f;
-      --darker-bg: #020b09;
-      --gold: #1fa97a;
-      --gold-light: #8fe3c9;
-      --text-primary: #eaf7f3;
-      --text-secondary: #a7b9c7;
-      --teal-accent: #59d6b0;
+      --dark-bg: #061814;
+      --darker-bg: #040f0c;
+      --gold: #50e8c8;
+      --gold-light: #a0f0e0;
+      --text-primary: #e8fff8;
+      --text-secondary: #a0c8bc;
+      --teal-accent: #50e8c8;
     }
 
     body[data-theme="royal-indigo"] {
-      --dark-bg: #070b1f;
-      --darker-bg: #040713;
-      --gold: #6c7cff;
-      --gold-light: #b8c2ff;
+      --dark-bg: #080b22;
+      --darker-bg: #050818;
+      --gold: #8898ff;
+      --gold-light: #b8c4ff;
       --text-primary: #edf0ff;
-      --text-secondary: #9fb0c7;
-      --teal-accent: #8ea0ff;
+      --text-secondary: #a0b0d8;
+      --teal-accent: #8898ff;
     }
 
     body[data-theme="teal-dawn"] {
-      --dark-bg: #06131a;
-      --darker-bg: #030d12;
-      --gold: #14b8a6;
-      --gold-light: #7ee8dd;
-      --text-primary: #ecf8f8;
-      --text-secondary: #a8bac6;
-      --teal-accent: #38d3c4;
+      --dark-bg: #061820;
+      --darker-bg: #040e16;
+      --gold: #20e8d8;
+      --gold-light: #88f0e8;
+      --text-primary: #e8f8f8;
+      --text-secondary: #90b8c0;
+      --teal-accent: #20e8d8;
     }
 
     .wrap {
@@ -75,17 +76,19 @@
       justify-content: space-between;
       gap: 0.8rem;
       flex-wrap: wrap;
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(100, 155, 220, 0.22);
       border-radius: 16px;
       padding: 1rem;
-      background: rgba(15, 23, 42, 0.76);
-      backdrop-filter: blur(10px);
+      background: rgba(4, 10, 28, 0.90);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 20px rgba(0, 8, 40, 0.55);
     }
 
     .brand h1 {
       font-size: clamp(1.2rem, 3.8vw, 2rem);
       color: var(--gold-light);
       margin-bottom: 0.2rem;
+      letter-spacing: 0.01em;
     }
 
     .brand p {
@@ -100,9 +103,9 @@
     }
 
     .btn {
-      border: 1px solid var(--border-color);
-      background: rgba(15, 23, 42, 0.86);
-      color: var(--text-primary);
+      border: 1px solid rgba(100, 155, 220, 0.28);
+      background: rgba(6, 16, 46, 0.80);
+      color: rgba(175, 205, 245, 0.88);
       text-decoration: none;
       border-radius: 10px;
       padding: 0.48rem 0.8rem;
@@ -114,16 +117,17 @@
       justify-content: center;
     }
 
-    .btn:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .btn:hover { border-color: rgba(110, 175, 255, 0.55); box-shadow: 0 0 10px rgba(100, 165, 255, 0.18); }
 
     .hero {
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(100, 155, 220, 0.22);
       border-radius: 18px;
       padding: 1rem;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
+      background: rgba(6, 14, 38, 0.82);
+      backdrop-filter: blur(14px);
       display: grid;
       gap: 0.8rem;
+      box-shadow: 0 8px 40px rgba(0, 8, 40, 0.45), inset 0 1px 0 rgba(160, 200, 255, 0.06);
     }
 
     .hero h2 {
@@ -144,13 +148,14 @@
     }
 
     .how-calc {
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(100, 155, 220, 0.22);
       border-radius: 18px;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
+      background: rgba(6, 14, 38, 0.82);
+      backdrop-filter: blur(14px);
       padding: 1rem;
       display: grid;
       gap: 0.8rem;
+      box-shadow: 0 6px 24px rgba(0, 8, 40, 0.40);
     }
 
     .how-calc h3 {
@@ -170,9 +175,9 @@
     }
 
     .how-calc-step {
-      border: 1px solid rgba(148, 163, 184, 0.2);
+      border: 1px solid rgba(100, 155, 220, 0.18);
       border-radius: 12px;
-      background: rgba(10, 18, 31, 0.7);
+      background: rgba(4, 10, 28, 0.72);
       padding: 0.75rem 0.8rem;
     }
 
@@ -190,8 +195,8 @@
 
     .search {
       border-radius: 12px;
-      border: 1px solid var(--border-color);
-      background: rgba(9, 17, 30, 0.9);
+      border: 1px solid rgba(100, 155, 220, 0.22);
+      background: rgba(4, 10, 28, 0.90);
       color: var(--text-primary);
       min-height: 46px;
       padding: 0 0.9rem;
@@ -199,7 +204,8 @@
       width: 100%;
     }
 
-    .search::placeholder { color: #8ea2be; }
+    .search::placeholder { color: rgba(120, 160, 210, 0.45); }
+    .search:focus { outline: none; border-color: rgba(110, 175, 255, 0.55); box-shadow: 0 0 0 2px rgba(100, 165, 255, 0.12); }
 
     .tabs {
       display: flex;
@@ -208,8 +214,8 @@
     }
 
     .tab {
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      background: rgba(15, 23, 42, 0.64);
+      border: 1px solid rgba(100, 155, 220, 0.22);
+      background: rgba(6, 14, 40, 0.65);
       color: var(--text-secondary);
       border-radius: 999px;
       padding: 0.32rem 0.7rem;
@@ -217,13 +223,14 @@
       font-weight: 700;
       cursor: pointer;
       min-height: 34px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
     }
 
     .tab.active {
       color: var(--text-primary);
-      border-color: rgba(212, 175, 55, 0.5);
-      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.18);
-      background: rgba(212, 175, 55, 0.13);
+      border-color: rgba(110, 175, 255, 0.50);
+      box-shadow: 0 0 0 1px rgba(100, 165, 255, 0.18), 0 0 10px rgba(100, 165, 255, 0.14);
+      background: rgba(80, 140, 255, 0.14);
     }
 
     .faq-grid {
@@ -233,17 +240,18 @@
     }
 
     .faq-category {
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(100, 155, 220, 0.20);
       border-radius: 16px;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
+      background: rgba(6, 14, 38, 0.82);
+      backdrop-filter: blur(14px);
       overflow: hidden;
+      box-shadow: 0 6px 24px rgba(0, 8, 40, 0.40), inset 0 1px 0 rgba(160, 200, 255, 0.05);
     }
 
     .faq-category-head {
       padding: 0.85rem 1rem;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.16);
-      background: linear-gradient(180deg, rgba(20, 35, 60, 0.64), rgba(15, 23, 42, 0.45));
+      border-bottom: 1px solid rgba(100, 155, 220, 0.15);
+      background: linear-gradient(180deg, rgba(10, 22, 60, 0.72), rgba(6, 14, 44, 0.55));
     }
 
     .faq-category-head h3 {
@@ -257,16 +265,16 @@
     .faq-item {
       border-radius: 12px;
       border: 1px solid transparent;
-      background: rgba(11, 18, 32, 0.35);
+      background: rgba(6, 14, 36, 0.45);
       margin: 0.35rem;
       overflow: hidden;
-      transition: border-color 0.25s ease, background 0.25s ease;
+      transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
     }
 
     .faq-item.open {
-      border-color: rgba(212, 175, 55, 0.45);
-      background: rgba(19, 29, 48, 0.72);
-      box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.12);
+      border-color: rgba(110, 175, 255, 0.42);
+      background: rgba(8, 20, 55, 0.72);
+      box-shadow: 0 0 0 1px rgba(100, 165, 255, 0.12), 0 0 14px rgba(80, 145, 255, 0.08);
     }
 
     .faq-q {
@@ -286,7 +294,7 @@
     }
 
     .faq-q span:last-child {
-      color: var(--gold-light);
+      color: #a0ccff;
       font-size: 1rem;
       line-height: 1;
       min-width: 18px;
@@ -321,11 +329,12 @@
     }
 
     .privacy {
-      border: 1px solid var(--border-color);
+      border: 1px solid rgba(100, 155, 220, 0.20);
       border-radius: 16px;
-      background: var(--card-bg);
-      backdrop-filter: blur(10px);
+      background: rgba(6, 14, 38, 0.82);
+      backdrop-filter: blur(14px);
       padding: 1rem;
+      box-shadow: 0 6px 24px rgba(0, 8, 40, 0.40);
     }
 
     .privacy h3 {
@@ -343,9 +352,11 @@
     }
 
     .privacy li::before {
-      content: "\2022";
-      color: var(--teal-accent);
+      content: "\2605";
+      color: #70b4f8;
       margin-right: 0.4rem;
+      font-size: 0.6rem;
+      vertical-align: middle;
     }
 
     .no-results {
@@ -379,7 +390,7 @@
   <main class="wrap">
     <section class="topbar">
       <div class="brand">
-        <h1>Zakat FAQ</h1>
+        <h1>&#x263D; Zakat FAQ</h1>
         <p>Authoritative guidance with mainstream scholarly references.</p>
       </div>
       <div class="actions">

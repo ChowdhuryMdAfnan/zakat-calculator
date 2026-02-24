@@ -6,16 +6,16 @@
   <title>Zakat Entries</title>
   <style>
     :root {
-      --bg: #050a16;
-      --bg-soft: rgba(15, 23, 42, 0.76);
-      --card: rgba(12, 20, 34, 0.82);
-      --border: rgba(148, 163, 184, 0.2);
-      --text: #e9eefc;
-      --muted: #97a8bf;
-      --gold: #d4af37;
-      --gold-soft: #f4d47b;
-      --teal: #24c6b7;
-      --danger: #ef6a5f;
+      --bg: #070d20;
+      --bg-soft: rgba(6, 14, 38, 0.88);
+      --card: rgba(6, 14, 38, 0.82);
+      --border: rgba(100, 155, 220, 0.22);
+      --text: #dce8ff;
+      --muted: #7898c0;
+      --gold: #b8d4ff;
+      --gold-soft: #dceeff;
+      --teal: #70b4f8;
+      --danger: #ff6b8a;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -25,9 +25,10 @@
       font-family: "Segoe UI", Tahoma, sans-serif;
       color: var(--text);
       background:
-        radial-gradient(1200px 500px at 10% 0%, rgba(33, 59, 108, 0.22), transparent 60%),
-        radial-gradient(1000px 420px at 90% 0%, rgba(212, 175, 55, 0.13), transparent 62%),
-        linear-gradient(180deg, #040913 0%, var(--bg) 55%, #030812 100%);
+        radial-gradient(ellipse 140% 60% at 50% -5%, rgba(30, 65, 155, 0.40) 0%, transparent 65%),
+        radial-gradient(ellipse 100% 50% at 85% 5%, rgba(50, 40, 140, 0.25) 0%, transparent 55%),
+        linear-gradient(175deg, #040914 0%, #060c1e 40%, #050b1c 70%, #040912 100%);
+      background-attachment: fixed;
       padding: 1.25rem;
     }
 
@@ -39,8 +40,8 @@
     }
 
     .topbar {
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
+      background: rgba(4, 10, 28, 0.92);
+      border: 1px solid rgba(100, 155, 220, 0.22);
       border-radius: 16px;
       padding: 1rem 1.1rem;
       display: flex;
@@ -48,7 +49,8 @@
       align-items: center;
       gap: 1rem;
       flex-wrap: wrap;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 2px 20px rgba(0, 8, 40, 0.55);
     }
 
     .title-wrap h1 {
@@ -71,9 +73,9 @@
     }
 
     .pill {
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      background: rgba(212, 175, 55, 0.13);
-      color: var(--gold-soft);
+      border: 1px solid rgba(110, 175, 255, 0.38);
+      background: rgba(80, 140, 255, 0.14);
+      color: #a0ccff;
       border-radius: 999px;
       padding: 0.35rem 0.7rem;
       font-weight: 700;
@@ -81,9 +83,9 @@
     }
 
     .btn {
-      border: 1px solid var(--border);
-      background: rgba(15, 23, 42, 0.84);
-      color: var(--text);
+      border: 1px solid rgba(100, 155, 220, 0.28);
+      background: rgba(6, 16, 46, 0.80);
+      color: rgba(175, 205, 245, 0.88);
       border-radius: 10px;
       padding: 0.5rem 0.85rem;
       text-decoration: none;
@@ -92,31 +94,32 @@
       cursor: pointer;
     }
 
-    .btn:hover { border-color: rgba(212, 175, 55, 0.5); }
+    .btn:hover { border-color: rgba(110, 175, 255, 0.55); box-shadow: 0 0 10px rgba(100, 165, 255, 0.18); }
 
     .filters {
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
+      background: rgba(6, 14, 38, 0.82);
+      border: 1px solid rgba(100, 155, 220, 0.20);
       border-radius: 16px;
       padding: 0.9rem;
       display: grid;
       grid-template-columns: 1.5fr repeat(3, minmax(160px, 1fr));
       gap: 0.7rem;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(14px);
     }
 
     .input, .select {
       min-height: 44px;
       border-radius: 10px;
-      border: 1px solid var(--border);
-      background: rgba(9, 17, 30, 0.9);
+      border: 1px solid rgba(100, 155, 220, 0.22);
+      background: rgba(4, 10, 28, 0.90);
       color: var(--text);
       padding: 0 0.78rem;
       font-size: 0.92rem;
       width: 100%;
     }
 
-    .input::placeholder { color: #8394ad; }
+    .input::placeholder { color: rgba(120, 160, 210, 0.40); }
+    .input:focus, .select:focus { outline: none; border-color: rgba(110, 175, 255, 0.55); box-shadow: 0 0 0 2px rgba(100, 165, 255, 0.12); }
 
     .summary-grid {
       display: grid;
@@ -125,11 +128,12 @@
     }
 
     .summary-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: rgba(6, 14, 38, 0.82);
+      border: 1px solid rgba(100, 155, 220, 0.20);
       border-radius: 14px;
       padding: 0.8rem;
       min-height: 94px;
+      box-shadow: 0 4px 16px rgba(0, 8, 40, 0.40);
     }
 
     .summary-label {
@@ -161,11 +165,12 @@
     }
 
     .table-wrap {
-      background: var(--bg-soft);
-      border: 1px solid var(--border);
+      background: rgba(6, 14, 38, 0.82);
+      border: 1px solid rgba(100, 155, 220, 0.20);
       border-radius: 16px;
       overflow: hidden;
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 40px rgba(0, 8, 40, 0.45);
     }
 
     .table-scroll {
@@ -181,7 +186,7 @@
 
     th, td {
       padding: 0.72rem 0.8rem;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+      border-bottom: 1px solid rgba(100, 155, 220, 0.12);
       text-align: left;
       vertical-align: middle;
     }
@@ -194,7 +199,7 @@
       position: sticky;
       top: 0;
       z-index: 2;
-      background: rgba(10, 18, 32, 0.98);
+      background: rgba(4, 10, 28, 0.98);
     }
 
     td {
@@ -211,9 +216,9 @@
 
     .category-pill {
       display: inline-flex;
-      border: 1px solid rgba(36, 198, 183, 0.34);
-      background: rgba(36, 198, 183, 0.12);
-      color: #a4efe7;
+      border: 1px solid rgba(100, 175, 255, 0.34);
+      background: rgba(80, 140, 255, 0.12);
+      color: #a0ccff;
       padding: 0.15rem 0.52rem;
       border-radius: 999px;
       font-size: 0.78rem;
@@ -469,7 +474,7 @@
   <main class="container">
     <section class="topbar">
       <div class="title-wrap">
-        <h1>All Entries</h1>
+        <h1>&#x2605; All Entries</h1>
         <p>Track, search, and edit every entry you added from the calculator.</p>
       </div>
       <div class="top-actions">
