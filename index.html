@@ -46,15 +46,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background:
-                linear-gradient(180deg, rgba(4, 10, 22, 0.42) 0%, rgba(4, 10, 22, 0.28) 45%, rgba(4, 10, 22, 0.38) 100%),
-                var(--site-bg-image),
-                linear-gradient(180deg, var(--page-base-start) 0%, var(--dark-bg) 55%, var(--page-base-end) 100%);
+            background: linear-gradient(180deg, var(--page-base-start) 0%, var(--dark-bg) 55%, var(--page-base-end) 100%);
             background-color: #0b1220;
-            background-size: auto, cover, auto;
-            background-position: center center, 50% 50%, center center;
-            background-repeat: no-repeat, no-repeat, no-repeat;
-            background-attachment: scroll, scroll, scroll;
             color: var(--text-primary);
             line-height: 1.6;
             overflow-x: hidden;
@@ -68,49 +61,35 @@
         body::before {
             content: "";
             position: fixed;
-            inset: -8%;
+            inset: 0;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.008;
-            background:
-                linear-gradient(180deg, rgba(4, 10, 22, 0.42) 0%, rgba(4, 10, 22, 0.18) 45%, rgba(4, 10, 22, 0.5) 100%),
-                radial-gradient(circle at 20% 12%, rgba(244, 212, 123, 0.14), transparent 44%),
-                repeating-conic-gradient(
-                    from 0deg at 50% 50%,
-                    rgba(244, 212, 123, 0.34) 0deg 8deg,
-                    rgba(244, 212, 123, 0) 8deg 16deg
-                );
-            background-size: 100% 100%, 140% 140%, 280px 280px;
-            background-position: center center, center center, center center;
-            mask-image: radial-gradient(circle at center, black 12%, rgba(0, 0, 0, 0.48) 56%, transparent 86%);
-            filter: blur(1.6px);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                background-size: auto, cover, auto;
-                background-position: center center, 50% 20%, center center;
-                background-attachment: scroll, scroll, scroll;
-            }
+            opacity: 1;
+            background-image: var(--site-bg-image);
+            background-size: cover;
+            background-position: 50% 50%;
+            background-repeat: no-repeat;
+            background-attachment: scroll;
+            transform: translateZ(0);
+            will-change: transform;
         }
 
         body::after {
             content: "";
             position: fixed;
-            left: 0;
-            right: 0;
-            bottom: -1px;
-            height: min(25vh, 230px);
+            inset: 0;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.045;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-position: bottom center;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 260' preserveAspectRatio='none'%3E%3Cpath fill='%23060d1a' d='M0 260V212c40-4 64-26 96-26 37 0 61 22 93 22 30 0 54-20 90-20s54 18 90 18c28 0 52-16 76-16 38 0 56 24 94 24 32 0 54-18 86-18 28 0 50 12 80 12 42 0 64-36 106-36 44 0 62 32 104 32 26 0 44-14 70-14 39 0 56 22 92 22 34 0 54-22 88-22 38 0 58 30 96 30 34 0 52-22 86-22 30 0 56 20 86 20 34 0 60-22 88-22 38 0 56 24 95 24 31 0 49-14 79-14 25 0 43 8 69 16V260Z'/%3E%3Cpath fill='%23091121' d='M172 211c10-52 35-82 70-82s60 30 70 82zm366 5c8-40 28-64 56-64s49 24 56 64zm178-2c12-68 46-108 92-108s80 40 92 108zm306 0c9-48 34-76 68-76 34 0 58 28 67 76zm250 0c7-32 21-52 38-52 17 0 31 20 38 52z'/%3E%3Ccircle cx='762' cy='105' r='10' fill='%23091121'/%3E%3Cpath fill='%23091121' d='M772 103c10-11 23-16 36-16 13 0 24 4 31 12-8-3-14-4-21-4-18 0-30 8-46 22z'/%3E%3C/svg%3E");
-            filter: blur(1.4px);
-            transform: translate3d(var(--skyline-px, 0px), var(--skyline-py, 0px), 0);
-            will-change: transform;
+            opacity: 1;
+            background: linear-gradient(180deg, rgba(4, 10, 22, 0.34) 0%, rgba(4, 10, 22, 0.2) 45%, rgba(4, 10, 22, 0.32) 100%);
+        }
+
+        @media (max-width: 768px) {
+            body::before {
+                background-size: cover;
+                background-position: 50% 20%;
+                background-attachment: scroll;
+            }
         }
 
         .aurora-layer {
