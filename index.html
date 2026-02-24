@@ -206,6 +206,7 @@
             align-items: center;
             justify-content: space-between;
             gap: 1rem;
+            position: relative;
         }
 
         .top-nav-logo {
@@ -230,7 +231,10 @@
 
         .top-nav-links {
             display: flex;
-            position: relative;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translateX(-50%) translateY(-50%);
             gap: 0.55rem;
             flex-wrap: nowrap;
             justify-content: center;
@@ -272,6 +276,7 @@
             font-weight: 600;
             white-space: nowrap;
             cursor: pointer;
+            text-decoration: none;
             transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
             position: relative;
             overflow: hidden;
@@ -3927,6 +3932,8 @@
             }
 
             .top-nav-links {
+                position: static;
+                transform: none;
                 width: 100%;
                 padding: 0;
                 display: grid;
