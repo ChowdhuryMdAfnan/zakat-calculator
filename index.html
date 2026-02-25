@@ -1666,10 +1666,11 @@
         .assets-wealth-title {
             display: inline-flex;
             align-items: center;
-            gap: 0.65rem;
-            font-size: clamp(1.55rem, 2vw, 2rem);
-            font-weight: 800;
-            color: color-mix(in srgb, var(--gold-light) 88%, #fff 12%);
+            gap: 0.8rem;
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 0.02em;
         }
 
         .assets-wealth-title .section-icon {
@@ -1692,8 +1693,8 @@
         }
 
         .assets-add-btn:hover {
-            border-color: rgba(212, 175, 55, 0.65);
-            box-shadow: 0 0 0 1px rgba(212, 175, 55, 0.2);
+            border-color: rgba(100, 160, 240, 0.65);
+            box-shadow: 0 0 0 1px rgba(100, 160, 240, 0.20);
             transform: translateY(-1px);
         }
 
@@ -1788,14 +1789,14 @@
         }
 
         #assetsCard .section-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 14px;
-            font-size: 1.08rem;
-            background: linear-gradient(145deg, color-mix(in srgb, var(--gold) 84%, #fff 16%) 0%, color-mix(in srgb, var(--gold-light) 90%, #fff 10%) 100%);
-            color: rgba(8, 12, 22, 0.9);
-            border: 0;
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            font-size: 1rem;
+            background: rgba(80, 140, 220, 0.16);
+            border: 1px solid rgba(100, 160, 240, 0.35);
+            color: #a8d0ff;
+            box-shadow: none;
         }
 
         #assetsCard .form-label {
@@ -2215,9 +2216,9 @@
             align-items: center;
             justify-content: center;
             font-size: 1rem;
-            background: rgba(212, 175, 55, 0.16);
-            border: 1px solid rgba(212, 175, 55, 0.35);
-            color: #f4d47b;
+            background: rgba(80, 140, 220, 0.16);
+            border: 1px solid rgba(100, 160, 240, 0.35);
+            color: #a8d0ff;
         }
 
         .form-grid {
@@ -2844,15 +2845,15 @@
         }
 
         #settingsCard::before {
-            background: radial-gradient(60% 52% at 18% 14%, rgba(74, 135, 219, 0.5), rgba(74, 135, 219, 0));
+            background: radial-gradient(60% 52% at 18% 14%, rgba(74, 135, 219, 0.20), rgba(74, 135, 219, 0));
         }
 
         #assetsCard::before {
-            background: radial-gradient(66% 56% at 50% 10%, rgba(212, 175, 55, 0.58), rgba(212, 175, 55, 0));
+            background: radial-gradient(66% 56% at 50% 10%, rgba(120, 175, 255, 0.18), rgba(120, 175, 255, 0));
         }
 
         #debtsCard::before {
-            background: radial-gradient(62% 52% at 78% 16%, rgba(239, 115, 51, 0.5), rgba(239, 115, 51, 0));
+            background: radial-gradient(62% 52% at 78% 16%, rgba(50, 195, 165, 0.16), rgba(50, 195, 165, 0));
         }
 
         #resultsCard::before {
@@ -2875,36 +2876,36 @@
         }
 
         #settingsCard {
-            border-color: rgba(74, 135, 219, 0.32);
+            border-color: rgba(80, 140, 220, 0.28);
         }
 
         #assetsCard {
-            border-color: rgba(212, 175, 55, 0.34);
+            border-color: rgba(100, 160, 240, 0.24);
         }
 
         #debtsCard {
-            border-color: rgba(239, 115, 51, 0.34);
+            border-color: rgba(50, 195, 165, 0.24);
             margin-bottom: 1.1rem;
         }
 
         #debtsCard .calc-card-title {
-            color: #ffb27a;
-            text-shadow: 0 0 12px rgba(239, 115, 51, 0.24);
+            color: var(--gold);
+            text-shadow: none;
         }
 
         #debtsCard .section-icon {
-            background: rgba(239, 115, 51, 0.16);
-            border-color: rgba(239, 115, 51, 0.45);
-            color: #ffc39b;
+            background: rgba(50, 195, 165, 0.14);
+            border-color: rgba(50, 195, 165, 0.38);
+            color: #6edfc8;
         }
 
         #debtsCard .form-input {
-            border-color: rgba(239, 115, 51, 0.28);
+            border-color: rgba(50, 195, 165, 0.20);
         }
 
         #debtsCard .form-input:focus {
-            border-color: rgba(239, 115, 51, 0.72);
-            box-shadow: 0 0 0 2px rgba(239, 115, 51, 0.18), 0 8px 18px rgba(239, 115, 51, 0.14);
+            border-color: rgba(50, 195, 165, 0.65);
+            box-shadow: 0 0 0 2px rgba(50, 195, 165, 0.16), 0 8px 18px rgba(50, 195, 165, 0.12);
         }
 
         #debtsCard .money-input {
