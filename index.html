@@ -2744,6 +2744,66 @@
             gap: 0.55rem;
         }
 
+        /* ── Debt rows (mirrors extra-asset-row) ───────────────── */
+        .debt-row {
+            display: grid;
+            grid-template-columns: 1.1fr 1.4fr 1.35fr 34px;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.35rem;
+            padding: 0.3rem 0.35rem;
+            border-radius: 10px;
+            transition: background 0.18s ease;
+            animation: nestedEntryFadeIn 220ms ease-out;
+        }
+        .debt-row:hover {
+            background: rgba(50, 195, 165, 0.06);
+        }
+        .debt-row .form-input {
+            min-height: 38px;
+            height: 38px;
+            font-size: 0.9rem;
+            border-color: rgba(50, 195, 165, 0.18);
+        }
+        .debt-row .form-input:focus {
+            border-color: rgba(50, 195, 165, 0.55);
+        }
+        .debt-row .asset-row-amount-cell .form-input {
+            border-radius: 8px 0 0 8px !important;
+        }
+        .debt-row .debt-currency-btn,
+        #debtsCard .debt-row .debt-currency-btn {
+            position: static;
+            transform: none;
+            top: auto;
+            right: auto;
+            width: auto;
+            min-width: 52px;
+            justify-content: center;
+            border-radius: 0 8px 8px 0 !important;
+            border-left: none !important;
+        }
+        /* Teal accent for debt panel + add button */
+        #debtsCard .assets-add-btn:hover {
+            border-color: rgba(50, 195, 165, 0.65);
+            box-shadow: 0 0 0 1px rgba(50, 195, 165, 0.20);
+        }
+        #debtsCard .asset-add-note-input {
+            border-color: rgba(50, 195, 165, 0.20) !important;
+        }
+        #debtsCard .asset-add-note-input:focus {
+            border-color: rgba(50, 195, 165, 0.55) !important;
+        }
+        #debtsCard .asset-add-panel .asset-add-amount-wrap .form-input,
+        #debtsCard .asset-add-panel .asset-add-top .form-input {
+            border-color: rgba(50, 195, 165, 0.20);
+        }
+        #debtsCard .asset-add-panel .asset-add-amount-wrap .form-input:focus,
+        #debtsCard .asset-add-panel .asset-add-top .form-input:focus {
+            border-color: rgba(50, 195, 165, 0.60);
+            box-shadow: 0 0 0 2px rgba(50, 195, 165, 0.14);
+        }
+
         .core-extra-row {
             display: grid;
             grid-template-columns: minmax(0, 1fr) auto auto;
@@ -4518,24 +4578,29 @@
                 grid-template-columns: 1fr;
             }
 
-            .extra-asset-row {
+            .extra-asset-row,
+            .debt-row {
                 grid-template-columns: 1fr 34px;
-                grid-template-rows: auto auto;
+                grid-template-rows: auto auto auto;
                 gap: 0.4rem;
             }
-            .extra-asset-row .extra-asset-type {
+            .extra-asset-row .extra-asset-type,
+            .debt-row .debt-type {
                 grid-column: 1;
                 grid-row: 1;
             }
-            .extra-asset-row .asset-row-note {
+            .extra-asset-row .asset-row-note,
+            .debt-row .debt-note {
                 grid-column: 1;
                 grid-row: 2;
             }
-            .extra-asset-row .asset-row-amount-cell {
+            .extra-asset-row .asset-row-amount-cell,
+            .debt-row .asset-row-amount-cell {
                 grid-column: 1;
                 grid-row: 3;
             }
-            .extra-asset-row .remove-asset-row {
+            .extra-asset-row .remove-asset-row,
+            .debt-row .remove-debt-row {
                 grid-column: 2;
                 grid-row: 1;
                 align-self: start;
@@ -5315,24 +5380,59 @@
         </div>
 
         <div class="calc-card" id="debtsCard">
-            <h3 class="calc-card-title"><span class="section-icon">&#x1F4C4;</span>Liabilities</h3>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Short-term Debts (due within year)</label>
-                    <div class="money-input">
-                        <input type="number" id="debtsAmt" class="form-input" value="0" step="0.01" placeholder="Amount">
-                        <input type="hidden" id="debtsCur" value="BDT">
-                        <button type="button" class="currency-mini" data-currency-for="debtsCur">BDT</button>
+            <div class="assets-wealth-header">
+                <h3 class="calc-card-title"><span class="section-icon">&#x1F4C4;</span>Liabilities</h3>
+                <button type="button" id="addDebtRowBtn" class="assets-add-btn">+ Add Liability</button>
+            </div>
+
+            <!-- Slide-down add panel -->
+            <div class="asset-add-panel" id="debtAddPanel" aria-hidden="true">
+                <div class="asset-add-form">
+                    <div class="asset-add-top">
+                        <select id="debtAddType" class="select-input form-input">
+                            <option value="Loan">Loan</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Tax">Tax</option>
+                            <option value="Rent">Rent</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <div class="asset-add-amount-wrap">
+                            <input type="number" id="debtAddAmount" class="form-input" step="0.01" placeholder="0.00" min="0">
+                            <input type="hidden" id="debtAddCurHidden" value="BDT">
+                            <button type="button" id="debtAddCurBtn" class="currency-mini">BDT</button>
+                        </div>
                     </div>
-                    <div class="debt-helper-row" role="note" aria-label="Debts helper">
-                        <span>Only short-term debts count</span>
-                        <span class="debt-helper-icon" tabindex="0" aria-label="More info">i</span>
-                        <span class="debt-helper-tip">Include only debts due within the current lunar year. Long-term liabilities are usually not deducted from zakatable wealth.</span>
+                    <input type="text" id="debtAddNote" class="form-input asset-add-note-input" placeholder="Description (optional)&#x2026;" maxlength="80" autocomplete="off">
+                    <div class="asset-add-actions">
+                        <button type="button" id="debtAddCancelBtn" class="btn-secondary asset-panel-cancel">Cancel</button>
+                        <button type="button" id="debtAddConfirmBtn" class="btn-primary asset-panel-confirm">+ Add Entry</button>
                     </div>
                 </div>
             </div>
-            <div class="info-box">
-                <p><strong>Note:</strong> Only include debts due within the current year. Long-term debts like mortgages are typically not deducted from zakatable wealth.</p>
+
+            <div class="assets-entry-tools">
+                <p class="form-label">Liability Entries</p>
+            </div>
+            <div class="assets-entry-list-wrap">
+                <div class="asset-table-head" id="debtTableHead">
+                    <span>Type</span><span>Description</span><span>Amount</span><span></span>
+                </div>
+                <div class="asset-empty-state" id="debtEmptyState">
+                    No liability entries yet. Click <strong>+ Add Liability</strong> to begin.
+                </div>
+                <div id="debtsList"></div>
+            </div>
+
+            <!-- Hidden legacy inputs kept for backward compat + recalcFast -->
+            <div style="display:none" aria-hidden="true">
+                <input type="number" id="debtsAmt" value="0">
+                <input type="hidden" id="debtsCur" value="BDT">
+            </div>
+
+            <div class="debt-helper-row" role="note" aria-label="Debts helper" style="margin-top:0.7rem;">
+                <span>Only short-term debts count</span>
+                <span class="debt-helper-icon" tabindex="0" aria-label="More info">i</span>
+                <span class="debt-helper-tip">Include only debts due within the current lunar year. Long-term liabilities like mortgages are typically not deducted from zakatable wealth.</span>
             </div>
         </div>
 
@@ -6713,6 +6813,140 @@
             if (emptyState) emptyState.classList.toggle('visible', !hasRows);
         }
 
+        function updateDebtEmptyState() {
+            const rows = document.querySelectorAll('#debtsList .debt-row');
+            const tableHead = byId('debtTableHead');
+            const emptyState = byId('debtEmptyState');
+            const hasRows = rows.length > 0;
+            if (tableHead) tableHead.classList.toggle('visible', hasRows);
+            if (emptyState) emptyState.classList.toggle('visible', !hasRows);
+        }
+
+        function getDebtsTotalBdt(toBdt) {
+            let total = 0;
+            document.querySelectorAll('.debt-row').forEach((row) => {
+                const amount = parseFloat(row.querySelector('.debt-amount')?.value || '0') || 0;
+                const currency = row.querySelector('.debt-currency')?.value || 'BDT';
+                total += toBdt(amount, currency);
+            });
+            return total;
+        }
+
+        function addDebtRow(entry = {}, options = {}) {
+            const list = document.getElementById('debtsList');
+            if (!list) return;
+            const defaultCurrency = document.getElementById('currency')?.value || 'BDT';
+            const trackEntry = options.trackEntry === true;
+
+            const row = document.createElement('div');
+            row.className = 'debt-row';
+            row.dataset.draftRowId = makeEntryId();
+            row.innerHTML = `
+                <select class="select-input form-input debt-type">
+                    <option value="Loan">Loan</option>
+                    <option value="Credit Card">Credit Card</option>
+                    <option value="Tax">Tax</option>
+                    <option value="Rent">Rent</option>
+                    <option value="Other">Other</option>
+                </select>
+                <input type="text" class="form-input asset-row-note debt-note" placeholder="Description…" maxlength="80" autocomplete="off" value="${(entry.note || '').replace(/"/g, '&quot;')}">
+                <div class="asset-row-amount-cell">
+                    <input type="number" class="form-input debt-amount" step="0.01" placeholder="Amount" value="${entry.amount || 0}">
+                    <input type="hidden" class="debt-currency" value="${entry.currency || defaultCurrency}">
+                    <button type="button" class="currency-mini debt-currency-btn">${entry.currency || defaultCurrency}</button>
+                </div>
+                <button type="button" class="mini-btn remove-debt-row" aria-label="Remove entry" title="Remove entry">&#x2715;</button>
+            `;
+
+            const amountInput = row.querySelector('.debt-amount');
+            if (amountInput) amountInput.dataset.draftKey = `debt_${row.dataset.draftRowId}`;
+            row.querySelector('.debt-type').value = entry.type || 'Loan';
+            if (entry.entryId) row.dataset.entryId = entry.entryId;
+
+            const getRowNote = () => row.querySelector('.debt-note')?.value?.trim() || '';
+
+            const ensureTrackedEntry = () => {
+                if (row.dataset.entryId) return true;
+                const amount = parseFloat(row.querySelector('.debt-amount')?.value || '0') || 0;
+                if (amount <= 0) return false;
+                const created = addEntry({
+                    category: 'Liabilities',
+                    amount,
+                    currency: row.querySelector('.debt-currency')?.value || defaultCurrency,
+                    note: getRowNote(),
+                    meta: { source: 'debt-entry' }
+                });
+                row.dataset.entryId = created.id;
+                showToast('Entry added');
+                return true;
+            };
+
+            const syncEntry = () => {
+                const entryId = row.dataset.entryId;
+                if (!entryId) return;
+                updateEntry(entryId, {
+                    category: 'Liabilities',
+                    amount: parseFloat(row.querySelector('.debt-amount')?.value || '0') || 0,
+                    currency: row.querySelector('.debt-currency')?.value || defaultCurrency,
+                    note: getRowNote(),
+                    meta: { source: 'debt-entry' }
+                });
+            };
+
+            row.querySelectorAll('input, select').forEach((el) => {
+                el.addEventListener('input', () => { ensureTrackedEntry(); syncEntry(); calculateZakat(); });
+                el.addEventListener('change', () => { ensureTrackedEntry(); syncEntry(); calculateZakat(); });
+            });
+
+            row.querySelector('.remove-debt-row').addEventListener('click', () => {
+                if (row.dataset.entryId) removeEntry(row.dataset.entryId);
+                row.remove();
+                updateDebtEmptyState();
+                calculateZakat();
+            });
+
+            // Toggle currency button
+            row.querySelector('.debt-currency-btn').addEventListener('click', () => {
+                const hidden = row.querySelector('.debt-currency');
+                const btn = row.querySelector('.debt-currency-btn');
+                if (!hidden || !btn) return;
+                const next = hidden.value === 'USD' ? 'BDT' : 'USD';
+                hidden.value = next;
+                btn.textContent = next;
+                ensureTrackedEntry();
+                syncEntry();
+                calculateZakat();
+            });
+
+            list.appendChild(row);
+            initThousandSeparatedInputs(row);
+            if (amountInput) setDraftForInput(amountInput);
+            if (trackEntry && !row.dataset.entryId) ensureTrackedEntry();
+        }
+
+        function serializeDebts() {
+            const rows = [];
+            document.querySelectorAll('.debt-row').forEach((row) => {
+                const rawAmount = row.querySelector('.debt-amount')?.value || '0';
+                rows.push({
+                    type: row.querySelector('.debt-type')?.value || 'Other',
+                    amount: rawAmount.replace(/,/g, ''),
+                    currency: row.querySelector('.debt-currency')?.value || 'BDT',
+                    note: row.querySelector('.debt-note')?.value?.trim() || '',
+                    entryId: row.dataset.entryId || ''
+                });
+            });
+            return rows;
+        }
+
+        function restoreDebts(entries) {
+            const list = document.getElementById('debtsList');
+            if (!list) return;
+            list.innerHTML = '';
+            (entries || []).forEach((entry) => addDebtRow(entry));
+            updateDebtEmptyState();
+        }
+
         function setSplitPanelOpen(isOpen) {
             const splitPanel = byId('splitCashBankPanel');
             const splitBtn = byId('splitCashBankBtn');
@@ -6881,7 +7115,7 @@
             const businessBdt = toBdt(read('businessAmt'), byId('businessCur').value);
             const receivablesBdt = toBdt(read('receivablesAmt'), byId('receivablesCur').value);
             const extraAssetsBdt = getExtraAssetsBdt(toBdt);
-            const debtsBdt = toBdt(read('debtsAmt'), byId('debtsCur').value);
+            const debtsBdt = toBdt(read('debtsAmt'), byId('debtsCur').value) + getDebtsTotalBdt(toBdt);
 
             const cashBankBdt = cashBdt + bankBdt + getCoreExtraTotalBdt('cashBank', toBdt);
             const stocksBdt = investmentsBdt + getCoreExtraTotalBdt('stocks', toBdt);
@@ -7167,7 +7401,8 @@
                 debtsAmt: byId('debtsAmt').value,
                 debtsCur: byId('debtsCur').value,
                 coreExtraEntries: serializeCoreExtraEntries(),
-                extraAssets: serializeExtraAssets()
+                extraAssets: serializeExtraAssets(),
+                debts: serializeDebts()
             };
             localStorage.setItem('zakatCalculatorData', JSON.stringify(data));
             localStorage.setItem(themeStorageKey, data.themeMode);
@@ -7273,6 +7508,7 @@
 
                 restoreCoreExtraEntries(data.coreExtraEntries);
                 restoreExtraAssets(data.extraAssets);
+                restoreDebts(data.debts);
                 const splitPanel = document.getElementById('splitCashBankPanel');
                 const splitBtn = document.getElementById('splitCashBankBtn');
                 if (splitPanel && splitBtn) {
@@ -7285,6 +7521,7 @@
             } else {
                 restoreCoreExtraEntries({});
                 restoreExtraAssets([]);
+                restoreDebts([]);
                 setMetalPriceCurrency(byId('currency')?.value || 'USD');
                 setMetalPriceBaseUsdFromVisible(byId('currency')?.value || 'BDT');
                 updateMetalPriceLabels();
@@ -7426,6 +7663,14 @@
                 label: 'Short-term debts',
                 amount: byId('debtsAmt')?.value || 0,
                 currency: byId('debtsCur')?.value || 'BDT'
+            });
+            document.querySelectorAll('.debt-row').forEach((row) => {
+                pushRow(debtRows, {
+                    category: row.querySelector('.debt-type')?.value || 'Liabilities',
+                    label: row.querySelector('.debt-note')?.value?.trim() || row.querySelector('.debt-type')?.value || 'Liability entry',
+                    amount: (row.querySelector('.debt-amount')?.value || '0').replace(/,/g, ''),
+                    currency: row.querySelector('.debt-currency')?.value || 'BDT'
+                });
             });
 
             entriesStore.forEach((entry) => {
@@ -8237,6 +8482,69 @@
 
             // Initialize empty state on load
             updateAssetEmptyState();
+
+            // ── Debt add panel wiring ─────────────────────────────
+            const addDebtBtn = byId('addDebtRowBtn');
+            const debtAddPanel = byId('debtAddPanel');
+            const debtAddCurBtn = byId('debtAddCurBtn');
+            const debtAddCurHidden = byId('debtAddCurHidden');
+
+            const openDebtPanel = () => {
+                if (!debtAddPanel) return;
+                const defCur = byId('currency')?.value || 'BDT';
+                if (debtAddCurHidden) debtAddCurHidden.value = defCur;
+                if (debtAddCurBtn) debtAddCurBtn.textContent = defCur;
+                debtAddPanel.classList.add('open');
+                debtAddPanel.setAttribute('aria-hidden', 'false');
+                if (addDebtBtn) addDebtBtn.setAttribute('aria-expanded', 'true');
+                setTimeout(() => byId('debtAddAmount')?.focus(), 80);
+            };
+
+            const closeDebtPanel = () => {
+                if (!debtAddPanel) return;
+                debtAddPanel.classList.remove('open');
+                debtAddPanel.setAttribute('aria-hidden', 'true');
+                if (addDebtBtn) addDebtBtn.setAttribute('aria-expanded', 'false');
+                const amtEl = byId('debtAddAmount');
+                const noteEl = byId('debtAddNote');
+                const typeEl = byId('debtAddType');
+                if (amtEl) amtEl.value = '';
+                if (noteEl) noteEl.value = '';
+                if (typeEl) typeEl.value = 'Loan';
+            };
+
+            const confirmDebtAdd = () => {
+                const type = byId('debtAddType')?.value || 'Other';
+                const amount = parseFloat(byId('debtAddAmount')?.value || '0') || 0;
+                const currency = debtAddCurHidden?.value || byId('currency')?.value || 'BDT';
+                const note = byId('debtAddNote')?.value?.trim() || '';
+                if (amount <= 0) {
+                    byId('debtAddAmount')?.focus();
+                    byId('debtAddAmount')?.classList.add('input-error');
+                    setTimeout(() => byId('debtAddAmount')?.classList.remove('input-error'), 1200);
+                    return;
+                }
+                addDebtRow({ type, amount, currency, note }, { trackEntry: true });
+                updateDebtEmptyState();
+                calculateZakat();
+                scheduleSaveData(0);
+                closeDebtPanel();
+            };
+
+            if (addDebtBtn) addDebtBtn.addEventListener('click', openDebtPanel);
+            byId('debtAddCancelBtn')?.addEventListener('click', closeDebtPanel);
+            byId('debtAddConfirmBtn')?.addEventListener('click', confirmDebtAdd);
+            if (debtAddCurBtn) debtAddCurBtn.addEventListener('click', () => {
+                if (!debtAddCurHidden) return;
+                const next = debtAddCurHidden.value === 'USD' ? 'BDT' : 'USD';
+                debtAddCurHidden.value = next;
+                debtAddCurBtn.textContent = next;
+            });
+            debtAddPanel?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); confirmDebtAdd(); }
+                if (e.key === 'Escape') closeDebtPanel();
+            });
+            updateDebtEmptyState();
 
             // ── Settings pill/swatch controls ────────────────────
             function syncSettingsPills() {
