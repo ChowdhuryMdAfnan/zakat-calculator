@@ -2300,7 +2300,180 @@
         }
 
         .settings-content {
-            padding: 0 1.8rem 1.7rem;
+            padding: 0 1.8rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+        }
+
+        /* ── Settings Option A: compact inline controls ─────────── */
+        .settings-hidden-select {
+            display: none !important;
+        }
+
+        .settings-inline-row {
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            flex-wrap: wrap;
+        }
+
+        .settings-ctrl-group {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+        }
+
+        .settings-ctrl-label {
+            font-size: 0.73rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: rgba(148, 163, 184, 0.55);
+            white-space: nowrap;
+        }
+
+        .settings-pill-group {
+            display: flex;
+            background: rgba(6, 14, 40, 0.55);
+            border: 1px solid rgba(100, 160, 240, 0.18);
+            border-radius: 999px;
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .settings-pill {
+            padding: 0.28rem 0.85rem;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            color: rgba(148, 163, 184, 0.6);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.18s ease, color 0.18s ease;
+            line-height: 1.4;
+        }
+
+        .settings-pill.active {
+            background: rgba(80, 140, 220, 0.26);
+            color: #c8deff;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+        }
+
+        .settings-pill:hover:not(.active) {
+            color: rgba(200, 220, 255, 0.78);
+            background: rgba(100, 160, 240, 0.1);
+        }
+
+        /* Theme row */
+        .settings-theme-row {
+            gap: 0.75rem;
+        }
+
+        .settings-theme-swatches {
+            display: flex;
+            gap: 0.45rem;
+            align-items: center;
+        }
+
+        .settings-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            background: var(--sc, #888);
+            cursor: pointer;
+            transition: transform 0.18s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .settings-swatch::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: border-color 0.18s ease;
+        }
+
+        .settings-swatch.active::after {
+            border-color: rgba(200, 222, 255, 0.75);
+        }
+
+        .settings-swatch:hover {
+            transform: scale(1.2);
+        }
+
+        /* Prices row */
+        .settings-prices-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 0.6rem;
+            align-items: end;
+        }
+
+        .settings-price-cell {
+            display: flex;
+            flex-direction: column;
+            gap: 0.28rem;
+        }
+
+        .settings-price-cell .form-input {
+            height: 38px;
+            min-height: 38px;
+            font-size: 0.88rem;
+            padding: 0 0.65rem;
+        }
+
+        .settings-fetch-btn {
+            height: 38px;
+            padding: 0 0.8rem;
+            border-radius: 10px;
+            background: rgba(80, 140, 220, 0.12);
+            border: 1px solid rgba(80, 140, 220, 0.26);
+            color: #a8d0ff;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.18s ease, border-color 0.18s ease;
+            white-space: nowrap;
+        }
+
+        .settings-fetch-btn:hover {
+            background: rgba(80, 140, 220, 0.22);
+            border-color: rgba(80, 140, 220, 0.5);
+        }
+
+        /* Hawl collapsible */
+        .settings-hawl-toggle {
+            border-top: 1px solid rgba(100, 160, 240, 0.13);
+            padding-top: 0.6rem;
+        }
+
+        .settings-hawl-head {
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: rgba(180, 210, 255, 0.65);
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.2rem 0;
+            user-select: none;
+            transition: color 0.18s ease;
+        }
+
+        .settings-hawl-head::-webkit-details-marker { display: none; }
+
+        .settings-hawl-toggle[open] .settings-hawl-head {
+            color: rgba(200, 228, 255, 0.88);
+        }
+
+        .settings-hawl-toggle .hawl-card {
+            margin-top: 0.6rem;
         }
 
         .reveal-on-scroll {
@@ -4267,6 +4440,14 @@
                 padding: 0 1rem 1rem;
             }
 
+            .settings-prices-row {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .settings-fetch-btn {
+                grid-column: span 2;
+            }
+
             .calc-card-title {
                 font-size: 1.42rem;
                 margin-bottom: 1rem;
@@ -4937,103 +5118,115 @@
                 <span class="settings-summary-right">Tap to expand</span>
             </summary>
             <div class="settings-content">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label class="form-label">Display Currency</label>
-                    <select id="currency" class="select-input form-input">
-                        <option value="USD">USD ($)</option>
-                        <option value="BDT">BDT</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-label">Theme Mode</label>
-                    <select id="themeMode" class="select-input form-input">
-                        <option value="midnight-gold">Midnight Gold</option>
-                        <option value="emerald-night">Emerald Night</option>
-                        <option value="royal-indigo">Royal Indigo</option>
-                        <option value="teal-dawn">Teal Dawn</option>
-                        <option value="warm-ink">Warm Ink</option>
-                    </select>
-                </div>
+                <!-- Hidden selects kept for full JS compatibility -->
+                <select id="currency" class="settings-hidden-select" aria-hidden="true" tabindex="-1">
+                    <option value="USD">USD ($)</option>
+                    <option value="BDT" selected>BDT</option>
+                </select>
+                <select id="nisabType" class="settings-hidden-select" aria-hidden="true" tabindex="-1">
+                    <option value="silver" selected>Silver</option>
+                    <option value="gold">Gold</option>
+                </select>
+                <select id="themeMode" class="settings-hidden-select" aria-hidden="true" tabindex="-1">
+                    <option value="midnight-gold" selected>Midnight Gold</option>
+                    <option value="emerald-night">Emerald Night</option>
+                    <option value="royal-indigo">Royal Indigo</option>
+                    <option value="teal-dawn">Teal Dawn</option>
+                    <option value="warm-ink">Warm Ink</option>
+                </select>
 
-                <div class="form-group">
-                    <label class="form-label">USD to BDT Rate</label>
-                    <input type="number" id="usdToBdt" class="form-input" value="122.30" step="0.01" placeholder="122.30">
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label">Nisab Calculation</label>
-                    <select id="nisabType" class="select-input form-input">
-                        <option value="silver">Silver (612.36g) - Recommended</option>
-                        <option value="gold">Gold (87.48g)</option>
-                    </select>
-                    <details class="explain-toggle">
-                        <summary>Why Silver is Recommended?</summary>
-                        <div class="explain-content">
-                            Silver nisab is lower than gold nisab, so more people who are able to contribute are included.
-                            This tends to increase support reaching poor and eligible recipients.
-                            Many scholars recommend silver-based nisab for this broader social benefit, while gold remains an accepted opinion.
+                <!-- Row 1: Currency + Nisab pill toggles -->
+                <div class="settings-inline-row">
+                    <div class="settings-ctrl-group">
+                        <span class="settings-ctrl-label">Currency</span>
+                        <div class="settings-pill-group">
+                            <button type="button" class="settings-pill active" data-for="currency" data-val="BDT">BDT</button>
+                            <button type="button" class="settings-pill" data-for="currency" data-val="USD">USD</button>
                         </div>
-                    </details>
+                    </div>
+                    <div class="settings-ctrl-group">
+                        <span class="settings-ctrl-label">Nisab</span>
+                        <div class="settings-pill-group">
+                            <button type="button" class="settings-pill active" data-for="nisabType" data-val="silver" title="Silver (612.36g) &#x2014; More inclusive, recommended by many scholars">&#x1FA77; Silver</button>
+                            <button type="button" class="settings-pill" data-for="nisabType" data-val="gold" title="Gold (87.48g)">&#x1F947; Gold</button>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" id="goldPriceLabel">Gold Price per Gram (USD)</label>
-                    <input type="number" id="goldPrice" class="form-input" value="" step="0.01" placeholder="Enter gold price per gram">
+                <!-- Row 2: Theme colour swatches -->
+                <div class="settings-inline-row settings-theme-row">
+                    <span class="settings-ctrl-label">Theme</span>
+                    <div class="settings-theme-swatches">
+                        <button type="button" class="settings-swatch active" data-for="themeMode" data-val="midnight-gold" title="Midnight Gold" style="--sc:#d4af37"></button>
+                        <button type="button" class="settings-swatch" data-for="themeMode" data-val="emerald-night" title="Emerald Night" style="--sc:#2ecc71"></button>
+                        <button type="button" class="settings-swatch" data-for="themeMode" data-val="royal-indigo" title="Royal Indigo" style="--sc:#7c5cbf"></button>
+                        <button type="button" class="settings-swatch" data-for="themeMode" data-val="teal-dawn" title="Teal Dawn" style="--sc:#14b8a6"></button>
+                        <button type="button" class="settings-swatch" data-for="themeMode" data-val="warm-ink" title="Warm Ink" style="--sc:#d97706"></button>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label" id="silverPriceLabel">Silver Price per Gram (USD)</label>
-                    <input type="number" id="silverPrice" class="form-input" value="" step="0.01" placeholder="Enter silver price per gram">
+                <!-- Row 3: Exchange rate + metal prices + fetch -->
+                <div class="settings-prices-row">
+                    <div class="settings-price-cell">
+                        <label class="settings-ctrl-label" for="usdToBdt">USD &#x2192; BDT</label>
+                        <input type="number" id="usdToBdt" class="form-input" value="122.30" step="0.01" placeholder="122.30">
+                    </div>
+                    <div class="settings-price-cell">
+                        <label class="settings-ctrl-label" id="goldPriceLabel" for="goldPrice">Gold / g</label>
+                        <input type="number" id="goldPrice" class="form-input" value="" step="0.01" placeholder="&#x2014;">
+                    </div>
+                    <div class="settings-price-cell">
+                        <label class="settings-ctrl-label" id="silverPriceLabel" for="silverPrice">Silver / g</label>
+                        <input type="number" id="silverPrice" class="form-input" value="" step="0.01" placeholder="&#x2014;">
+                    </div>
+                    <button type="button" id="livePricesBtn" class="settings-fetch-btn" title="Fetch live metal prices">&#x21BB; Fetch</button>
                 </div>
+                <span id="livePriceStatus" class="settings-live-status"></span>
 
-                            <div class="form-group settings-live-prices">
-                                <span id="livePriceStatus" class="settings-live-status"></span>
+                <!-- Hawl Reminder collapsible -->
+                <details class="settings-hawl-toggle">
+                    <summary class="settings-hawl-head">&#x1F4C5; Hawl Reminder</summary>
+                    <div class="hawl-card">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Your Zakat Date (Hijri)</label>
+                                <div class="amount-currency">
+                                    <select id="zakatHijriMonth" class="select-input form-input">
+                                        <option value="">Month</option>
+                                        <option>Muharram</option>
+                                        <option>Safar</option>
+                                        <option>Rabi al-Awwal</option>
+                                        <option>Rabi al-Thani</option>
+                                        <option>Jumada al-Ula</option>
+                                        <option>Jumada al-Akhirah</option>
+                                        <option>Rajab</option>
+                                        <option>Sha'ban</option>
+                                        <option>Ramadan</option>
+                                        <option>Shawwal</option>
+                                        <option>Dhu al-Qadah</option>
+                                        <option>Dhu al-Hijjah</option>
+                                    </select>
+                                    <select id="zakatHijriDay" class="select-input form-input">
+                                        <option value="">Day</option>
+                                    </select>
+                                </div>
+                                <input type="text" id="zakatHijriNote" class="form-input" placeholder="Optional note (e.g., 1 Ramadan)" style="margin-top:0.6rem;">
                             </div>
-            </div>
-            <div class="hawl-card">
-                <div class="hawl-title">Zakat Date + Hawl Reminder</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Your Zakat Date (Hijri)</label>
-                        <div class="amount-currency">
-                            <select id="zakatHijriMonth" class="select-input form-input">
-                                <option value="">Month</option>
-                                <option>Muharram</option>
-                                <option>Safar</option>
-                                <option>Rabi al-Awwal</option>
-                                <option>Rabi al-Thani</option>
-                                <option>Jumada al-Ula</option>
-                                <option>Jumada al-Akhirah</option>
-                                <option>Rajab</option>
-                                <option>Sha'ban</option>
-                                <option>Ramadan</option>
-                                <option>Shawwal</option>
-                                <option>Dhu al-Qadah</option>
-                                <option>Dhu al-Hijjah</option>
-                            </select>
-                            <select id="zakatHijriDay" class="select-input form-input">
-                                <option value="">Day</option>
-                            </select>
+                            <div class="form-group">
+                                <label class="form-label">Last Zakat Paid (Gregorian)</label>
+                                <input type="date" id="lastZakatPaid" class="form-input">
+                            </div>
                         </div>
-                        <input type="text" id="zakatHijriNote" class="form-input" placeholder="Optional note (e.g., 1 Ramadan)" style="margin-top:0.6rem;">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Last Zakat Paid (Gregorian)</label>
-                        <input type="date" id="lastZakatPaid" class="form-input">
-                    </div>
-                </div>
-                <div class="hawl-summary">
-                    <div class="hawl-row"><span>Zakat Date</span><strong id="zakatDateSummary">-</strong></div>
-                    <div class="hawl-row"><span>Last Paid</span><strong id="lastPaidSummary">-</strong></div>
-                    <div class="hawl-row"><span>Next Due (estimate)</span><strong id="nextDueSummary">-</strong></div>
-                    <div class="hawl-row"><span>Status</span><span class="due-badge" id="dueStatusBadge">On track</span></div>
-                </div>
-            </div>
-                        <div class="info-box">
-                            <p><strong>Market rates:</strong> Enter your own current gold and silver prices manually.</p>
+                        <div class="hawl-summary">
+                            <div class="hawl-row"><span>Zakat Date</span><strong id="zakatDateSummary">-</strong></div>
+                            <div class="hawl-row"><span>Last Paid</span><strong id="lastPaidSummary">-</strong></div>
+                            <div class="hawl-row"><span>Next Due (estimate)</span><strong id="nextDueSummary">-</strong></div>
+                            <div class="hawl-row"><span>Status</span><span class="due-badge" id="dueStatusBadge">On track</span></div>
                         </div>
+                    </div>
+                </details>
+
             </div>
         </details>
 
@@ -5669,6 +5862,10 @@
             const topThemeEl = byId('topThemeMode');
             if (topThemeEl && topThemeEl.value !== mode) topThemeEl.value = mode;
             updateTopThemeLabel(mode);
+            // Keep theme swatches in sync
+            document.querySelectorAll('.settings-swatch[data-for="themeMode"]').forEach((btn) => {
+                btn.classList.toggle('active', btn.dataset.val === mode);
+            });
         }
 
         function themeLabelFromMode(mode) {
@@ -8044,6 +8241,36 @@
 
             // Initialize empty state on load
             updateAssetEmptyState();
+
+            // ── Settings pill/swatch controls ────────────────────
+            function syncSettingsPills() {
+                const curVal = byId('currency')?.value || 'BDT';
+                const nisabVal = byId('nisabType')?.value || 'silver';
+                const themeVal = byId('themeMode')?.value || 'midnight-gold';
+                document.querySelectorAll('.settings-pill[data-for="currency"]').forEach((btn) => {
+                    btn.classList.toggle('active', btn.dataset.val === curVal);
+                });
+                document.querySelectorAll('.settings-pill[data-for="nisabType"]').forEach((btn) => {
+                    btn.classList.toggle('active', btn.dataset.val === nisabVal);
+                });
+                document.querySelectorAll('.settings-swatch[data-for="themeMode"]').forEach((btn) => {
+                    btn.classList.toggle('active', btn.dataset.val === themeVal);
+                });
+            }
+
+            document.querySelectorAll('.settings-pill, .settings-swatch').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                    const selectId = btn.dataset.for;
+                    const val = btn.dataset.val;
+                    const sel = byId(selectId);
+                    if (!sel || sel.value === val) return;
+                    sel.value = val;
+                    sel.dispatchEvent(new Event('change', { bubbles: true }));
+                    syncSettingsPills();
+                });
+            });
+
+            syncSettingsPills();
             document.querySelectorAll('.add-core-entry[data-core-field]').forEach((btn) => {
                 btn.addEventListener('click', () => {
                     const field = btn.getAttribute('data-core-field');
