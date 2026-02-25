@@ -1698,6 +1698,120 @@
             transform: translateY(-1px);
         }
 
+        /* ── Asset Add Panel (slide-down form) ─────────────────── */
+        .asset-add-panel {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.32s cubic-bezier(0.34, 1.2, 0.64, 1);
+            overflow: hidden;
+        }
+        .asset-add-panel.open {
+            grid-template-rows: 1fr;
+        }
+        .asset-add-form {
+            min-height: 0;
+            padding: 0 0.1rem;
+            overflow: hidden;
+        }
+        .asset-add-panel.open .asset-add-form {
+            padding: 0.75rem 0 0.25rem;
+        }
+        .asset-add-top {
+            display: grid;
+            grid-template-columns: 1.1fr 1.3fr;
+            gap: 0.6rem;
+            margin-bottom: 0.55rem;
+        }
+        .asset-add-amount-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            position: relative;
+        }
+        .asset-add-amount-wrap .form-input {
+            border-radius: 10px 0 0 10px;
+            flex: 1;
+            min-width: 0;
+        }
+        .asset-add-amount-wrap .currency-mini {
+            border-radius: 0 10px 10px 0;
+            border-left: none;
+            height: 100%;
+            min-height: 44px;
+        }
+        .asset-add-note-input {
+            width: 100%;
+            margin-bottom: 0.6rem;
+            border-color: rgba(100, 160, 240, 0.20) !important;
+        }
+        .asset-add-note-input:focus {
+            border-color: rgba(100, 160, 240, 0.55) !important;
+        }
+        .asset-add-actions {
+            display: flex;
+            gap: 0.55rem;
+            justify-content: flex-end;
+        }
+        .asset-panel-cancel {
+            padding: 0.45rem 1rem;
+            font-size: 0.88rem;
+            border-radius: 8px;
+        }
+        .asset-panel-confirm {
+            padding: 0.45rem 1.1rem;
+            font-size: 0.88rem;
+            border-radius: 8px;
+        }
+
+        @keyframes inputErrorShake {
+            0%,100% { transform: translateX(0); border-color: rgba(255,80,80,0.6) !important; }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+        .form-input.input-error {
+            animation: inputErrorShake 0.35s ease;
+            border-color: rgba(255,80,80,0.6) !important;
+            box-shadow: 0 0 0 2px rgba(255,80,80,0.18) !important;
+        }
+
+        /* ── Asset Table Header ────────────────────────────────── */
+        .asset-table-head {
+            display: none;
+            grid-template-columns: 1.1fr 1.4fr 1.35fr 34px;
+            gap: 0.5rem;
+            padding: 0.3rem 0.5rem 0.3rem 0.35rem;
+            margin-bottom: 0.2rem;
+            border-bottom: 1px solid rgba(100, 160, 240, 0.15);
+        }
+        .asset-table-head.visible {
+            display: grid;
+        }
+        .asset-table-head span {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.07em;
+            color: rgba(148, 180, 230, 0.55);
+        }
+
+        /* ── Asset Empty State ─────────────────────────────────── */
+        .asset-empty-state {
+            display: none;
+            text-align: center;
+            padding: 1.4rem 1rem;
+            font-size: 0.88rem;
+            color: rgba(148, 163, 184, 0.5);
+            border: 1px dashed rgba(100, 160, 240, 0.15);
+            border-radius: 12px;
+            margin: 0.5rem 0;
+        }
+        .asset-empty-state.visible {
+            display: block;
+        }
+        .asset-empty-state strong {
+            color: rgba(148, 180, 230, 0.75);
+        }
+
         .assets-fields-panel {
             margin-top: 0.9rem;
             border-radius: 20px;
@@ -1902,8 +2016,8 @@
         .extra-asset-row .extra-asset-currency-btn {
             position: static;
             transform: none;
-            width: 100%;
-            min-width: 72px;
+            width: auto;
+            min-width: 52px;
             justify-content: center;
         }
 
@@ -2410,9 +2524,42 @@
 
         .extra-asset-row {
             display: grid;
-            grid-template-columns: 1.2fr 1fr 0.8fr auto;
-            gap: 0.75rem;
-            margin-bottom: 0.75rem;
+            grid-template-columns: 1.1fr 1.4fr 1.35fr 34px;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 0.35rem;
+            padding: 0.3rem 0.35rem;
+            border-radius: 10px;
+            transition: background 0.18s ease;
+        }
+        .extra-asset-row:hover {
+            background: rgba(100, 160, 240, 0.06);
+        }
+        .asset-row-amount-cell {
+            display: flex;
+            align-items: center;
+        }
+        .asset-row-amount-cell .form-input {
+            border-radius: 8px 0 0 8px !important;
+            flex: 1;
+            min-width: 0;
+        }
+        .asset-row-amount-cell .extra-asset-currency-btn {
+            border-radius: 0 8px 8px 0 !important;
+            border-left: none !important;
+        }
+        .asset-row-note {
+            border-color: rgba(148, 163, 184, 0.16) !important;
+            font-size: 0.84rem !important;
+            color: rgba(200, 220, 255, 0.75) !important;
+        }
+        .asset-row-note::placeholder {
+            color: rgba(148, 163, 184, 0.35);
+            font-style: italic;
+        }
+        .asset-row-note:focus {
+            border-color: rgba(100, 160, 240, 0.45) !important;
+            color: rgba(220, 235, 255, 0.92) !important;
         }
 
         .core-entry-list {
@@ -2504,8 +2651,6 @@
         }
 
         .extra-asset-row {
-            margin-left: 14px;
-            opacity: 0.92;
             animation: nestedEntryFadeIn 220ms ease-out;
         }
 
@@ -4194,8 +4339,29 @@
             }
 
             .extra-asset-row {
+                grid-template-columns: 1fr 34px;
+                grid-template-rows: auto auto;
+                gap: 0.4rem;
+            }
+            .extra-asset-row .extra-asset-type {
+                grid-column: 1;
+                grid-row: 1;
+            }
+            .extra-asset-row .asset-row-note {
+                grid-column: 1;
+                grid-row: 2;
+            }
+            .extra-asset-row .asset-row-amount-cell {
+                grid-column: 1;
+                grid-row: 3;
+            }
+            .extra-asset-row .remove-asset-row {
+                grid-column: 2;
+                grid-row: 1;
+                align-self: start;
+            }
+            .asset-add-top {
                 grid-template-columns: 1fr;
-                gap: 0.55rem;
             }
 
             .core-extra-row {
@@ -4873,12 +5039,48 @@
                 <div class="assets-wealth-title"><span class="section-icon">&#x1F4C8;</span>Assets (Wealth)</div>
                 <button type="button" id="addAssetRowBtn" class="assets-add-btn">+ Add Asset</button>
             </div>
+
+            <!-- Slide-down add panel (Option 2) -->
+            <div class="asset-add-panel" id="assetAddPanel" aria-hidden="true">
+                <div class="asset-add-form">
+                    <div class="asset-add-top">
+                        <select id="assetAddType" class="select-input form-input">
+                            <option value="Cash">&#x1F4B5; Cash</option>
+                            <option value="Bank">&#x1F3E6; Bank</option>
+                            <option value="Gold">&#x1F947; Gold</option>
+                            <option value="Silver">&#x1FA99; Silver</option>
+                            <option value="Stocks">&#x1F4C8; Stocks</option>
+                            <option value="Digital Assets">&#x1F4BB; Digital</option>
+                            <option value="Business">&#x1F3E2; Business</option>
+                            <option value="Receivable">&#x1F91D; Receivable</option>
+                            <option value="Other">&#x1F4E6; Other</option>
+                        </select>
+                        <div class="asset-add-amount-wrap">
+                            <input type="number" id="assetAddAmount" class="form-input" step="0.01" placeholder="0.00" min="0">
+                            <input type="hidden" id="assetAddCurHidden" value="BDT">
+                            <button type="button" id="assetAddCurBtn" class="currency-mini">BDT</button>
+                        </div>
+                    </div>
+                    <input type="text" id="assetAddNote" class="form-input asset-add-note-input" placeholder="Description (optional)&#x2026;" maxlength="80" autocomplete="off">
+                    <div class="asset-add-actions">
+                        <button type="button" id="assetAddCancelBtn" class="btn-secondary asset-panel-cancel">Cancel</button>
+                        <button type="button" id="assetAddConfirmBtn" class="btn-primary asset-panel-confirm">+ Add Entry</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="assets-entry-tools">
                 <p class="form-label">Asset Entries</p>
                 <a class="view-all-entries-link" href="entries.html">View all entries</a>
             </div>
             <div class="assets-fields-panel">
                 <div class="assets-entry-list-wrap">
+                    <div class="asset-table-head" id="assetTableHead">
+                        <span>Type</span><span>Description</span><span>Amount</span><span></span>
+                    </div>
+                    <div class="asset-empty-state" id="assetEmptyState">
+                        No asset entries yet. Click <strong>+ Add Asset</strong> to begin.
+                    </div>
                     <div id="extraAssetsList"></div>
                 </div>
                 <div class="legacy-assets-hidden" aria-hidden="true">
@@ -5742,8 +5944,9 @@
                     <option value="Receivable">Receivable</option>
                     <option value="Other">Other</option>
                 </select>
-                <input type="number" class="form-input extra-asset-amount" step="0.01" placeholder="Amount" value="${entry.amount || 0}">
-                <div class="money-input">
+                <input type="text" class="form-input asset-row-note" placeholder="Description…" maxlength="80" autocomplete="off" value="${(entry.note || '').replace(/"/g, '&quot;')}">
+                <div class="asset-row-amount-cell">
+                    <input type="number" class="form-input extra-asset-amount" step="0.01" placeholder="Amount" value="${entry.amount || 0}">
                     <input type="hidden" class="extra-asset-currency" value="${entry.currency || defaultCurrency}">
                     <button type="button" class="currency-mini extra-asset-currency-btn">${entry.currency || defaultCurrency}</button>
                 </div>
@@ -5755,6 +5958,8 @@
             row.querySelector('.extra-asset-type').value = entry.type || 'Other';
             if (entry.entryId) row.dataset.entryId = entry.entryId;
 
+            const getRowNote = () => row.querySelector('.asset-row-note')?.value?.trim() || '';
+
             const ensureTrackedEntry = () => {
                 if (row.dataset.entryId) return true;
                 const amount = parseFloat(row.querySelector('.extra-asset-amount')?.value || '0') || 0;
@@ -5763,7 +5968,7 @@
                     category: row.querySelector('.extra-asset-type')?.value || 'Other',
                     amount,
                     currency: row.querySelector('.extra-asset-currency')?.value || defaultCurrency,
-                    note: row.dataset.note || '',
+                    note: getRowNote(),
                     meta: { source: 'additional-entry' }
                 });
                 row.dataset.entryId = created.id;
@@ -5781,7 +5986,7 @@
                     category,
                     amount,
                     currency,
-                    note: row.dataset.note || '',
+                    note: getRowNote(),
                     meta: { source: 'additional-entry' }
                 });
             };
@@ -5803,6 +6008,7 @@
             row.querySelector('.remove-asset-row').addEventListener('click', () => {
                 if (row.dataset.entryId) removeEntry(row.dataset.entryId);
                 row.remove();
+                updateAssetEmptyState();
                 calculateZakat();
             });
             list.appendChild(row);
@@ -6286,6 +6492,7 @@
                     type: row.querySelector('.extra-asset-type')?.value || 'Other',
                     amount: row.querySelector('.extra-asset-amount')?.value || '0',
                     currency: row.querySelector('.extra-asset-currency')?.value || 'BDT',
+                    note: row.querySelector('.asset-row-note')?.value?.trim() || '',
                     entryId: row.dataset.entryId || ''
                 });
             });
@@ -6297,6 +6504,16 @@
             if (!list) return;
             list.innerHTML = '';
             (entries || []).forEach((entry) => addExtraAssetRow(entry));
+            updateAssetEmptyState();
+        }
+
+        function updateAssetEmptyState() {
+            const rows = document.querySelectorAll('#extraAssetsList .extra-asset-row');
+            const tableHead = byId('assetTableHead');
+            const emptyState = byId('assetEmptyState');
+            const hasRows = rows.length > 0;
+            if (tableHead) tableHead.classList.toggle('visible', hasRows);
+            if (emptyState) emptyState.classList.toggle('visible', !hasRows);
         }
 
         function setSplitPanelOpen(isOpen) {
@@ -7734,15 +7951,75 @@
                 noteInput.addEventListener('input', () => scheduleSaveData(150));
             });
 
+            // Asset add panel wiring
             const addAssetBtn = byId('addAssetRowBtn');
-            if (addAssetBtn) {
-                addAssetBtn.addEventListener('click', () => {
-                    const defaultCurrency = byId('currency')?.value || 'BDT';
-                    addExtraAssetRow({ type: 'Cash', amount: 0, currency: defaultCurrency, note: '' }, { trackEntry: false });
-                    const newRow = document.querySelector('#extraAssetsList .extra-asset-row:last-child .extra-asset-amount');
-                    if (newRow) newRow.focus();
-                });
-            }
+            const assetAddPanel = byId('assetAddPanel');
+            const assetAddCancelBtn = byId('assetAddCancelBtn');
+            const assetAddConfirmBtn = byId('assetAddConfirmBtn');
+            const assetAddCurBtn = byId('assetAddCurBtn');
+            const assetAddCurHidden = byId('assetAddCurHidden');
+
+            const openAssetPanel = () => {
+                if (!assetAddPanel) return;
+                const defCur = byId('currency')?.value || 'BDT';
+                if (assetAddCurHidden) assetAddCurHidden.value = defCur;
+                if (assetAddCurBtn) assetAddCurBtn.textContent = defCur;
+                assetAddPanel.classList.add('open');
+                assetAddPanel.setAttribute('aria-hidden', 'false');
+                if (addAssetBtn) { addAssetBtn.textContent = '✕ Close'; addAssetBtn.setAttribute('aria-expanded', 'true'); }
+                setTimeout(() => byId('assetAddAmount')?.focus(), 80);
+            };
+
+            const closeAssetPanel = () => {
+                if (!assetAddPanel) return;
+                assetAddPanel.classList.remove('open');
+                assetAddPanel.setAttribute('aria-hidden', 'true');
+                if (addAssetBtn) { addAssetBtn.textContent = '+ Add Asset'; addAssetBtn.setAttribute('aria-expanded', 'false'); }
+                const amtEl = byId('assetAddAmount');
+                const noteEl = byId('assetAddNote');
+                const typeEl = byId('assetAddType');
+                if (amtEl) amtEl.value = '';
+                if (noteEl) noteEl.value = '';
+                if (typeEl) typeEl.value = 'Cash';
+            };
+
+            const confirmAssetAdd = () => {
+                const type = byId('assetAddType')?.value || 'Other';
+                const amount = parseFloat(byId('assetAddAmount')?.value || '0') || 0;
+                const currency = assetAddCurHidden?.value || byId('currency')?.value || 'BDT';
+                const note = byId('assetAddNote')?.value?.trim() || '';
+                if (amount <= 0) {
+                    byId('assetAddAmount')?.focus();
+                    byId('assetAddAmount')?.classList.add('input-error');
+                    setTimeout(() => byId('assetAddAmount')?.classList.remove('input-error'), 1200);
+                    return;
+                }
+                addExtraAssetRow({ type, amount, currency, note }, { trackEntry: true });
+                updateAssetEmptyState();
+                calculateZakat();
+                closeAssetPanel();
+            };
+
+            if (addAssetBtn) addAssetBtn.addEventListener('click', () => {
+                if (assetAddPanel?.classList.contains('open')) closeAssetPanel();
+                else openAssetPanel();
+            });
+            if (assetAddCancelBtn) assetAddCancelBtn.addEventListener('click', closeAssetPanel);
+            if (assetAddConfirmBtn) assetAddConfirmBtn.addEventListener('click', confirmAssetAdd);
+            if (assetAddCurBtn) assetAddCurBtn.addEventListener('click', () => {
+                if (!assetAddCurHidden) return;
+                const next = assetAddCurHidden.value === 'USD' ? 'BDT' : 'USD';
+                assetAddCurHidden.value = next;
+                assetAddCurBtn.textContent = next;
+            });
+            // Allow Enter in the panel to confirm
+            assetAddPanel?.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); confirmAssetAdd(); }
+                if (e.key === 'Escape') closeAssetPanel();
+            });
+
+            // Initialize empty state on load
+            updateAssetEmptyState();
             document.querySelectorAll('.add-core-entry[data-core-field]').forEach((btn) => {
                 btn.addEventListener('click', () => {
                     const field = btn.getAttribute('data-core-field');
