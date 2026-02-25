@@ -2409,7 +2409,7 @@
         /* Prices row */
         .settings-prices-row {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr auto;
+            grid-template-columns: 1fr 1fr 1fr;
             gap: 0.6rem;
             align-items: end;
         }
@@ -4444,10 +4444,6 @@
                 grid-template-columns: 1fr 1fr;
             }
 
-            .settings-fetch-btn {
-                grid-column: span 2;
-            }
-
             .calc-card-title {
                 font-size: 1.42rem;
                 margin-bottom: 1rem;
@@ -5148,8 +5144,8 @@
                     <div class="settings-ctrl-group">
                         <span class="settings-ctrl-label">Nisab</span>
                         <div class="settings-pill-group">
-                            <button type="button" class="settings-pill active" data-for="nisabType" data-val="silver" title="Silver (612.36g) &#x2014; More inclusive, recommended by many scholars">&#x1FA77; Silver</button>
-                            <button type="button" class="settings-pill" data-for="nisabType" data-val="gold" title="Gold (87.48g)">&#x1F947; Gold</button>
+                            <button type="button" class="settings-pill active" data-for="nisabType" data-val="silver" title="Silver (612.36g) &#x2014; More inclusive, recommended by many scholars">Silver</button>
+                            <button type="button" class="settings-pill" data-for="nisabType" data-val="gold" title="Gold (87.48g)">Gold</button>
                         </div>
                     </div>
                 </div>
@@ -5166,7 +5162,7 @@
                     </div>
                 </div>
 
-                <!-- Row 3: Exchange rate + metal prices + fetch -->
+                <!-- Row 3: Exchange rate + metal prices -->
                 <div class="settings-prices-row">
                     <div class="settings-price-cell">
                         <label class="settings-ctrl-label" for="usdToBdt">USD &#x2192; BDT</label>
@@ -5180,7 +5176,7 @@
                         <label class="settings-ctrl-label" id="silverPriceLabel" for="silverPrice">Silver / g</label>
                         <input type="number" id="silverPrice" class="form-input" value="" step="0.01" placeholder="&#x2014;">
                     </div>
-                    <button type="button" id="livePricesBtn" class="settings-fetch-btn" title="Fetch live metal prices">&#x21BB; Fetch</button>
+                    <button type="button" id="livePricesBtn" class="settings-hidden-select" aria-hidden="true" tabindex="-1"></button>
                 </div>
                 <span id="livePriceStatus" class="settings-live-status"></span>
 
